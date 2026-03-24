@@ -1,0 +1,51 @@
+review,sentiment,dish
+"Amazing cold coffee! Best in town",positive,coffee
+"Terrible burger, cold and tasteless",negative,burger
+"Pizza was okay, nothing special",neutral,pizza
+"Excellent pasta, loved the sauce",positive,pasta
+"Worst dessert ever, too sweet",negative,dessert
+"Good salad, fresh ingredients",positive,salad
+"Tea was perfect, great service",positive,tea
+"Juice was watery and expensive",negative,juice
+"Average coffee, decent price",neutral,coffee
+"Outstanding burger, juicy and hot",positive,burger
+"Pizza arrived cold, disappointing",negative,pizza
+"Pasta was overcooked and bland",negative,pasta
+"Delicious cake, perfect sweetness",positive,dessert
+"Salad was wilted and old",negative,salad
+"Chai was too strong for my taste",negative,tea
+"Fresh orange juice, loved it",positive,juice
+"Coffee beans were perfectly roasted",positive,coffee
+"Burger bun was stale",negative,burger
+"Best pizza I've had in years",positive,pizza
+"Pasta portion was too small",negative,pasta
+"Ice cream melted too quickly",negative,dessert
+"Healthy salad with great dressing",positive,salad
+"Green tea was soothing",positive,tea
+"Smoothie had perfect consistency",positive,juice
+"Cappuccino art was beautiful",positive,coffee
+"Sandwich was dry and boring",negative,burger
+"Margherita pizza was authentic",positive,pizza
+"Spaghetti was al dente perfect",positive,pasta
+"Chocolate cake was heavenly",positive,dessert
+"Caesar salad was crispy and fresh",positive,salad
+"Masala chai had perfect spices",positive,tea
+"Mango juice tasted artificial",negative,juice
+"Latte was too milky",negative,coffee
+"Chicken burger was undercooked",negative,burger
+"Pizza crust was burnt",negative,pizza
+"Noodles were sticky and clumped",negative,pasta
+"Dessert presentation was poor",negative,dessert
+"Salad dressing was too salty",negative,salad
+"Earl grey tea was perfect",positive,tea
+"Apple juice was too sweet",negative,juice
+"Espresso shot was perfect strength",positive,coffee
+"Veggie burger was surprisingly good",positive,burger
+"Wood fired pizza was amazing",positive,pizza
+"Creamy pasta was rich and flavorful",positive,pasta
+"Tiramisu was authentic Italian",positive,dessert
+"Greek salad was fresh and tangy",positive,salad
+"Herbal tea was calming",positive,tea
+"Fresh lime juice was refreshing",positive,juice
+"Cold brew coffee was smooth",positive,coffee
+"Fish burger was well seasoned",positive,burger
