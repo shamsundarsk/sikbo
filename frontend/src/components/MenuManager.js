@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { safeToFixed, formatCurrency } from '../utils/formatters';
 
 const MenuManager = ({ menu, onAddMenuItem }) => {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -176,7 +177,9 @@ const MenuManager = ({ menu, onAddMenuItem }) => {
                       )}
                       {item.costPrice && (
                         <div className="text-xs text-blue-600">
-                          Profit: ₹{((item.sellingPrice || item.price) - item.costPrice).toFixed(0)}
+                          Profit: ₹{typeof item.sellingPrice === 'number' && typeof item.costPrice === 'number' 
+                            ? ((item.sellingPrice || item.price) - item.costPrice).toFixed(0)
+                            : '0'}
                         </div>
                       )}
                     </div>
