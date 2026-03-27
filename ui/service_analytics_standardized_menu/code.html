@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIKBO | Executive Service Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#615b77",
+                        "on-secondary-container": "#4d515f",
+                        "surface-dim": "#d1dce0",
+                        "secondary-dim": "#4f5361",
+                        "tertiary-dim": "#554f6b",
+                        "on-tertiary-fixed-variant": "#5c5672",
+                        "on-tertiary-fixed": "#3f3a54",
+                        "on-surface-variant": "#586064",
+                        "primary-fixed": "#e2e2ec",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary": "#fcf7ff",
+                        "error-container": "#fe8983",
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-background": "#2b3437",
+                        "surface-container-high": "#e3e9ec",
+                        "primary": "#5c5e66",
+                        "outline-variant": "#abb3b7",
+                        "secondary": "#5b5f6d",
+                        "on-primary-container": "#505159",
+                        "on-surface": "#2b3437",
+                        "on-secondary-fixed-variant": "#575b69",
+                        "surface-tint": "#5c5e66",
+                        "on-secondary": "#f9f8ff",
+                        "surface-variant": "#dbe4e7",
+                        "on-primary-fixed-variant": "#5a5b63",
+                        "on-secondary-fixed": "#3b3f4c",
+                        "secondary-fixed": "#dfe2f3",
+                        "on-primary": "#f8f7ff",
+                        "error-dim": "#4e0309",
+                        "outline": "#737c7f",
+                        "background": "#f8f9fa",
+                        "surface": "#f8f9fa",
+                        "surface-container": "#eaeff1",
+                        "tertiary-fixed-dim": "#d5cdee",
+                        "on-tertiary-container": "#524c68",
+                        "error": "#9f403d",
+                        "surface-container-low": "#f1f4f6",
+                        "tertiary-container": "#e3dbfd",
+                        "surface-container-highest": "#dbe4e7",
+                        "secondary-fixed-dim": "#d1d4e5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#d3d4dd",
+                        "primary-container": "#e2e2ec",
+                        "inverse-primary": "#dfdfe9",
+                        "on-primary-fixed": "#3d3f47",
+                        "tertiary-fixed": "#e3dbfd",
+                        "on-error-container": "#752121",
+                        "on-error": "#fff7f6",
+                        "primary-dim": "#50525a",
+                        "secondary-container": "#dfe2f3",
+                        "inverse-surface": "#0c0f10"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- SideNavBar (rail_drawer) -->
+<aside class="bg-[#1A1C23] dark:bg-[#0A0B0E] h-screen w-64 fixed left-0 top-0 z-50 shadow-2xl flex flex-col py-8 font-['Manrope'] text-sm font-semibold tracking-wide">
+<div class="px-6 mb-12"><h1 class="font-headline font-extrabold text-2xl tracking-tighter text-white">SIKBO</h1>
+<p class="font-headline font-bold tracking-tight text-xs text-slate-400 uppercase mt-1">Intelligence</p></div>
+<nav class="flex-1 space-y-1"><!-- Dashboard -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-headline font-bold tracking-tight text-sm">Dashboard</span>
+</a>
+<!-- Food Analytics -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-headline font-bold tracking-tight text-sm">Food Analytics</span>
+</a>
+<!-- Service Analytics (Active) -->
+<a class="bg-[#5C5E66] text-white rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all scale-95 active:scale-90 duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="room_service">room_service</span>
+<span class="font-headline font-bold tracking-tight text-sm">Service Analytics</span>
+</a>
+<!-- Customer Flow -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-headline font-bold tracking-tight text-sm">Customer Flow</span>
+</a>
+<!-- Staff Management -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-headline font-bold tracking-tight text-sm">Staff Management</span>
+</a>
+<!-- Menu Management -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-headline font-bold tracking-tight text-sm">Menu Management</span>
+</a>
+<!-- Raw Materials -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-headline font-bold tracking-tight text-sm">Raw Materials</span>
+</a>
+<!-- Trends -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-headline font-bold tracking-tight text-sm">Trends</span>
+</a>
+<!-- Review Actions -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+<span class="font-headline font-bold tracking-tight text-sm">Review Actions</span>
+</a>
+<!-- Settings -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-headline font-bold tracking-tight text-sm">Settings</span>
+</a></nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary-dim hover:bg-primary text-white font-headline font-bold py-3 rounded-xl transition-all scale-95 active:scale-90">
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 h-20 z-40 bg-[#F8F9FA]/80 backdrop-blur-md flex justify-between items-center px-10 w-full font-['Manrope'] font-bold text-lg text-[#1A1C23] ease-out duration-200">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary/20 text-sm w-64 font-medium transition-all" placeholder="Search analytics..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-6 text-sm">
+<a class="text-gray-500 hover:text-[#1A1C23] transition-colors" href="#">Global View</a>
+<a class="text-[#1A1C23] border-b-2 border-[#1A1C23] pb-1" href="#">Local Nodes</a>
+<a class="text-gray-500 hover:text-[#1A1C23] transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-gray-100 rounded-full p-2 transition-all">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="hover:bg-gray-100 rounded-full p-2 transition-all relative">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="bg-primary hover:bg-primary-dim text-white px-5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                Export Data
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-28 px-10 pb-12 min-h-screen">
+<!-- Header & Breadcrumbs -->
+<div class="mb-10">
+<div class="flex items-center gap-2 text-on-surface-variant text-xs font-medium mb-2 uppercase tracking-widest">
+<span>Executive Command Center</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-primary font-bold">Service Analytics</span>
+</div>
+<h2 class="text-4xl font-extrabold text-on-surface tracking-tight">Service Performance Pulse</h2>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Hero Metric: Sentiment Velocity -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 transition-all hover:shadow-[0_20px_40px_rgba(43,52,55,0.04)]">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-xl font-bold text-on-surface mb-1">Sentiment Velocity</h3>
+<p class="text-on-surface-variant text-sm">Real-time aggregate of customer emotion across all channels</p>
+</div>
+<div class="flex items-center gap-2 bg-success-container/20 text-success px-3 py-1 rounded-full animate-pulse">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-xs font-bold">Live Tracking</span>
+</div>
+</div>
+<!-- Placeholder for Line Chart -->
+<div class="h-64 flex items-end gap-1 relative overflow-hidden group">
+<div class="absolute inset-0 flex flex-col justify-between py-2 border-l border-b border-outline-variant/20">
+<div class="w-full border-t border-dashed border-outline-variant/10"></div>
+<div class="w-full border-t border-dashed border-outline-variant/10"></div>
+<div class="w-full border-t border-dashed border-outline-variant/10"></div>
+</div>
+<!-- CSS Bars representing a curve -->
+<div class="flex-1 bg-primary/20 hover:bg-primary transition-colors h-[40%] rounded-t-sm" title="Monday"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary transition-colors h-[55%] rounded-t-sm" title="Tuesday"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary transition-colors h-[45%] rounded-t-sm" title="Wednesday"></div>
+<div class="flex-1 bg-primary/40 hover:bg-primary transition-colors h-[70%] rounded-t-sm" title="Thursday"></div>
+<div class="flex-1 bg-primary/40 hover:bg-primary transition-colors h-[85%] rounded-t-sm" title="Friday"></div>
+<div class="flex-1 bg-primary hover:bg-primary-dim transition-colors h-[95%] rounded-t-sm" title="Saturday"></div>
+<div class="flex-1 bg-primary/60 hover:bg-primary transition-colors h-[60%] rounded-t-sm" title="Sunday"></div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">
+<span>08:00 AM</span>
+<span>12:00 PM</span>
+<span>04:00 PM</span>
+<span>08:00 PM</span>
+<span>11:59 PM</span>
+</div>
+</div>
+<!-- Review Sentiment Pie-Analogue -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl p-8 flex flex-col transition-all">
+<h3 class="text-xl font-bold text-on-surface mb-6">Review Sentiment</h3>
+<div class="flex-1 flex flex-col justify-center items-center py-4">
+<div class="relative w-48 h-48 rounded-full border-[16px] border-surface-container flex items-center justify-center">
+<!-- Simulated Pie Chart Segment -->
+<div class="absolute inset-[-16px] rounded-full border-[16px] border-primary border-t-transparent border-r-transparent rotate-45"></div>
+<div class="text-center">
+<span class="text-4xl font-black text-on-surface">78%</span>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Positive</p>
+</div>
+</div>
+</div>
+<div class="space-y-4 mt-6">
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-sm font-medium">Positive</span>
+</div>
+<span class="text-sm font-bold">1,240</span>
+</div>
+<div class="flex justify-between items-center p-3 bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
+<span class="text-sm font-medium">Negative</span>
+</div>
+<span class="text-sm font-bold">342</span>
+</div>
+</div>
+</div>
+<!-- Detailed AI Insights Panel -->
+<div class="col-span-12 lg:col-span-5 bg-primary text-white rounded-xl p-8 relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="text-lg font-bold">AI Narrative Insights</h3>
+</div>
+<div class="space-y-6">
+<div class="bg-white/10 backdrop-blur-md p-5 rounded-xl border border-white/10">
+<p class="text-sm leading-relaxed font-medium">
+                                "Analysis of 42 negative reviews indicates a <span class="text-error-container font-bold">12% uptick</span> in complaints regarding <span class="underline decoration-error-container/40 underline-offset-4">service latency</span> during weekend peak hours (7PM-9PM)."
+                            </p>
+<div class="mt-4 flex gap-2">
+<span class="text-[10px] bg-white/20 px-2 py-0.5 rounded uppercase font-bold tracking-widest">Urgent</span>
+<span class="text-[10px] bg-white/20 px-2 py-0.5 rounded uppercase font-bold tracking-widest">Kitchen-Link</span>
+</div>
+</div>
+<div class="p-2">
+<h4 class="text-xs uppercase font-bold tracking-widest text-primary-fixed mb-3">Key Friction Points</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-primary-fixed text-sm">arrow_forward</span>
+<span>Customers complain about delay in appetizer arrival</span>
+</li>
+<li class="flex items-center gap-3 text-sm text-primary-fixed/80">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+<span>Consistency issues noted in 'Steak Frites' temperature</span>
+</li>
+<li class="flex items-center gap-3 text-sm text-primary-fixed/80">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+<span>Valet wait times exceeding 15 minute threshold</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Artistic background decoration -->
+<div class="absolute -bottom-10 -right-10 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Resolution Time Bar Chart -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl p-8 transition-all">
+<div class="flex justify-between items-center mb-10">
+<h3 class="text-xl font-bold text-on-surface">Avg. Resolution Time</h3>
+<div class="text-right">
+<span class="text-2xl font-black text-primary">14.2m</span>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">System Average</p>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Category 1 -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Service Feedback</span>
+<span>8.4 min</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 45%;"></div>
+</div>
+</div>
+<!-- Category 2 -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Order Accuracy</span>
+<span>12.1 min</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary/70 rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+<!-- Category 3 -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Food Quality</span>
+<span>22.5 min</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error-container rounded-full" style="width: 90%;"></div>
+</div>
+</div>
+<!-- Category 4 -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Ambience/Environment</span>
+<span>5.2 min</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary/40 rounded-full" style="width: 25%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/10 flex justify-between items-center">
+<p class="text-xs text-on-surface-variant font-medium">Performance is <span class="text-success font-bold">14% faster</span> than previous quarter</p>
+<button class="text-primary text-xs font-extrabold uppercase tracking-widest hover:underline decoration-2 underline-offset-4">View Category Breakdown</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Suppressed Nav Shells logic handled by only rendering what's needed for this dashboard -->
+</body></html>

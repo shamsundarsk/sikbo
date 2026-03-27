@@ -1,0 +1,47 @@
+{
+  "analysis_date": "2026-03-26T07:05:22.471145",
+  "trending_dishes": [
+    {
+      "dish": "dessert",
+      "count": 747,
+      "source": "real_reviews"
+    },
+    {
+      "dish": "pasta",
+      "count": 531,
+      "source": "real_reviews"
+    },
+    {
+      "dish": "bread",
+      "count": 329,
+      "source": "real_reviews"
+    },
+    {
+      "dish": "burger",
+      "count": 320,
+      "source": "real_reviews"
+    },
+    {
+      "dish": "coffee",
+      "count": 163,
+      "source": "real_reviews"
+    },
+    {
+      "dish": "soup",
+      "count": 156,
+      "source": "real_reviews"
+    },
+    {
+      "dish": "pizza",
+      "count": 144,
+      "source": "real_reviews"
+    },
+    {
+      "dish": "salad",
+      "count": 141,
+      "source": "real_reviews"
+    }
+  ],
+  "total_reviews_analyzed": 3198,
+  "data_source": "real_scraped_reviews"
+}

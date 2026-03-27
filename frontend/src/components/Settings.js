@@ -21,7 +21,6 @@ const Settings = () => {
     try {
       const response = await axios.get('http://localhost:5001/api/settings');
       if (response.data.success) {
-        // Ensure all fields have default values to prevent controlled/uncontrolled input issues
         setSettings({
           restaurantName: response.data.data.restaurantName || '',
           googleMapsUrl: response.data.data.googleMapsUrl || '',
@@ -33,19 +32,18 @@ const Settings = () => {
       }
     } catch (error) {
       console.log('No existing settings found, using defaults');
-      // Keep default empty values
     }
   };
 
   const handleChange = (e) => {
     setSettings({
       ...settings,
-      [e.target.name]: e.target.value || ''  // Ensure value is never undefined
+      [e.target.name]: e.target.value || ''
     });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.post('http://localhost:5001/api/settings', settings);
@@ -61,264 +59,235 @@ const Settings = () => {
     }
   };
 
-  const testGoogleScraping = async () => {
-    if (!settings.googleMapsUrl) {
-      setMessage('Please enter Google Maps URL first');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await axios.post('http://localhost:8001/scrape', {
-        google_url: settings.googleMapsUrl
-      });
-      
-      if (response.data.status === 'success') {
-        setMessage(`Scraping test successful! Found ${response.data.reviews.length} reviews and ${response.data.trends.length} trends`);
-      }
-    } catch (error) {
-      setMessage('Scraping test failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const extractMenuFromReviews = async () => {
-    if (!settings.googleMapsUrl) {
-      setMessage('Please enter Google Maps URL first');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await axios.post('http://localhost:5001/api/extract-menu', {
-        googleUrl: settings.googleMapsUrl
-      });
-      
-      if (response.data.success) {
-        setMessage(`Menu extraction successful! Found ${response.data.extracted} items, added ${response.data.added} new menu items from ${response.data.reviews} reviews`);
-      }
-    } catch (error) {
-      setMessage('Menu extraction failed');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const setDefaultCafe = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post('http://localhost:5001/api/set-default-cafe');
-      
-      if (response.data.success) {
-        setSettings(response.data.data);
-        setMessage('Default cafe (The French Door) settings loaded successfully!');
-      }
-    } catch (error) {
-      setMessage('Error setting default cafe');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const refreshTrends = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get('http://localhost:5001/api/trends');
-      setMessage(`Trends refreshed! Found ${response.data.length} trending dishes`);
-    } catch (error) {
-      setMessage('Error refreshing trends');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="bg-white shadow rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-6">Restaurant Settings</h3>
-          
+    <div className="max-w-7xl mx-auto font-body pb-20">
+      {/* Header Section */}
+      <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div>
+          <h2 className="text-4xl font-headline font-extrabold text-[#2b3437] tracking-tight">System Settings</h2>
+          <p className="text-slate-500 mt-1">Configure your global restaurant ecosystem and intelligence parameters.</p>
+        </div>
+        <div className="flex gap-4">
           {message && (
-            <div className={`mb-4 p-3 rounded-md ${message.includes('Error') || message.includes('failed') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-              {message}
-            </div>
+             <div className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest ${message.includes('Error') ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
+                {message}
+             </div>
           )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="restaurantName" className="block text-sm font-medium text-gray-700">
-                  Restaurant Name
-                </label>
-                <input
-                  type="text"
-                  name="restaurantName"
-                  id="restaurantName"
-                  value={settings.restaurantName}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="e.g., Cafe Delight"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  name="location"
-                  id="location"
-                  value={settings.location}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="e.g., Mumbai, India"
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <label htmlFor="googleMapsUrl" className="block text-sm font-medium text-gray-700">
-                  Google Maps URL
-                </label>
-                <input
-                  type="url"
-                  name="googleMapsUrl"
-                  id="googleMapsUrl"
-                  value={settings.googleMapsUrl}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="https://maps.google.com/place/your-restaurant"
-                />
-                <p className="mt-1 text-sm text-gray-500">
-                  Used for scraping customer reviews and sentiment analysis
-                </p>
-              </div>
-
-              <div>
-                <label htmlFor="instagramHandle" className="block text-sm font-medium text-gray-700">
-                  Instagram Handle
-                </label>
-                <input
-                  type="text"
-                  name="instagramHandle"
-                  id="instagramHandle"
-                  value={settings.instagramHandle}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="@your_restaurant"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="currency" className="block text-sm font-medium text-gray-700">
-                  Currency
-                </label>
-                <select
-                  name="currency"
-                  id="currency"
-                  value={settings.currency}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="INR">INR (₹)</option>
-                  <option value="USD">USD ($)</option>
-                  <option value="EUR">EUR (€)</option>
-                  <option value="GBP">GBP (£)</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="flex justify-between">
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
-              >
-                {loading ? 'Saving...' : 'Save Settings'}
-              </button>
-            </div>
-          </form>
+          <button 
+            type="button"
+            className="px-6 py-2.5 rounded-xl text-slate-400 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all font-headline"
+            onClick={loadSettings}
+          >
+            Discard
+          </button>
+          <button 
+            type="button"
+            disabled={loading}
+            onClick={handleSubmit}
+            className="px-8 py-2.5 rounded-xl bg-primary text-white font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 font-headline disabled:opacity-50"
+          >
+            {loading ? 'Saving...' : 'Save Changes'}
+          </button>
         </div>
       </div>
 
-      {/* AI & Analytics Settings */}
-      <div className="bg-white shadow rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">AI & Analytics</h3>
+      {/* Bento Grid Layout */}
+      <div className="grid grid-cols-12 gap-8">
+        
+        {/* General Config - Large Card */}
+        <section className="col-span-12 lg:col-span-8 bg-white rounded-3xl p-10 shadow-sm border border-slate-100">
+           <div className="flex items-center gap-3 mb-10">
+              <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-primary">
+                <span className="material-symbols-outlined text-2xl font-variation-settings-fill-1">storefront</span>
+              </div>
+              <h3 className="text-2xl font-headline font-black text-[#2b3437]">General Configuration</h3>
+           </div>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 font-headline">Restaurant Name</label>
+                <input 
+                  name="restaurantName"
+                  value={settings.restaurantName}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-4 focus:ring-primary/5 transition-all font-bold text-[#2b3437] placeholder:text-slate-200" 
+                  placeholder="SIKBO Grand Bistro"
+                  type="text" 
+                />
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 font-headline">Operating Location</label>
+                <input 
+                  name="location"
+                  value={settings.location}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-4 focus:ring-primary/5 transition-all font-bold text-[#2b3437] placeholder:text-slate-200" 
+                  placeholder="Mumbai, India"
+                  type="text" 
+                />
+              </div>
+
+              <div className="space-y-3 col-span-1 md:col-span-2">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 font-headline">Google Maps Intelligence URL</label>
+                <input 
+                  name="googleMapsUrl"
+                  value={settings.googleMapsUrl}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-4 focus:ring-primary/5 transition-all font-bold text-[#2b3437] placeholder:text-slate-200" 
+                  placeholder="https://maps.google.com/place/..."
+                  type="url" 
+                />
+                <p className="text-[10px] text-slate-400 font-medium italic mt-2">Required for AI-powered sentiment analysis and review scraping.</p>
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 font-headline">Instagram Handle</label>
+                <div className="relative">
+                  <span className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 font-bold">@</span>
+                  <input 
+                    name="instagramHandle"
+                    value={settings.instagramHandle}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border-none rounded-2xl pl-12 pr-6 py-4 focus:ring-4 focus:ring-primary/5 transition-all font-bold text-[#2b3437] placeholder:text-slate-200" 
+                    placeholder="your_handle"
+                    type="text" 
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 font-headline">Global Currency</label>
+                <select 
+                  name="currency"
+                  value={settings.currency}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 focus:ring-4 focus:ring-primary/5 transition-all font-bold text-[#2b3437] appearance-none"
+                >
+                  <option value="INR">INR (₹) - Indian Rupee</option>
+                  <option value="USD">USD ($) - US Dollar</option>
+                  <option value="EUR">EUR (€) - Euro</option>
+                  <option value="GBP">GBP (£) - British Pound</option>
+                </select>
+              </div>
+           </div>
+        </section>
+
+        {/* API Integration Section */}
+        <section className="col-span-12 lg:col-span-4 bg-slate-50 rounded-[2rem] p-10 flex flex-col">
+          <div className="flex items-center gap-3 mb-8">
+             <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-primary shadow-sm">
+                <span className="material-symbols-outlined text-xl font-variation-settings-fill-1">api</span>
+             </div>
+             <h3 className="text-xl font-headline font-black text-[#2b3437]">Live Integrations</h3>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <button
-              onClick={setDefaultCafe}
-              disabled={loading}
-              className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 disabled:bg-gray-400"
-            >
-              {loading ? 'Loading...' : 'Load Default Cafe (French Door)'}
-            </button>
+          <div className="space-y-4 flex-1">
+             {[
+               { name: 'Square POS', status: 'Connected', icon: 'point_of_sale', color: 'bg-emerald-50 text-emerald-600' },
+               { name: 'UberEats API', status: 'Syncing', icon: 'delivery_dining', color: 'bg-blue-50 text-blue-600' }
+             ].map((integration, i) => (
+               <div key={i} className="flex items-center justify-between p-5 bg-white rounded-2xl border border-slate-100 shadow-sm transition-transform hover:scale-[1.02] cursor-pointer">
+                  <div className="flex items-center gap-4">
+                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${integration.color}`}>
+                        <span className="material-symbols-outlined">{integration.icon}</span>
+                     </div>
+                     <div>
+                        <p className="text-sm font-black text-[#2b3437] font-headline">{integration.name}</p>
+                        <p className={`text-[10px] font-bold uppercase tracking-widest ${integration.status === 'Connected' ? 'text-emerald-500' : 'text-blue-500'}`}>{integration.status}</p>
+                     </div>
+                  </div>
+                  <span className="material-symbols-outlined text-slate-200">chevron_right</span>
+               </div>
+             ))}
+             
+             <button className="w-full flex items-center justify-center gap-3 p-5 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold hover:bg-white hover:border-primary/20 hover:text-primary transition-all">
+                <span className="material-symbols-outlined">add</span>
+                <span className="text-xs uppercase tracking-widest">Connect New Service</span>
+             </button>
+          </div>
+        </section>
 
-            <button
-              onClick={testGoogleScraping}
-              disabled={loading || !settings.googleMapsUrl}
-              className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 disabled:bg-gray-400"
-            >
-              {loading ? 'Testing...' : 'Test Google Reviews Scraping'}
-            </button>
-
-            <button
-              onClick={extractMenuFromReviews}
-              disabled={loading || !settings.googleMapsUrl}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
-            >
-              {loading ? 'Extracting...' : 'Auto-Extract Menu from Reviews'}
-            </button>
+        {/* Access Controls */}
+        <section className="col-span-12 bg-white rounded-3xl p-10 shadow-sm border border-slate-100">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+             <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-primary">
+                   <span className="material-symbols-outlined text-2xl font-variation-settings-fill-1">admin_panel_settings</span>
+                </div>
+                <div>
+                   <h3 className="text-2xl font-headline font-black text-[#2b3437]">Team Access Controls</h3>
+                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">3 Active Administrators</p>
+                </div>
+             </div>
+             <button className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-primary/5 text-primary text-[10px] font-black uppercase tracking-[0.2em] hover:bg-primary/10 transition-colors font-headline">
+                <span className="material-symbols-outlined text-lg">person_add</span>
+                Invite New Member
+             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button
-              onClick={refreshTrends}
-              disabled={loading}
-              className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 disabled:bg-gray-400"
-            >
-              {loading ? 'Refreshing...' : 'Refresh Trending Analysis'}
-            </button>
+          <div className="overflow-x-auto">
+             <table className="w-full">
+                <thead>
+                   <tr className="text-left border-b border-slate-50 text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">
+                      <th className="pb-6 px-4">Member Identity</th>
+                      <th className="pb-6 px-4">System Role</th>
+                      <th className="pb-6 px-4 text-right">Access Status</th>
+                   </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                   {[
+                     { name: 'Sarah Chen', email: 'sarah.c@sikbo.io', role: 'Operations Lead', status: 'Active' },
+                     { name: 'Marcus Rivera', email: 'm.rivera@sikbo.io', role: 'Kitchen Manager', status: 'Active' },
+                     { name: 'Elena Low', email: 'elena@sikbo.io', role: 'Analyst', status: 'Invite Sent' }
+                   ].map((member, i) => (
+                     <tr key={i} className="group hover:bg-slate-50 transition-colors">
+                        <td className="py-6 px-4">
+                           <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-400">
+                                 {member.name[0]}
+                              </div>
+                              <div>
+                                 <p className="text-sm font-black text-[#2b3437]">{member.name}</p>
+                                 <p className="text-xs text-slate-400 font-medium">{member.email}</p>
+                              </div>
+                           </div>
+                        </td>
+                        <td className="py-6 px-4">
+                           <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider ${member.role === 'Operations Lead' ? 'bg-primary/10 text-primary' : 'bg-slate-100 text-slate-500'}`}>
+                              {member.role}
+                           </span>
+                        </td>
+                        <td className="py-6 px-4 text-right">
+                           <div className="flex items-center justify-end gap-2">
+                              <span className={`w-2 h-2 rounded-full ${member.status === 'Active' ? 'bg-emerald-500 animate-pulse' : 'bg-orange-400'}`}></span>
+                              <span className="text-xs font-bold text-[#2b3437]">{member.status}</span>
+                           </div>
+                        </td>
+                     </tr>
+                   ))}
+                </tbody>
+             </table>
           </div>
+        </section>
 
-          <div className="mt-4 p-4 bg-blue-50 rounded-md">
-            <h4 className="font-medium text-blue-900 mb-2">🎯 Real Data Integration</h4>
-            <div className="space-y-2 text-sm text-blue-800">
-              <p>• <strong>Load Default Cafe:</strong> Sets up The French Door cafe with real Google Maps URL</p>
-              <p>• <strong>Test Scraping:</strong> Validates Google Maps review extraction</p>
-              <p>• <strong>Auto-Extract Menu:</strong> Automatically finds menu items from customer reviews</p>
-              <p>• <strong>Real Reviews:</strong> Processes actual customer feedback with sentiment analysis</p>
-            </div>
-          </div>
+        {/* Data Privacy Bar */}
+        <section className="col-span-12 bg-slate-900 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
+           <div className="absolute right-0 top-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+           <div className="flex items-center gap-8 relative z-10">
+              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-white backdrop-blur-xl border border-white/10">
+                 <span className="material-symbols-outlined text-2xl">security</span>
+              </div>
+              <div>
+                 <h4 className="text-xl font-headline font-black text-white tracking-tight">Enterprise-Grade Security</h4>
+                 <p className="text-slate-400 text-sm mt-1 max-w-xl">All telemetry data is encrypted using <span className="text-white font-bold">AES-256</span> standards. Compliant with restaurant data privacy protocol v4.0.</p>
+              </div>
+           </div>
+           <button className="relative z-10 px-8 py-3 bg-white text-slate-900 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-100 transition-all font-headline">
+              Audit Logs
+           </button>
+        </section>
 
-          <div className="mt-4 p-4 bg-gray-50 rounded-md">
-            <h4 className="font-medium text-gray-900 mb-2">AI Features Status</h4>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Sentiment Analysis:</span>
-                <span className="text-green-600">✅ Active</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Trend Detection:</span>
-                <span className="text-green-600">✅ Active</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Decision Engine:</span>
-                <span className="text-green-600">✅ Active</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Google Reviews Scraping:</span>
-                <span className="text-green-600">✅ Real Data</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Menu Auto-Extraction:</span>
-                <span className="text-green-600">✅ Active</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

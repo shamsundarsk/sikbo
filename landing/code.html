@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIKBO | Restaurant Intelligence System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-dim": "#d1dce0",
+              "surface": "#f8f9fa",
+              "on-primary-container": "#505159",
+              "tertiary-dim": "#554f6b",
+              "on-tertiary": "#fcf7ff",
+              "outline-variant": "#abb3b7",
+              "surface-variant": "#dbe4e7",
+              "background": "#f8f9fa",
+              "tertiary-container": "#e3dbfd",
+              "secondary-fixed-dim": "#d1d4e5",
+              "on-error-container": "#752121",
+              "inverse-on-surface": "#9b9d9e",
+              "surface-tint": "#5c5e66",
+              "primary-fixed": "#e2e2ec",
+              "on-tertiary-fixed-variant": "#5c5672",
+              "tertiary-fixed-dim": "#d5cdee",
+              "inverse-primary": "#dfdfe9",
+              "on-surface": "#2b3437",
+              "primary-dim": "#50525a",
+              "surface-container-lowest": "#ffffff",
+              "primary": "#5c5e66",
+              "surface-container-high": "#e3e9ec",
+              "on-primary": "#f8f7ff",
+              "on-tertiary-fixed": "#3f3a54",
+              "on-secondary-fixed-variant": "#575b69",
+              "secondary-container": "#dfe2f3",
+              "inverse-surface": "#0c0f10",
+              "on-primary-fixed-variant": "#5a5b63",
+              "secondary-dim": "#4f5361",
+              "surface-container": "#eaeff1",
+              "on-surface-variant": "#586064",
+              "on-error": "#fff7f6",
+              "tertiary-fixed": "#e3dbfd",
+              "on-secondary-fixed": "#3b3f4c",
+              "error-dim": "#4e0309",
+              "secondary": "#5b5f6d",
+              "surface-container-low": "#f1f4f6",
+              "on-primary-fixed": "#3d3f47",
+              "on-secondary-container": "#4d515f",
+              "on-background": "#2b3437",
+              "on-secondary": "#f9f8ff",
+              "error": "#9f403d",
+              "secondary-fixed": "#dfe2f3",
+              "surface-container-highest": "#dbe4e7",
+              "on-tertiary-container": "#524c68",
+              "tertiary": "#615b77",
+              "primary-container": "#e2e2ec",
+              "surface-bright": "#f8f9fa",
+              "primary-fixed-dim": "#d3d4dd",
+              "outline": "#737c7f",
+              "error-container": "#fe8983"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .premium-gradient {
+            background: linear-gradient(135deg, #5c5e66 0%, #50525a 100%);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/20">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none transition-all duration-300">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-extrabold tracking-tighter text-slate-900 dark:text-slate-50 font-headline">SIKBO</div>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="font-manrope font-bold text-sm tracking-tight text-slate-900 dark:text-white border-b-2 border-slate-900 dark:border-slate-50 pb-1" href="#">Features</a>
+<a class="font-manrope font-bold text-sm tracking-tight text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors" href="#">Solutions</a>
+<a class="font-manrope font-bold text-sm tracking-tight text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors" href="#">Pricing</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2.5 premium-gradient text-on-primary font-headline font-bold text-sm rounded-xl active:scale-95 transition-all duration-200 shadow-sm">
+                    Get Started
+                </button>
+</div>
+</div>
+</nav>
+<main class="pt-24 overflow-x-hidden">
+<!-- Hero Section -->
+<section class="relative px-6 py-16 md:py-28 max-w-7xl mx-auto flex flex-col items-center text-center">
+<div class="max-w-4xl mb-16">
+<span class="inline-block px-4 py-1.5 mb-6 text-[10px] font-bold tracking-[0.2em] uppercase bg-secondary-container text-on-secondary-container rounded-full">
+                    The Culinary Architect
+                </span>
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tight text-on-surface mb-8 leading-[1.1]">
+                    The Intelligence Your <br class="hidden md:block"/> <span class="text-primary italic">Restaurant Deserves.</span>
+</h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-10 leading-relaxed">
+                    From kitchen efficiency to customer sentiment, SIKBO turns raw data into actionable culinary insights.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="px-8 py-4 premium-gradient text-on-primary font-headline font-bold text-lg rounded-xl shadow-xl hover:translate-y-[-2px] transition-all">
+                        Get Started Free
+                    </button>
+<button class="px-8 py-4 bg-surface-container-highest text-on-surface font-headline font-bold text-lg rounded-xl hover:bg-surface-variant transition-all">
+                        Book a Demo
+                    </button>
+</div>
+</div>
+<!-- Hero Image: Executive Command Center -->
+<div class="w-full max-w-6xl mx-auto relative mt-10">
+<div class="rounded-2xl overflow-hidden shadow-[0_40px_100px_rgba(43,52,55,0.12)] bg-surface-container-lowest p-2 ring-1 ring-outline-variant/10">
+<img class="w-full rounded-xl" data-alt="high-fidelity laptop mockup showcasing a sophisticated dark UI dashboard with real-time restaurant performance metrics, revenue graphs, and kitchen status" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh48WHMFVFeA7KXJ95i2t-EWJyedcCo-_JdHJlARbeEvsBNa_CUXa_LTbMDXh4hYIEtRjlT-3xGYzdL-FlGMtYLn6Ao3BmV5KargkP1nIGIO3z95ia8p592xATKZHtiwXvVin1WooiQzL5mn9p4jwEnOmA7iqi0uO2q1nmKxmvPXf3Qm0OQesjJVB6WgCip1koVindNNHTmnfuDXDk0u2QB-HUrqBiAKLIn5zCHMuJwT4A3HBq5-x__YoHszh51gQdAVSLMcZPaQ"/>
+</div>
+<!-- Decorative element -->
+<div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary/5 via-transparent to-secondary/5 blur-3xl opacity-50"></div>
+</div>
+</section>
+<!-- Social Proof -->
+<section class="py-12 bg-surface-container-low/50">
+<div class="max-w-7xl mx-auto px-6">
+<p class="text-center text-xs font-bold tracking-widest text-outline uppercase mb-10">Trusted by the World's Leading Kitchens</p>
+<div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-60">
+<div class="text-xl font-headline font-extrabold tracking-tighter">LUMIÈRE</div>
+<div class="text-xl font-headline font-extrabold tracking-tighter">SAVOR &amp; CO</div>
+<div class="text-xl font-headline font-extrabold tracking-tighter">THE GARDEN</div>
+<div class="text-xl font-headline font-extrabold tracking-tighter">OAK + IRON</div>
+<div class="text-xl font-headline font-extrabold tracking-tighter">BISTRO V</div>
+</div>
+</div>
+</section>
+<!-- Value Proposition Section -->
+<section class="py-24 md:py-32 max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-2xl">
+<h2 class="font-headline text-4xl md:text-5xl font-bold tracking-tight mb-4">Precision Engineering for Modern Gastronomy.</h2>
+<p class="text-on-surface-variant text-lg">Stop guessing. Start orchestrating every detail of your operation with surgical precision.</p>
+</div>
+<div class="hidden md:block">
+<div class="w-24 h-1 bg-primary rounded-full mb-2"></div>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Card 1: Operational Excellence -->
+<div class="group p-8 rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-outline-variant/10">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">precision_manufacturing</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Operational Excellence</h3>
+<p class="text-on-surface-variant leading-relaxed mb-8">Master your kitchen's pulse. Analyze ticket flow and station efficiency to eliminate bottlenecks before they start.</p>
+<div class="rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-48 object-cover" data-alt="close up detail of a kitchen flow analytics dashboard showing station heatmaps and prep time distributions with soft colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo0U0yrJzI4Ohjbg-n7K42FojeWL1iQ89DXhBtg1ZLjTOSfi1Slzf4-gdkdniEDtFAlFm_F1o0nptJc61J4_tCxat3ARwNVJzlmR7NyWGImDrAKuoiDBmqoByw5Y6M5lEv9bIb6CQFh_2KaiZzN9BNpl91jDZxmgBWgemngd_hlPUgJb4PmVxWHw7GPaP1_2eGqRDm2Q-cATNZ09Ng9iWKFdIOsVLbqgyAECt-QO4-vAHt15rZwlYKemtIfW7Q7gc8TJejgzj9Rg"/>
+</div>
+</div>
+<!-- Card 2: Financial Intelligence -->
+<div class="group p-8 rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-outline-variant/10">
+<div class="w-14 h-14 rounded-xl bg-secondary-container flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl">insights</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Financial Intelligence</h3>
+<p class="text-on-surface-variant leading-relaxed mb-8">True menu profitability. SIKBO connects ingredient costs with sales velocity for automated margin optimization.</p>
+<div class="rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-48 object-cover" data-alt="dashboard visualization of menu profitability matrix showing high-margin popular items vs low-performing dishes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJBg8sBIiJ4tqtnKQJA2um9p6g8d5nxhwBoSt_sdd24kvXNtnCSnGw32L1ZDPvPx1GT6_emRwoFmhLtAYy3HV8fDK3vizclwXF4YnHVsk4CRM_O2RZ0bV_mpQAuI5CSW9tstpd3B1OsnXHa93CZTI1NSp-Mednz8GJGb9RsY8flWmHtxQ2rbKG1R7Aa58sK9zyVyw5xLbRQs3OxGdL24l3KyievO2kNGipgtZ2ryoRkf_v7teTB5iwCBmJVFOtP0K-AENrj-KtmQ"/>
+</div>
+</div>
+<!-- Card 3: Sentiment & Reputation -->
+<div class="group p-8 rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-outline-variant/10">
+<div class="w-14 h-14 rounded-xl bg-tertiary-container flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary text-3xl">forum</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Sentiment &amp; Reputation</h3>
+<p class="text-on-surface-variant leading-relaxed mb-8">The Review Action Hub. Aggregate and respond to customer feedback across all platforms from a single interface.</p>
+<div class="rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-48 object-cover" data-alt="clean UI interface showing aggregated customer reviews and sentiment trends with natural language processing highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZZ_7tsA-fGSwVuge4dQSPRLZMcaZ1HJO8zVk97G6wRqM-xcQ0WCa776PuMHuxjn3w_vsRMFjLY5M9UxXbnU5KFQZwb9n7HcRspXn4BgTXbHKOmOiSYok2zDumSmG6zoexMYEzoUvI_gC0T2g68C4CudST-O6v3CmOZwMIG6qJuwlnEPHG4lW9QBP3Gv-woJvMnAI9d_JbYnqa3xOcuCHU5dbqky7QrPdEc5_tYAlN3qmxG4lS0Zxj5sjeptUO-5QGA51XIxXLtA"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Deep Dive: Bento Grid Style -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-20">
+<h2 class="font-headline text-4xl md:text-5xl font-bold mb-6">Built for the Culinary Architect.</h2>
+<p class="text-on-surface-variant text-lg max-w-2xl mx-auto">Beyond dashboards. SIKBO provides a holistic ecosystem that integrates every facet of your restaurant's lifecycle.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+<!-- Large Feature: Staff & Productivity -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-2xl p-10 flex flex-col md:flex-row gap-10 items-center overflow-hidden border border-outline-variant/5">
+<div class="flex-1 order-2 md:order-1">
+<span class="text-primary font-bold text-sm tracking-widest uppercase mb-4 block">Team Dynamics</span>
+<h4 class="font-headline text-3xl font-bold mb-4">Optimized Labor Management</h4>
+<p class="text-on-surface-variant mb-6">Align your staff scheduling with predicted sales surges. Reduce labor costs while maintaining impeccable service standards.</p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-sm font-semibold">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span> 
+                                    Predictive Shift Balancing
+                                </li>
+<li class="flex items-center gap-3 text-sm font-semibold">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span> 
+                                    Performance Tracking by Server
+                                </li>
+</ul>
+</div>
+<div class="flex-1 order-1 md:order-2 w-full">
+<img class="rounded-xl shadow-2xl w-full" data-alt="detailed staff performance analytics screen showing scheduling efficiency and individual productivity metrics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIYWNpiv3z4Wq7tRz6jXb54TR0cYC5ZC-abmSWf7eRZxZORye1JJS4iUsIPe-Uwf6_YaQqrxA1vjjd_j-sCvq7pjnqgwEvT7R9wAp6G1U95lbqV0RmFVrXlTO37mhsRnj08Gr1hNJnCDfzTAqMVIwt6KcaBxI-93vGRbGAl9mvMIpMQEIgz-NZKG38PY1zD3WZ9TyZECk2GFwIm-EeMnDUBbVQ1fwFNuZvt150fwmGJkcZpXC3hYtUPPzQKioBQwZAltDWwQmvDg"/>
+</div>
+</div>
+<!-- Small Feature: Trends -->
+<div class="md:col-span-4 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/5">
+<div class="h-full flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container mb-6 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface">trending_up</span>
+</div>
+<h4 class="font-headline text-2xl font-bold mb-3">Trend Forecasting</h4>
+<p class="text-on-surface-variant text-sm mb-6">Anticipate culinary shifts. SIKBO tracks regional and global food trends so your menu stays ahead of the curve.</p>
+</div>
+<img class="rounded-xl shadow-lg mt-auto" data-alt="analytics view showing multi-week trend forecasting for specific ingredients and menu categories" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFewTgod9dFB6RRQmiWwbvccfsHV7n_bdBy9jZ6AY87w3R5IXSO6SMWkwLjmsTS7dBwPUprFyQD_12jw5VJMG6npZBCZ2FZ_4UU3rIry7Ht72FSTkibdDEZTb7afFJUZYvateuWW61mmLi3M7_SF4ZUHwL-cK6MPijBgHSqWpiaYSqrwU-6K7XWsOKLLv75pgTIbfbPV2JFz19V9EP9oEoe--qrCqRQKRjQqgkurQ3AZg9K5ZcSCwr7PYyzdl0AS0frZqaqK8_DA"/>
+</div>
+</div>
+<!-- Medium Feature: Food Quality -->
+<div class="md:col-span-5 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/5">
+<h4 class="font-headline text-2xl font-bold mb-3">Ingredient Integrity</h4>
+<p class="text-on-surface-variant text-sm mb-8">Monitor supply chain consistency and food waste patterns across multiple locations with granular data.</p>
+<div class="relative overflow-hidden rounded-xl">
+<img class="w-full" data-alt="inventory and supply chain dashboard showing waste reduction metrics and shelf-life tracking for premium ingredients" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB3ALmuT-ksQgXtRJpTByhSs9DiIx3XWwfHLcKVdh_YNQ1CsY2CHq8wUdh_zKws_aMnshI74VwMaL0T4crcdZtylZR3jmDuaXmUXXpQAPvQK9hkfJTjcyYt3PyrOxg66YhX-0sjWTNGyu7Er5zK90SGjAAkl81Dk8CSO8kMwDlJFMk7113x_JM1OjfUBLfWvnXBtMOuiaANfHYiV9ax7r8zZUGaOraNPUticdD7enIJKSC8Y5u_Be3dkL6h_cEpTv39xEQ_3cl7Q"/>
+</div>
+</div>
+<!-- Quote Block -->
+<div class="md:col-span-7 premium-gradient rounded-2xl p-10 flex flex-col justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-on-primary/10 text-9xl absolute -top-4 -right-4">format_quote</span>
+<div class="relative z-10">
+<p class="font-headline text-2xl md:text-3xl font-bold text-on-primary italic mb-8 leading-relaxed">
+                                "The Culinary Architect approach changed how we think about data. SIKBO doesn't just show us numbers; it shows us the soul of our kitchen in real-time."
+                            </p>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-on-primary/20 overflow-hidden ring-2 ring-on-primary/30">
+<img class="w-full h-full object-cover" data-alt="headshot of a professional executive chef in a white uniform with a confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPrFyl9eJ1WP16OkSK_LaLCJJC7GTH14dFwUM_lyox7hQg5WDC3yGRNDPoR-yMjOB1uonnOVFBXhxxC-QBh_5vK0-qMzZYpnH7jvRraGzRzmf1MVabkQDdYRFPFS5Ze6hxOpknmDq44zGyeD15cLk116I57A_CovoMumRIi0Pt6UxG6p2lbetyQrvqGsylFznfxlvIc9cpPFEpRkJFiHkXFxnvKl7-B0tFSV16-zFbTSaNQb0GPbifEGEPnd-pqUexmR3gx9paSg"/>
+</div>
+<div>
+<p class="font-bold text-on-primary">Marco Sterling</p>
+<p class="text-on-primary/70 text-sm font-medium">Executive Chef, Lumière Group</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-24 md:py-32 px-6">
+<div class="max-w-5xl mx-auto bg-inverse-surface text-on-tertiary rounded-[2.5rem] p-12 md:p-24 text-center relative overflow-hidden">
+<!-- Background visual interest -->
+<div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+<div class="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary blur-[120px] rounded-full"></div>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline text-4xl md:text-6xl font-extrabold tracking-tight mb-8">
+                        Ready to optimize your restaurant? Join the intelligence revolution.
+                    </h2>
+<p class="text-xl text-inverse-on-surface mb-12 max-w-2xl mx-auto">
+                        Start your journey toward operational mastery today. No credit card required.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+<button class="px-10 py-5 bg-white text-slate-900 font-headline font-extrabold text-xl rounded-2xl hover:bg-slate-100 transition-all shadow-xl hover:scale-105 active:scale-95">
+                            Start Your Free Trial
+                        </button>
+<a class="text-on-tertiary font-bold hover:underline underline-offset-8 transition-all" href="#">Speak with a Specialist</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-16 pb-8 bg-slate-50 dark:bg-slate-950 tonal-shift bg-slate-50 dark:bg-slate-900">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 px-6 max-w-7xl mx-auto">
+<div class="col-span-2 lg:col-span-1">
+<div class="text-xl font-bold font-manrope text-slate-900 dark:text-slate-50 mb-6">SIKBO</div>
+<p class="font-inter text-sm text-slate-500 dark:text-slate-400 max-w-xs">
+                    The world's most advanced restaurant intelligence system for high-performance culinary teams.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-semibold text-slate-900 dark:text-slate-50">Product</h5>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">Features</a>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">Solutions</a>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">Pricing</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-semibold text-slate-900 dark:text-slate-50">Company</h5>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">About Us</a>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">Careers</a>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">Contact</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-semibold text-slate-900 dark:text-slate-50">Legal</h5>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">Privacy Policy</a>
+<a class="font-inter text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 underline-offset-4 hover:underline transition-all duration-300 ease-in-out" href="#">Terms of Service</a>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-inter text-sm text-slate-500 dark:text-slate-400">© 2024 SIKBO Restaurant Intelligence. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-slate-400 hover:text-slate-900 transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-slate-400 hover:text-slate-900 transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+</footer>
+</body></html>

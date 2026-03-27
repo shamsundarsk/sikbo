@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIKBO | Staff Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#615b77",
+                        "on-secondary-container": "#4d515f",
+                        "surface-dim": "#d1dce0",
+                        "secondary-dim": "#4f5361",
+                        "tertiary-dim": "#554f6b",
+                        "on-tertiary-fixed-variant": "#5c5672",
+                        "on-tertiary-fixed": "#3f3a54",
+                        "on-surface-variant": "#586064",
+                        "primary-fixed": "#e2e2ec",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary": "#fcf7ff",
+                        "error-container": "#fe8983",
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-background": "#2b3437",
+                        "surface-container-high": "#e3e9ec",
+                        "primary": "#5c5e66",
+                        "outline-variant": "#abb3b7",
+                        "secondary": "#5b5f6d",
+                        "on-primary-container": "#505159",
+                        "on-surface": "#2b3437",
+                        "on-secondary-fixed-variant": "#575b69",
+                        "on-surface": "#2b3437",
+                        "on-secondary-fixed": "#3b3f4c",
+                        "secondary-fixed": "#dfe2f3",
+                        "on-primary": "#f8f7ff",
+                        "error-dim": "#4e0309",
+                        "outline": "#737c7f",
+                        "background": "#f8f9fa",
+                        "surface": "#f8f9fa",
+                        "surface-container": "#eaeff1",
+                        "tertiary-fixed-dim": "#d5cdee",
+                        "on-tertiary-container": "#524c68",
+                        "error": "#9f403d",
+                        "surface-container-low": "#f1f4f6",
+                        "tertiary-container": "#e3dbfd",
+                        "surface-container-highest": "#dbe4e7",
+                        "secondary-fixed-dim": "#d1d4e5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#d3d4dd",
+                        "primary-container": "#e2e2ec",
+                        "inverse-primary": "#dfdfe9",
+                        "on-primary-fixed": "#3d3f47",
+                        "tertiary-fixed": "#e3dbfd",
+                        "on-error-container": "#752121",
+                        "on-error": "#fff7f6",
+                        "primary-dim": "#50525a",
+                        "secondary-container": "#dfe2f3",
+                        "inverse-surface": "#0c0f10"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="bg-[#1A1C23] dark:bg-[#0A0B0E] h-screen w-64 fixed left-0 top-0 z-50 flex flex-col py-8 shadow-2xl">
+<div class="px-6 mb-12">
+<h1 class="text-2xl font-black text-white tracking-tighter uppercase font-headline">SIKBO</h1>
+<p class="text-gray-400 text-xs font-semibold tracking-[0.2em] uppercase mt-1">Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1 px-2"><!-- Dashboard -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-headline font-bold tracking-tight text-sm">Dashboard</span>
+</a>
+<!-- Food Analytics -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-headline font-bold tracking-tight text-sm">Food Analytics</span>
+</a>
+<!-- Service Analytics -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="room_service">room_service</span>
+<span class="font-headline font-bold tracking-tight text-sm">Service Analytics</span>
+</a>
+<!-- Customer Flow -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-headline font-bold tracking-tight text-sm">Customer Flow</span>
+</a>
+<!-- Staff Management (Active) -->
+<a class="bg-[#5C5E66] text-white rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all scale-95 active:scale-90 duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-headline font-bold tracking-tight text-sm">Staff Management</span>
+</a>
+<!-- Menu Management -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-headline font-bold tracking-tight text-sm">Menu Management</span>
+</a>
+<!-- Raw Materials -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-headline font-bold tracking-tight text-sm">Raw Materials</span>
+</a>
+<!-- Trends -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-headline font-bold tracking-tight text-sm">Trends</span>
+</a>
+<!-- Review Actions -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+<span class="font-headline font-bold tracking-tight text-sm">Review Actions</span>
+</a>
+<!-- Settings -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-headline font-bold tracking-tight text-sm">Settings</span>
+</a></nav>
+<div class="mt-auto px-6 pt-6 flex items-center gap-3 border-t border-white/10">
+<div class="w-10 h-10 rounded-full bg-primary-dim flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a restaurant executive manager in a dark suit with a focused expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDho5DYMqOgXq6rBw_1NRLSYlnq-L2Ac0EWF65wqLPxAzCs0TYmfGMkITz5RkkXyh8edoj0Gh-U40XNXap1fPMBJ70ALELm0tmFeIav8L47PDcsxQew-ThRbPCf-jQCzA1ijyAyCkwaY0wd_TQ5jsDsRltMXAVjD2GO8MToBcC7GyqBrqIs3_QMS-C-uyFEWwfvY8CSVshsh_gcxd-CM4qGyn1UuZkmKTFtbig2tGDcokq-CVURcTmP0OjaUjelRrYNWa8BNUJOkA"/>
+</div>
+<div class="flex-1">
+<p class="text-white text-xs font-bold font-headline">Marcus Chen</p>
+<p class="text-gray-500 text-[10px] uppercase tracking-wider">Exec Manager</p>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-20 z-40 bg-[#F8F9FA]/80 backdrop-blur-md flex justify-between items-center px-10 w-full">
+<div class="flex items-center gap-8">
+<h2 class="text-[#1A1C23] font-headline font-bold text-lg">Executive Command Center</h2>
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-outline material-symbols-outlined text-sm" data-icon="search">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary/20 placeholder:text-outline-variant transition-all" placeholder="Search staff metrics..." type="text"/>
+</div>
+</div>
+<nav class="flex items-center gap-8">
+<div class="flex gap-6">
+<a class="text-gray-500 hover:text-[#1A1C23] transition-colors text-sm font-bold font-headline" href="#">Global View</a>
+<a class="text-gray-500 hover:text-[#1A1C23] transition-colors text-sm font-bold font-headline" href="#">Local Nodes</a>
+<a class="text-[#1A1C23] border-b-2 border-[#1A1C23] pb-1 text-sm font-bold font-headline" href="#">Reports</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-gray-100 rounded-full p-2 transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-xl text-sm font-bold font-headline shadow-sm hover:bg-primary-dim transition-all active:scale-95">
+                    Export Data
+                </button>
+</div>
+</nav>
+</header>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-20 min-h-screen">
+<div class="max-w-[1440px] mx-auto p-10">
+<!-- Page Header (Editorial Style) -->
+<div class="mb-10 flex justify-between items-end">
+<div>
+<span class="text-xs font-bold text-primary tracking-[0.3em] uppercase block mb-2 font-label">Operational Intelligence</span>
+<h3 class="text-4xl font-extrabold text-on-surface font-headline tracking-tight">Staff Dynamics &amp; Efficiency</h3>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-low px-4 py-2 rounded-lg text-sm font-medium text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                        Last 30 Days
+                    </div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6 mb-10">
+<!-- Highlight Card: Top Staff -->
+<div class="col-span-4 bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between border-l-4 border-primary shadow-sm">
+<div>
+<div class="flex justify-between items-start mb-6">
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full text-[10px] font-bold uppercase tracking-widest font-label">Performance Peak</span>
+<span class="material-symbols-outlined text-primary" data-icon="trending_up">trending_up</span>
+</div>
+<h4 class="text-xl font-bold font-headline mb-1">Elena Rodriguez</h4>
+<p class="text-on-surface-variant text-sm mb-6">Lead Server · Floor 1</p>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-xs font-bold text-outline uppercase font-label">Avg. Service Time</span>
+<span class="text-lg font-bold font-headline">12m 45s</span>
+</div>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[92%]"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-surface-container flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-dim flex items-center justify-center text-[10px] font-bold">ER</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-dim flex items-center justify-center text-[10px] font-bold">JS</div>
+</div>
+<button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline">View Badge</button>
+</div>
+</div>
+<!-- Scatter Plot Visual Component (Simulated) -->
+<div class="col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h4 class="text-lg font-bold font-headline">Rating vs. Velocity Correlation</h4>
+<p class="text-on-surface-variant text-xs">Mapping service speed against customer satisfaction scores</p>
+</div>
+<div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-outline">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span> Front-end</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> Kitchen</span>
+</div>
+</div>
+<div class="h-64 relative mt-4">
+<!-- Chart Grid Lines -->
+<div class="absolute inset-0 border-b border-l border-surface-container">
+<div class="h-1/4 w-full border-t border-surface-container border-dashed"></div>
+<div class="h-1/4 w-full border-t border-surface-container border-dashed"></div>
+<div class="h-1/4 w-full border-t border-surface-container border-dashed"></div>
+</div>
+<!-- Axis Labels -->
+<span class="absolute -left-10 top-1/2 -rotate-90 text-[10px] font-bold text-outline-variant uppercase">Rating (Stars)</span>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-outline-variant uppercase">Speed (Minutes)</span>
+<!-- Scatter Points (Simulated) -->
+<div class="absolute bottom-[80%] left-[20%] w-3 h-3 bg-primary/40 rounded-full group cursor-pointer hover:scale-150 transition-all"></div>
+<div class="absolute bottom-[90%] left-[15%] w-4 h-4 bg-primary rounded-full group cursor-pointer hover:scale-150 transition-all shadow-lg"></div>
+<div class="absolute bottom-[40%] left-[60%] w-3 h-3 bg-secondary rounded-full group cursor-pointer hover:scale-150 transition-all"></div>
+<div class="absolute bottom-[60%] left-[40%] w-4 h-4 bg-primary/60 rounded-full group cursor-pointer hover:scale-150 transition-all"></div>
+<div class="absolute bottom-[20%] left-[85%] w-5 h-5 bg-error-container/60 rounded-full group cursor-pointer hover:scale-150 transition-all"></div>
+<div class="absolute bottom-[70%] left-[30%] w-3 h-3 bg-primary/40 rounded-full group cursor-pointer hover:scale-150 transition-all"></div>
+<div class="absolute bottom-[30%] left-[70%] w-3 h-3 bg-secondary/40 rounded-full group cursor-pointer hover:scale-150 transition-all"></div>
+<!-- Regression Line -->
+<div class="absolute bottom-0 left-0 w-full h-full pointer-events-none">
+<svg class="w-full h-full">
+<line stroke="#ABB3B7" stroke-dasharray="4 4" stroke-width="1" x1="10%" x2="90%" y1="10%" y2="80%"></line>
+</svg>
+</div>
+</div>
+</div>
+<!-- Highlight Card: Needs Improvement -->
+<div class="col-span-4 bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex justify-between items-start mb-6">
+<span class="px-3 py-1 bg-error-container/20 text-error-dim rounded-full text-[10px] font-bold uppercase tracking-widest font-label">Bottleneck Alert</span>
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+<h4 class="text-xl font-bold font-headline mb-1">Shift Group C</h4>
+<p class="text-on-surface-variant text-sm mb-6">Kitchen Line · Night Shift</p>
+<div class="p-4 bg-surface-container-low rounded-lg mb-6">
+<p class="text-[10px] font-bold text-outline-variant uppercase mb-2">Primary Issue</p>
+<p class="text-sm font-medium">18% Increase in Ticket Wait Times during peak 7pm-9pm window.</p>
+</div>
+</div>
+<button class="w-full py-3 bg-error text-white rounded-xl text-sm font-bold font-headline hover:bg-error-dim transition-colors">Generate Review</button>
+</div>
+<!-- Staff Table Container -->
+<div class="col-span-8 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="p-8 border-b border-surface-container flex justify-between items-center">
+<h4 class="text-lg font-bold font-headline">Roster &amp; Performance Ledger</h4>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container rounded-lg text-on-surface-variant"><span class="material-symbols-outlined" data-icon="filter_list">filter_list</span></button>
+<button class="p-2 hover:bg-surface-container rounded-lg text-on-surface-variant"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Name</th>
+<th class="px-8 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Role</th>
+<th class="px-8 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Efficiency</th>
+<th class="px-8 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Rating</th>
+<th class="px-8 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional headshot of a young male waiter with a friendly smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTQp2Pjb8-phM_z5FCkCd6oap1r79yDkF6qhbcxSZC3g6FTcOFIgMns9dqvwrFhhPylz0gFjdzLJDNT_pn9NM-SovlMnziCYpwu3TwalyVCype29KklCLurW4TezKgUXzTV20_pSPDtUsfxhzUMPadF1NJwm5reyrhRGsHMBDJ0zAO4Fhb6ZeHLUQ_Ow48W942fcBZRWGmgjB9ts06Mvdg_gEvU7oEjOMUoAgGG7_w9Lw_m6s_sHmooSV5NOLrceTH2H_fxohErg"/>
+</div>
+<div>
+<p class="text-sm font-bold font-headline">Julian Thorne</p>
+<p class="text-[10px] text-outline uppercase">Since 2022</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-medium">Server</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold">94%</span>
+<div class="w-16 bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[94%]"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star_half">star_half</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity px-4 py-1.5 bg-surface-container text-xs font-bold rounded-lg">Profile</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="smiling woman with glasses and dark hair working in an office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG9_Ukoe86ZxKooDSjvKMsWNR2EOHqIzkvuoAu1CPkucYBbKQ7SN2j161E6kpzn-kD9VGNLAxk3Q_DRquYevfkB5mNyGXtbloTzre7o4S9stMlS-UOpRC821npY51cNvS0XIexvnMGgN_lDVBHj0nTI2smLk8GlNrpD5n8f7hnoCyKbBHjHUk5jiU4vDGfyu2V6-uynlGpMxrtXQ4DhFX7D7SnmZ8lsBMvx2xtjnudyEOsLT3mRg_VmvY9I2qG0iwZwd6LqIgSeA"/>
+</div>
+<div>
+<p class="text-sm font-bold font-headline">Sarah Jenkins</p>
+<p class="text-[10px] text-outline uppercase">Since 2023</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-medium">Head Chef</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold">88%</span>
+<div class="w-16 bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[88%]"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity px-4 py-1.5 bg-surface-container text-xs font-bold rounded-lg">Profile</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="bearded man in a kitchen uniform looking professional and focused" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCLh9WZZYlarHckY0ITKsCj88n2NvQPrXWYsx_fDTeKUgBfnj5dZFU9lD69Uoc4YFK0MF2nHNJ4fMD8it4YdXD4SpLV13n82rEGqKvkaPrgqSsoySEDTxxGcLc_gvD2K0kk_5wMKew5AN3VGAynmA7c8u1de9MoIqeJ_9r_byZ-oQ2asST62gi7Bvbtffu5H3eCQC0Q55wRLS0M6Me9B8qi9L_jb8aWesc2ic97nZgjCje5mv0QfNTHN82-7Zy3uw0iylSQBVRsg"/>
+</div>
+<div>
+<p class="text-sm font-bold font-headline">Tomás Varga</p>
+<p class="text-[10px] text-outline uppercase">Since 2021</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-medium">Sous Chef</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold">72%</span>
+<div class="w-16 bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-error-container h-full w-[72%]"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star">star</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity px-4 py-1.5 bg-surface-container text-xs font-bold rounded-lg">Profile</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-low/30 text-center">
+<button class="text-sm font-bold text-primary hover:text-primary-dim transition-colors uppercase tracking-widest font-label">View Full Staff Registry</button>
+</div>
+</div>
+</div>
+<!-- Detail Analysis Section -->
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 bg-surface-container-lowest rounded-xl p-10 flex items-center justify-between shadow-sm">
+<div class="max-w-2xl">
+<h4 class="text-2xl font-bold font-headline mb-4">AI Insight: Labor Optimization</h4>
+<p class="text-on-surface-variant leading-relaxed">Our predictive model suggests increasing kitchen staff density during the Sunday Brunch window. Julian Thorne and Sarah Jenkins should lead the cross-functional training for junior staff to mitigate the current 12% bottleneck in appetizer prep.</p>
+</div>
+<div class="flex items-center gap-10">
+<div class="text-center">
+<p class="text-4xl font-black font-headline text-primary mb-1">+14%</p>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest">Efficiency Forecast</p>
+</div>
+<div class="h-16 w-px bg-surface-container"></div>
+<button class="bg-[#1A1C23] text-white px-8 py-4 rounded-xl font-bold font-headline text-sm shadow-xl hover:scale-[1.02] transition-transform">Implement Strategy</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -110,6 +110,17 @@ const Settings = mongoose.model('Settings', {
   lastUpdated: { type: Date, default: Date.now }
 });
 
+// Reviews Route
+app.get('/api/reviews', async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 50;
+    const reviews = await Review.find().sort({ date: -1 }).limit(limit);
+    res.json({ reviews });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Enhanced Analytics Route
 app.get('/api/analytics', async (req, res) => {
   try {

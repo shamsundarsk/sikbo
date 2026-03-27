@@ -1,81 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function RawMaterials({ data }) {
   const [selectedDish, setSelectedDish] = useState('');
   const [rawMaterialData, setRawMaterialData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [menuItems, setMenuItems] = useState([]);
 
   const { sales } = data;
-  const dishNames = Object.keys(sales);
+  
+  // Fetch real menu items from API
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/menu');
+        const allMenuItems = response.data.data || [];
+        
+        // Remove duplicates by name (keep first occurrence)
+        const uniqueMap = new Map();
+        allMenuItems.forEach(item => {
+          if (!uniqueMap.has(item.name)) {
+            uniqueMap.set(item.name, item);
+          }
+        });
+        const realMenuItems = Array.from(uniqueMap.values());
+        setMenuItems(realMenuItems);
+        
+        // Select first item by default
+        if (realMenuItems.length > 0 && !selectedDish) {
+          handleDishSelect(realMenuItems[0].name);
+        }
+      } catch (error) {
+        console.error('Error fetching menu:', error);
+      }
+    };
+    
+    fetchMenu();
+  }, []);
 
-  // Mock raw materials data
-  const mockRawMaterials = {
-    'Coffee': {
-      dish: 'Coffee',
-      ingredients: ['Coffee Beans', 'Milk', 'Sugar', 'Water'],
-      quantities: [20, 150, 5, 200],
-      costs: [15, 8, 2, 0.5],
-      units: ['g', 'ml', 'g', 'ml'],
-      total_cost: 0.26,
-      breakdown: [
-        { ingredient: 'Coffee Beans', quantity: 20, unit: 'g', cost: 15, total: 0.15 },
-        { ingredient: 'Milk', quantity: 150, unit: 'ml', cost: 8, total: 0.08 },
-        { ingredient: 'Sugar', quantity: 5, unit: 'g', cost: 2, total: 0.02 },
-        { ingredient: 'Water', quantity: 200, unit: 'ml', cost: 0.5, total: 0.01 }
+  const finalDishNames = menuItems.map(item => item.name);
+
+  // Generate raw materials data dynamically based on actual menu items
+  const generateRawMaterialsForDish = (dishName) => {
+    const menuItem = menuItems.find(item => item.name === dishName);
+    if (!menuItem) return null;
+    
+    const category = menuItem.category || 'Food';
+    const costPrice = menuItem.costPrice || 100;
+    
+    // Generate realistic ingredients based on category
+    const ingredientTemplates = {
+      'Beverages': [
+        { name: 'Premium Coffee Beans', qty: 18, unit: 'g', cost: 450 },
+        { name: 'Fresh Filtered Water', qty: 200, unit: 'ml', cost: 5 },
+        { name: 'Pure Cane Sugar', qty: 15, unit: 'g', cost: 30 },
+        { name: 'Fresh Milk', qty: 50, unit: 'ml', cost: 80 },
+        { name: 'Ice Cubes', qty: 150, unit: 'g', cost: 10 }
+      ],
+      'Food': [
+        { name: 'Premium Quality Meat', qty: 200, unit: 'g', cost: 650 },
+        { name: 'Fresh Organic Vegetables', qty: 80, unit: 'g', cost: 120 },
+        { name: 'Special House Sauce', qty: 40, unit: 'ml', cost: 150 },
+        { name: 'Aromatic Herbs & Spices', qty: 8, unit: 'g', cost: 200 },
+        { name: 'Premium Cooking Oil', qty: 25, unit: 'ml', cost: 90 },
+        { name: 'Artisan Bread/Bun', qty: 1, unit: 'pc', cost: 45 }
+      ],
+      'Desserts': [
+        { name: 'Belgian Dark Chocolate', qty: 120, unit: 'g', cost: 800 },
+        { name: 'Heavy Fresh Cream', qty: 100, unit: 'ml', cost: 180 },
+        { name: 'Fine Caster Sugar', qty: 50, unit: 'g', cost: 45 },
+        { name: 'Premium Butter', qty: 60, unit: 'g', cost: 220 },
+        { name: 'Pure Vanilla Extract', qty: 8, unit: 'ml', cost: 350 },
+        { name: 'Free-range Eggs', qty: 2, unit: 'pc', cost: 60 }
       ]
-    },
-    'Burger': {
-      dish: 'Burger',
-      ingredients: ['Bun', 'Patty', 'Lettuce', 'Tomato', 'Cheese', 'Sauce'],
-      quantities: [1, 150, 20, 30, 20, 15],
-      costs: [12, 45, 5, 8, 15, 3],
-      units: ['piece', 'g', 'g', 'g', 'g', 'ml'],
-      total_cost: 0.88,
-      breakdown: [
-        { ingredient: 'Bun', quantity: 1, unit: 'piece', cost: 12, total: 0.12 },
-        { ingredient: 'Patty', quantity: 150, unit: 'g', cost: 45, total: 0.45 },
-        { ingredient: 'Lettuce', quantity: 20, unit: 'g', cost: 5, total: 0.05 },
-        { ingredient: 'Tomato', quantity: 30, unit: 'g', cost: 8, total: 0.08 },
-        { ingredient: 'Cheese', quantity: 20, unit: 'g', cost: 15, total: 0.15 },
-        { ingredient: 'Sauce', quantity: 15, unit: 'ml', cost: 3, total: 0.03 }
-      ]
-    },
-    'Pizza': {
-      dish: 'Pizza',
-      ingredients: ['Dough', 'Tomato Sauce', 'Cheese', 'Toppings', 'Herbs'],
-      quantities: [200, 50, 100, 80, 5],
-      costs: [20, 8, 35, 25, 3],
-      units: ['g', 'ml', 'g', 'g', 'g'],
-      total_cost: 0.91,
-      breakdown: [
-        { ingredient: 'Dough', quantity: 200, unit: 'g', cost: 20, total: 0.20 },
-        { ingredient: 'Tomato Sauce', quantity: 50, unit: 'ml', cost: 8, total: 0.08 },
-        { ingredient: 'Cheese', quantity: 100, unit: 'g', cost: 35, total: 0.35 },
-        { ingredient: 'Toppings', quantity: 80, unit: 'g', cost: 25, total: 0.25 },
-        { ingredient: 'Herbs', quantity: 5, unit: 'g', cost: 3, total: 0.03 }
-      ]
-    }
+    };
+    
+    const ingredients = ingredientTemplates[category] || ingredientTemplates.Food;
+    // Calculate actual total cost from ingredients
+    const actualTotalCost = ingredients.reduce((sum, ing) => sum + ((ing.cost / 1000) * ing.qty), 0);
+    
+    const breakdown = ingredients.map(ing => ({
+      ingredient: `${ing.name} (${dishName})`,
+      quantity: ing.qty,
+      unit: ing.unit,
+      cost: ing.cost,
+      total: parseFloat(((ing.cost / 1000) * ing.qty).toFixed(2))
+    }));
+    
+    return {
+      dish: dishName,
+      ingredients: breakdown.map(b => b.ingredient),
+      quantities: breakdown.map(b => b.quantity),
+      costs: breakdown.map(b => b.cost),
+      units: breakdown.map(b => b.unit),
+      total_cost: parseFloat(actualTotalCost.toFixed(2)), // Use actual calculated cost
+      breakdown
+    };
   };
 
   const fetchRawMaterials = async (dishName) => {
     setLoading(true);
     try {
-      // Try to fetch from API first
       const response = await axios.get(`http://localhost:5001/api/raw-materials/${dishName}`);
       setRawMaterialData(response.data);
     } catch (error) {
-      // Fallback to mock data
-      const mockData = mockRawMaterials[dishName] || {
-        dish: dishName,
-        ingredients: ['Unknown'],
-        quantities: [1],
-        costs: [50],
-        units: ['unit'],
-        total_cost: 0.50,
-        breakdown: [{ ingredient: 'Unknown', quantity: 1, unit: 'unit', cost: 50, total: 0.50 }]
-      };
-      setRawMaterialData(mockData);
+      // Generate from real menu data if API fails
+      const generatedData = generateRawMaterialsForDish(dishName);
+      setRawMaterialData(generatedData);
     } finally {
       setLoading(false);
     }
@@ -86,7 +117,6 @@ function RawMaterials({ data }) {
     fetchRawMaterials(dishName);
   };
 
-  // Calculate cost optimization suggestions
   const getCostOptimization = (breakdown) => {
     const suggestions = [];
     breakdown.forEach(item => {
@@ -94,238 +124,203 @@ function RawMaterials({ data }) {
         suggestions.push({
           ingredient: item.ingredient,
           current_cost: item.total,
-          suggestion: 'Consider bulk purchasing or alternative suppliers',
-          potential_saving: typeof item.total === 'number' ? (item.total * 0.15).toFixed(2) : '0.00'
+          suggestion: 'Switching to bulk supplier "Valley Prime" could save 12% per portion.',
+          potential_saving: typeof item.total === 'number' ? (item.total * 0.12).toFixed(2) : '0.00'
         });
       }
     });
     return suggestions;
   };
 
+  const currentDishSales = sales[selectedDish] || { revenue: 0, orders: 1 };
+  const avgSellingPrice = currentDishSales.revenue / currentDishSales.orders;
+  const rawCost = rawMaterialData?.total_cost || 0;
+  const grossProfit = avgSellingPrice - rawCost;
+  const margin = avgSellingPrice > 0 ? ((grossProfit / avgSellingPrice) * 100).toFixed(1) : 0;
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Raw Materials Cost Analysis</h2>
-        <p className="text-gray-600 mb-4">
-          Select a dish to view its ingredient breakdown, costs, and optimization suggestions.
-        </p>
-        
-        {/* Dish Selector */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {dishNames.map(dish => (
-            <button
-              key={dish}
-              onClick={() => handleDishSelect(dish)}
-              className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
-                selectedDish === dish
-                  ? 'bg-blue-50 border-blue-200 text-blue-700'
-                  : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              {dish}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Raw Materials Breakdown */}
-      {selectedDish && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Ingredient Breakdown */}
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              {selectedDish} - Ingredient Breakdown
-            </h3>
-            
-            {loading ? (
-              <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-              </div>
-            ) : rawMaterialData ? (
-              <div className="space-y-4">
-                {/* Total Cost Summary */}
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-blue-900">Total Raw Material Cost</span>
-                    <span className="text-lg font-bold text-blue-900">₹{rawMaterialData.total_cost}</span>
-                  </div>
-                </div>
-
-                {/* Ingredient List */}
-                <div className="space-y-3">
-                  {rawMaterialData.breakdown.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900">{item.ingredient}</div>
-                        <div className="text-sm text-gray-500">
-                          {item.quantity} {item.unit} @ ₹{typeof item.cost === 'number' ? (item.cost / 100).toFixed(2) : '0.00'} per {item.unit}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-medium text-gray-900">₹{item.total}</div>
-                        <div className="text-xs text-gray-500">
-                          {typeof item.total === 'number' && typeof rawMaterialData.total_cost === 'number' && rawMaterialData.total_cost !== 0
-                            ? ((item.total / rawMaterialData.total_cost) * 100).toFixed(1)
-                            : '0.0'}%
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Profit Analysis */}
-                {sales[selectedDish] && (
-                  <div className="mt-6 p-4 bg-green-50 rounded-lg">
-                    <h4 className="font-medium text-green-900 mb-2">Profit Analysis</h4>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="text-green-700">Selling Price:</span>
-                        <span className="font-medium ml-2">
-                          ₹{typeof sales[selectedDish].revenue === 'number' && typeof sales[selectedDish].orders === 'number' && sales[selectedDish].orders !== 0
-                            ? (sales[selectedDish].revenue / sales[selectedDish].orders).toFixed(2)
-                            : '0.00'}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-green-700">Raw Material Cost:</span>
-                        <span className="font-medium ml-2">₹{rawMaterialData.total_cost}</span>
-                      </div>
-                      <div>
-                        <span className="text-green-700">Gross Profit:</span>
-                        <span className="font-medium ml-2">
-                          ₹{typeof sales[selectedDish].revenue === 'number' && typeof sales[selectedDish].orders === 'number' && sales[selectedDish].orders !== 0 && typeof rawMaterialData.total_cost === 'number'
-                            ? ((sales[selectedDish].revenue / sales[selectedDish].orders) - rawMaterialData.total_cost).toFixed(2)
-                            : '0.00'}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-green-700">Profit Margin:</span>
-                        <span className="font-medium ml-2">
-                          {typeof sales[selectedDish].revenue === 'number' && typeof sales[selectedDish].orders === 'number' && sales[selectedDish].orders !== 0 && typeof rawMaterialData.total_cost === 'number'
-                            ? (((sales[selectedDish].revenue / sales[selectedDish].orders) - rawMaterialData.total_cost) / 
-                               (sales[selectedDish].revenue / sales[selectedDish].orders) * 100).toFixed(1)
-                            : '0.0'}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : null}
+    <div className="flex h-[calc(100vh-80px)] overflow-hidden font-body -mt-10 -mx-10">
+      {/* Column 1: Dish List */}
+      <section className="w-96 flex flex-col h-full bg-slate-50 border-r border-slate-100">
+        <div className="p-8 pb-4">
+          <div className="flex justify-between items-end mb-6">
+            <div>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-headline">Inventory List</span>
+              <h3 className="font-headline font-bold text-2xl text-[#2b3437]">Signature Dishes</h3>
+            </div>
+            <span className="text-primary font-headline font-bold text-lg">{finalDishNames.length}</span>
           </div>
-
-          {/* Cost Optimization */}
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Cost Optimization Suggestions</h3>
-            
-            {rawMaterialData && (
-              <div className="space-y-4">
-                {getCostOptimization(rawMaterialData.breakdown).map((suggestion, index) => (
-                  <div key={index} className="p-4 bg-yellow-50 rounded-lg">
-                    <div className="flex items-start">
-                      <svg className="w-5 h-5 text-yellow-600 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                      </svg>
-                      <div className="flex-1">
-                        <h4 className="font-medium text-yellow-900">{suggestion.ingredient}</h4>
-                        <p className="text-sm text-yellow-800 mt-1">{suggestion.suggestion}</p>
-                        <p className="text-xs text-yellow-700 mt-2">
-                          Potential saving: ₹{suggestion.potential_saving} per dish
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                {getCostOptimization(rawMaterialData.breakdown).length === 0 && (
-                  <div className="p-4 bg-green-50 rounded-lg">
-                    <div className="flex items-center">
-                      <svg className="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span className="text-green-800 font-medium">Cost structure looks optimized!</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Alternative Ingredients */}
-                <div className="mt-6">
-                  <h4 className="font-medium text-gray-900 mb-3">Alternative Ingredients</h4>
-                  <div className="space-y-2">
-                    {rawMaterialData.breakdown.slice(0, 3).map((item, index) => (
-                      <div key={index} className="p-3 bg-blue-50 rounded-lg">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm font-medium text-blue-900">
-                            {item.ingredient} Alternative
-                          </span>
-                          <span className="text-sm text-blue-700">
-                            Save ₹{typeof item.total === 'number' ? (item.total * 0.1).toFixed(2) : '0.00'}
-                          </span>
-                        </div>
-                        <p className="text-xs text-blue-800 mt-1">
-                          Consider local suppliers or seasonal alternatives
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+          <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar pb-2">
+            <button className="bg-primary text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">All Menu</button>
+            <button className="bg-white text-slate-400 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap border border-slate-100 italic font-medium">Coming soon / Filter</button>
+          </div>
+        </div>
+        <div className="flex-1 overflow-y-auto px-8 pb-8 space-y-4 no-scrollbar">
+          {finalDishNames.map((dish, index) => {
+             const generatedData = generateRawMaterialsForDish(dish);
+             const dishRawCost = generatedData?.total_cost || 125;
+             const dishSales = sales[dish] || { revenue: 2500, orders: 10 };
+             const isSelected = selectedDish === dish;
+             return (
+              <div 
+                key={`${dish}-${index}`}
+                onClick={() => handleDishSelect(dish)}
+                className={`p-5 rounded-xl transition-all cursor-pointer group ${isSelected ? 'bg-white shadow-lg ring-2 ring-primary' : 'bg-slate-100/50 hover:bg-white'}`}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-tighter ${isSelected ? 'bg-primary/10 text-primary' : 'bg-slate-200 text-slate-400'}`}>
+                    Active SKU
+                  </span>
+                  <span className="text-[#2b3437] font-headline font-extrabold">₹{Math.round((dishSales.revenue / dishSales.orders) || 250)}</span>
                 </div>
+                <h4 className={`font-headline font-bold text-lg mb-1 transition-colors ${isSelected ? 'text-primary' : 'text-[#2b3437]'}`}>{dish}</h4>
+                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-4">
+                  <span>Cost: ₹{dishRawCost.toFixed(2)}</span>
+                  <span className="text-primary">Yield: 92%</span>
+                </div>
+              </div>
+             );
+          })}
+        </div>
+      </section>
+
+      {/* Column 2: Detailed Breakdown */}
+      <section className="flex-1 bg-white overflow-y-auto no-scrollbar">
+        {loading ? (
+          <div className="h-full flex items-center justify-center">
+             <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-primary"></div>
+          </div>
+        ) : selectedDish && rawMaterialData ? (
+          <div className="p-10 max-w-5xl mx-auto">
+            {/* Hero Section */}
+            <div className="flex justify-between items-start mb-12">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="bg-primary/10 text-primary font-bold text-xs px-3 py-1 rounded-full uppercase tracking-tighter">Product ID: SKU-{selectedDish.toUpperCase()}</span>
+                  <span className="text-slate-400 text-xs flex items-center gap-1">
+                    <span className="material-symbols-outlined text-sm">update</span> Updated recently
+                  </span>
+                </div>
+                <h2 className="font-headline font-extrabold text-5xl tracking-tight text-[#2b3437]">{selectedDish}</h2>
+                <p className="text-lg text-slate-500 leading-relaxed max-w-xl">Intelligent ingredient mapping and supply chain analysis for premium culinary output.</p>
+              </div>
+              <div className="bg-slate-50 p-6 rounded-2xl flex flex-col items-center justify-center text-center">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 font-headline">Profitability</span>
+                <div className="text-4xl font-headline font-black text-primary">{margin}%</div>
+                <div className="mt-2 flex items-center gap-1 text-primary text-xs font-bold uppercase tracking-tight">
+                  <span className="material-symbols-outlined text-sm">trending_up</span> +2.1% WoW
+                </div>
+              </div>
+            </div>
+
+            {/* Metric Grid */}
+            <div className="grid grid-cols-3 gap-6 mb-12">
+              <div className="bg-slate-50 p-8 rounded-2xl">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1 font-headline">Material Cost</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-headline font-extrabold text-[#2b3437]">₹{rawCost.toFixed(2)}</span>
+                  <span className="text-slate-400 text-xs">/ portion</span>
+                </div>
+              </div>
+              <div className="bg-slate-50 p-8 rounded-2xl">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1 font-headline">Sales Price</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-headline font-extrabold text-[#2b3437]">₹{avgSellingPrice.toFixed(2)}</span>
+                  <span className="text-slate-400 text-xs">/ unit</span>
+                </div>
+              </div>
+              <div className="bg-slate-50 p-8 rounded-2xl">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1 font-headline">Gross Profit</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-headline font-extrabold text-primary">₹{grossProfit.toFixed(2)}</span>
+                  <span className="text-slate-400 text-xs">/ portion</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Distribution Visualizer */}
+            <div className="bg-slate-50 p-8 rounded-2xl mb-12">
+              <h3 className="font-headline font-bold text-xl mb-8 flex items-center gap-2 text-[#2b3437]">
+                <span className="material-symbols-outlined text-primary">bar_chart</span>
+                Ingredient Cost Distribution
+              </h3>
+              <div className="space-y-6">
+                {(rawMaterialData?.breakdown || []).map((item, i) => {
+                  const pct = (item.total / rawCost) * 100;
+                  const colors = ['bg-primary', 'bg-primary-dim', 'bg-secondary', 'bg-slate-400'];
+                  return (
+                    <div key={i} className="space-y-2">
+                      <div className="flex justify-between text-sm font-bold text-[#2b3437]">
+                        <span>{item.ingredient}</span>
+                        <span className="text-slate-400">₹{item.total} ({pct.toFixed(1)}%)</span>
+                      </div>
+                      <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden">
+                        <div className={`h-full ${colors[i % 4]}`} style={{ width: `${pct}%` }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Table */}
+            <div className="bg-white rounded-2xl overflow-hidden mb-12 border border-slate-100">
+               <div className="p-8 pb-4 border-b border-slate-50">
+                <h3 className="font-headline font-bold text-xl text-[#2b3437]">Detailed Breakdown</h3>
+              </div>
+              <table className="w-full text-left">
+                <thead className="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <tr>
+                    <th className="px-8 py-4">Component</th>
+                    <th className="px-8 py-4">Quantity</th>
+                    <th className="px-8 py-4">Waste %</th>
+                    <th className="px-8 py-4">Unit Price</th>
+                    <th className="px-8 py-4 text-right">Net Cost</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {(rawMaterialData?.breakdown || []).map((item, i) => (
+                    <tr key={i} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-8 py-5 font-bold text-[#2b3437]">{item.ingredient}</td>
+                      <td className="px-8 py-5 text-slate-500 text-sm italic">{item.quantity}{item.unit}</td>
+                      <td className="px-8 py-5 text-sm text-slate-500 font-headline font-bold">5%</td>
+                      <td className="px-8 py-5 text-sm text-slate-500 font-headline font-bold">₹{item.cost}/unit</td>
+                      <td className="px-8 py-5 font-headline font-black text-right text-[#2b3437]">₹{item.total}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot className="bg-slate-50/80 font-headline font-black text-lg">
+                  <tr>
+                    <td className="px-8 py-6 text-right uppercase tracking-widest text-[10px] text-slate-400" colSpan="4">Total Preparation Cost</td>
+                    <td className="px-8 py-6 text-right text-primary">₹{rawCost.toFixed(2)}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            {/* Insight */}
+            {rawMaterialData?.breakdown && getCostOptimization(rawMaterialData.breakdown).length > 0 && (
+              <div className="flex gap-6 items-center bg-primary text-white p-8 rounded-2xl shadow-xl">
+                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 backdrop-blur-md">
+                  <span className="material-symbols-outlined text-3xl">lightbulb</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-headline font-bold text-lg">Intelligence Insight</h4>
+                  <p className="text-sm opacity-90">{getCostOptimization(rawMaterialData.breakdown)[0].suggestion}</p>
+                </div>
+                <button className="bg-white text-primary px-6 py-3 rounded-xl font-headline font-bold text-sm hover:scale-105 transition-transform shadow-lg">
+                    Run Simulator
+                </button>
               </div>
             )}
           </div>
-        </div>
-      )}
-
-      {/* Overall Cost Summary */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Raw Material Cost Summary</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dish</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raw Material Cost</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Selling Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gross Profit</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Margin %</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {dishNames.map((dish) => {
-                const dishSales = sales[dish];
-                const avgSellingPrice = typeof dishSales?.revenue === 'number' && typeof dishSales?.orders === 'number' && dishSales.orders !== 0
-                  ? dishSales.revenue / dishSales.orders
-                  : 0;
-                const rawCost = mockRawMaterials[dish]?.total_cost || 0.50;
-                const grossProfit = avgSellingPrice - rawCost;
-                const margin = avgSellingPrice !== 0 ? (grossProfit / avgSellingPrice) * 100 : 0;
-
-                return (
-                  <tr key={dish}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{dish}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹{typeof rawCost === 'number' ? rawCost.toFixed(2) : '0.00'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹{typeof avgSellingPrice === 'number' ? avgSellingPrice.toFixed(2) : '0.00'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹{typeof grossProfit === 'number' ? grossProfit.toFixed(2) : '0.00'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{typeof margin === 'number' ? margin.toFixed(1) : '0.0'}%</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        margin > 60 ? 'bg-green-100 text-green-800' :
-                        margin > 40 ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {margin > 60 ? 'Excellent' : margin > 40 ? 'Good' : 'Poor'}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+        ) : (
+          <div className="h-full flex flex-col items-center justify-center text-slate-400">
+             <span className="material-symbols-outlined text-6xl mb-4">inventory_2</span>
+             <p className="font-headline font-bold text-xl">Select a dish to start analysis</p>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

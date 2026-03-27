@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIKBO Intelligence - Menu Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-tertiary": "#fcf7ff",
+                        "primary-dim": "#50525a",
+                        "surface-tint": "#5c5e66",
+                        "tertiary-fixed": "#e3dbfd",
+                        "tertiary-container": "#e3dbfd",
+                        "on-surface": "#2b3437",
+                        "on-secondary-container": "#4d515f",
+                        "primary-fixed": "#e2e2ec",
+                        "on-primary-container": "#505159",
+                        "on-secondary-fixed": "#3b3f4c",
+                        "secondary": "#5b5f6d",
+                        "inverse-primary": "#dfdfe9",
+                        "surface-container-high": "#e3e9ec",
+                        "surface-container-low": "#f1f4f6",
+                        "secondary-fixed-dim": "#d1d4e5",
+                        "outline-variant": "#abb3b7",
+                        "on-error-container": "#752121",
+                        "on-primary": "#f8f7ff",
+                        "on-primary-fixed": "#3d3f47",
+                        "surface-dim": "#d1dce0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "background": "#f8f9fa",
+                        "tertiary-fixed-dim": "#d5cdee",
+                        "on-error": "#fff7f6",
+                        "secondary-container": "#dfe2f3",
+                        "secondary-fixed": "#dfe2f3",
+                        "error": "#9f403d",
+                        "surface-container-highest": "#dbe4e7",
+                        "on-surface-variant": "#586064",
+                        "on-secondary": "#f9f8ff",
+                        "on-secondary-fixed-variant": "#575b69",
+                        "secondary-dim": "#4f5361",
+                        "tertiary-dim": "#554f6b",
+                        "surface-variant": "#dbe4e7",
+                        "error-container": "#fe8983",
+                        "primary-container": "#e2e2ec",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-fixed-variant": "#5c5672",
+                        "primary": "#5c5e66",
+                        "on-primary-fixed-variant": "#5a5b63",
+                        "tertiary": "#615b77",
+                        "surface-container": "#eaeff1",
+                        "outline": "#737c7f",
+                        "on-background": "#2b3437",
+                        "inverse-surface": "#0c0f10",
+                        "primary-fixed-dim": "#d3d4dd",
+                        "on-tertiary-fixed": "#3f3a54",
+                        "error-dim": "#4e0309",
+                        "on-tertiary-container": "#524c68"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#1A1C23] dark:bg-[#0D0E12] flex flex-col py-8 px-6 shadow-2xl z-50 overflow-y-auto">
+<div class="mb-12 px-4">
+<span class="text-2xl font-bold tracking-tighter text-white uppercase">SIKBO</span>
+<p class="text-gray-400 text-xs font-semibold tracking-widest mt-1">INTELLIGENCE</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+                Food Analytics
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Service Analytics
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">group_work</span>
+                Customer Flow
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">badge</span>
+                Staff Management
+            </a>
+<!-- Active Tab: Menu Management -->
+<a class="flex items-center gap-4 bg-[#5C5E66]/20 text-white rounded-lg px-4 py-3 scale-[1.02] transition-transform font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+                Menu Management
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Raw Materials
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+                Trends
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+                Review Actions
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors font-manrope text-sm font-semibold tracking-tight mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<div class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-20 px-10 bg-[#F8F9FA]/80 backdrop-blur-xl sticky top-0 z-40">
+<div class="flex items-center gap-8 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search menu items, ingredients..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/20">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface leading-none">Chef Marco</p>
+<p class="text-[10px] text-on-surface-variant font-medium mt-1">Kitchen Manager</p>
+</div>
+<img alt="Chef Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container-high" data-alt="professional portrait of a chef in white uniform with a friendly expression in a modern kitchen background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2R4AV52BEWFM_7p8CieFArC7tUQnT9wMt_UTsUxH-h_hsUlsTVkYtaFPwSYnpTBI3nEOn_2xKlUGq_0Gh6cikmmB_eoJ1zDkjxO487B5N2nYKKQHg9ylkT1s_cNVJdNMlpT5W2EtET3o489Fgo5uy42oPE_8nML7YxtHQlt1dSyp46EtdLAQR9ll2CYOJG_KTJsjpvWfBp9dG6TCfKaYtjxx0ehjxehyg9jsTH4FA5qx7qtgcDnSkJORLwLUlZOnE7QY0RY5uMQ"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="p-10 flex-1 relative overflow-hidden">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface font-headline mb-2">Menu Performance</h1>
+<p class="text-on-surface-variant max-w-lg">Optimize your culinary offerings through data-driven insights. Adjust items based on profit margins and guest sentiment.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 bg-surface-container-lowest text-primary font-semibold rounded-xl text-sm shadow-sm hover:bg-surface-container-high transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filter View
+                    </button>
+<button class="px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-white font-semibold rounded-xl text-sm shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                        New Item
+                    </button>
+</div>
+</div>
+<!-- Dashboard Stats Grid -->
+<div class="grid grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Total Revenue</p>
+<h3 class="text-2xl font-extrabold text-on-surface font-headline">$42,850.20</h3>
+<div class="mt-2 flex items-center gap-1 text-success text-xs font-bold">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+                        +12.4% vs last month
+                    </div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Avg. Margin</p>
+<h3 class="text-2xl font-extrabold text-on-surface font-headline">68.2%</h3>
+<div class="mt-2 flex items-center gap-1 text-error text-xs font-bold">
+<span class="material-symbols-outlined text-xs">trending_down</span>
+                        -2.1% due to cost spikes
+                    </div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Top Performer</p>
+<h3 class="text-2xl font-extrabold text-on-surface font-headline">Truffle Pasta</h3>
+<div class="mt-2 text-on-surface-variant text-xs font-medium">
+                        94% Sentiment Score
+                    </div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Menu Items</p>
+<h3 class="text-2xl font-extrabold text-on-surface font-headline">48 Active</h3>
+<div class="mt-2 text-on-surface-variant text-xs font-medium">
+                        4 Recommendations pending
+                    </div>
+</div>
+</div>
+<!-- Menu Data Table -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-8 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Dish Name</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest text-right">Profit Margin</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest text-right">Unit Cost</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Sentiment</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Decision</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/30">
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer bg-primary-container/10">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="close-up of truffle pasta dish with creamy sauce, fresh herbs and parmesan shavings on a ceramic plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAebfdebCvKKZVakY6oqi2bVuEegtkZkdt-2j0CbuTLgghRJhd4EJoyNNtKqwXg-FWeOiG7_8i9tV4X60VVD8tgCdV-25LeInkF-vwQCa7bUcPE4zkOVg4uilGFEFebjWM0ZGR1ldnKj5coKYZSECDyOY6mglYv-d3YmYYxoz22zlTRQPO_8E6tTkhDIQnArmlTpuXjnhmVNeZlSWANN3kZVQqPFzIOuosMtM45IPcVE2Vlx-dVRRNh5_5wfuE16rLVYJWr00cNAg"/>
+<div>
+<p class="font-bold text-on-surface">Truffle Pasta</p>
+<p class="text-xs text-on-surface-variant">Signature Main</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right font-headline font-bold text-primary">72%</td>
+<td class="px-8 py-5 text-right font-medium text-on-surface-variant">$6.45</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 94%"></div>
+</div>
+<span class="text-xs font-bold text-on-surface">94%</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase">Maintain</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="artisanal pizza with tomato sauce, mozzarella and fresh basil leaves on a wooden paddle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsCgjcnUe2_WzM-iBk0rNqQJtDk-KzQlm5SdXfpXksrU5h9gHbiwi_iL-V9QgiSwxXtBnGpjtIvNsrlsdWBKdmqKSW7zkeAHsQA6S7BK9bkjLZpQQloXn3MsqBvTTqedzStRkpReCupyzIK3V0mT2D1N7Og3MsoRA4Xcu1STbEXKEW_tOxscVCClVUQPZyqwL_Gwwsh36gx0QKflnJkhVG40cDuD8M_rnvYsjq2LGFZW3YS7cwJKJcGuODVshGXz9bf3NkyRb_4A"/>
+<div>
+<p class="font-bold text-on-surface">Margherita Pizza</p>
+<p class="text-xs text-on-surface-variant">Stone Oven</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right font-headline font-bold text-primary">84%</td>
+<td class="px-8 py-5 text-right font-medium text-on-surface-variant">$2.80</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 88%"></div>
+</div>
+<span class="text-xs font-bold text-on-surface">88%</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase">Maintain</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="plate of overcooked dry ribs with sad looking side salad on a generic white plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFV_fhBtAcgUp5GCAjes7PC_MqSU_ppVsmbp04q1RNsgW6im06UlFZucZQV5HjmOv1noy-xQGfxtpuF0rCObldcjc6EVCRNEXnCBxJbnr2QlbA-uYeTa7i7yr2PGES8WslC5yQ1h3FoLoAd2ig686obyUt8_l2ks-SBqcTxUTyTORIaKI_JGlsdMguOaypAv9myKEHFsFk3s5Zo3el-D6XJheqoGrsBT9SGeF15Um2gQziFFdORqeiGuaBk_QQouQMZ9ZKBJfHkg"/>
+<div>
+<p class="font-bold text-on-surface">BBQ Short Ribs</p>
+<p class="text-xs text-on-surface-variant">Smoked Special</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right font-headline font-bold text-error">32%</td>
+<td class="px-8 py-5 text-right font-medium text-on-surface-variant">$14.50</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 42%"></div>
+</div>
+<span class="text-xs font-bold text-on-surface">42%</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-error/10 text-error text-[10px] font-bold rounded-full uppercase">Remove</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="colorful garden salad with fresh vegetables, vinaigrette, and microgreens in a stone bowl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0xTbr62V7jFHX-hEAqeEnIfHIalnUg6oeSDO5ROY5vllYCKDfw-eNyKzY1yjNJkgge7_dMDtF8E3XDFAka_5eYuOWSCJ2b_9zH_uIZe5sxxt3417CKqlcFaNyQUk9gfAL7hFiQqCXyOBWQNua6-idkmY0MxvwCYO-yYrJ4iEqlIsyjBkssfPo95lYT5fSINEZOfdQrnMapCrO7dOtj3odIt4iJ9ci3PxYg2LAQyWot83aSXu9iau_xQj9qU26gxIYpiyAxwA9Kw"/>
+<div>
+<p class="font-bold text-on-surface">Garden Green Salad</p>
+<p class="text-xs text-on-surface-variant">Side Dish</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right font-headline font-bold text-primary">91%</td>
+<td class="px-8 py-5 text-right font-medium text-on-surface-variant">$1.20</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 76%"></div>
+</div>
+<span class="text-xs font-bold text-on-surface">76%</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase">Maintain</span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-surface-container-high rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Recommendation Drawer (Overlay) -->
+<div class="fixed inset-y-0 right-0 w-[420px] bg-surface-container-lowest shadow-[0_0_80px_rgba(0,0,0,0.15)] z-[60] flex flex-col transform transition-transform duration-300">
+<div class="p-8 border-b border-surface-container-low flex justify-between items-center">
+<div>
+<span class="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Item Deep-Dive</span>
+<h2 class="text-2xl font-extrabold text-on-surface font-headline mt-1">Truffle Pasta</h2>
+</div>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-low rounded-full transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-8">
+<!-- Drawer Hero Image -->
+<div class="relative h-48 rounded-2xl overflow-hidden mb-8 group">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-700" data-alt="overhead high-quality commercial photo of creamy truffle pasta with steam rising, rustic table setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMO2AU8unx9IIZEdF52kCWjd1_h-Y8vJHl5mYqZ9wtOclXGOdJclkMTPEZcUiYHMTdIzzjJDrTFoSqAXGWOm2mcriUpcBtPyqLymy43752hgy5KbJNmR4HbKXY4twqfsStA3chVmfYrH_sCNlFiSPZNIgY2EU3jJADVNjodhoJ_cCJsZ44isamgML8mmp-gPxfRlshpArkev81lqOdJC_m06Bjs9xDCJwuGFqna8DMYnFkqYSQnr2RLDII3NKNAKkt9iF2P9OciQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded-full uppercase">Best Seller</span>
+</div>
+</div>
+<!-- Recommendation Banner -->
+<div class="bg-primary/5 border border-primary/10 rounded-2xl p-6 mb-8">
+<div class="flex items-start gap-4">
+<div class="p-2 bg-primary text-white rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1">Recommendation: Maintain</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">This item exhibits a high profit margin (72%) and exceptional guest sentiment (94%). No changes recommended.</p>
+</div>
+</div>
+</div>
+<!-- Profit & Cost Breakdown -->
+<div class="space-y-6">
+<div>
+<h5 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">Financial Breakdown</h5>
+<div class="space-y-3">
+<div class="flex justify-between items-center p-4 bg-surface-container-low rounded-xl">
+<span class="text-sm font-medium text-on-surface-variant">Sales Price</span>
+<span class="font-bold text-on-surface">$22.95</span>
+</div>
+<div class="flex justify-between items-center p-4 bg-surface-container-low rounded-xl">
+<span class="text-sm font-medium text-on-surface-variant">Unit Cost</span>
+<span class="font-bold text-on-surface">$6.45</span>
+</div>
+<div class="flex justify-between items-center p-4 bg-primary text-white rounded-xl shadow-lg">
+<span class="text-sm font-medium">Net Profit</span>
+<span class="text-xl font-extrabold font-headline">$16.50</span>
+</div>
+</div>
+</div>
+<div>
+<h5 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">Raw Material Impact</h5>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs font-bold text-on-surface mb-2">
+<span>Truffle Oil (Imported)</span>
+<span>$2.40 / unit</span>
+</div>
+<div class="w-full h-2 bg-surface-container-low rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 65%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold text-on-surface mb-2">
+<span>Fresh Tagliatelle</span>
+<span>$1.80 / unit</span>
+</div>
+<div class="w-full h-2 bg-surface-container-low rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 40%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold text-on-surface mb-2">
+<span>Parmigiano Reggiano</span>
+<span>$1.20 / unit</span>
+</div>
+<div class="w-full h-2 bg-surface-container-low rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 25%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-8 bg-surface-container-low/50 flex gap-3">
+<button class="flex-1 py-4 bg-surface-container-highest text-on-surface font-bold rounded-xl text-sm hover:bg-surface-container-high transition-colors">Edit Item</button>
+<button class="flex-1 py-4 bg-gradient-to-br from-primary to-primary-dim text-white font-bold rounded-xl text-sm shadow-md hover:scale-[1.02] transition-transform">Apply Logic</button>
+</div>
+</div>
+<!-- Page Decoration: Subtle Glow -->
+<div class="fixed top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="fixed bottom-[-5%] left-[20%] w-[300px] h-[300px] bg-secondary/5 rounded-full blur-[80px] pointer-events-none"></div>
+</main>
+</div>
+</body></html>

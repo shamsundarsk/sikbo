@@ -1,23 +1,5 @@
 import React, { useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import Chart from './Chart';
 
 function StaffManagement({ data, onAddStaff }) {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -29,7 +11,6 @@ function StaffManagement({ data, onAddStaff }) {
 
   const { staff, staffAnalytics } = data;
 
-  // Mock staff data if not available
   const mockStaff = [
     { _id: '1', name: 'John Doe', role: 'Waiter', rating: 4.2, reviewCount: 15, positiveReviews: 12, negativeReviews: 3, isActive: true },
     { _id: '2', name: 'Jane Smith', role: 'Chef', rating: 4.8, reviewCount: 22, positiveReviews: 20, negativeReviews: 2, isActive: true },
@@ -38,47 +19,27 @@ function StaffManagement({ data, onAddStaff }) {
     { _id: '5', name: 'David Brown', role: 'Bartender', rating: 4.1, reviewCount: 10, positiveReviews: 8, negativeReviews: 2, isActive: true }
   ];
 
-  const staffList = staff.length > 0 ? staff : mockStaff;
+  const staffList = staff?.length > 0 ? staff : mockStaff;
   const overallRating = staffAnalytics?.overall_staff_rating || 4.1;
+  const topStaff = [...staffList].sort((a, b) => b.rating - a.rating)[0];
+  const lowStaff = staffList.filter(s => s.rating < 4.0);
 
-  // Prepare chart data
-  const staffRatingsData = {
-    labels: staffList.map(s => s.name),
-    datasets: [
-      {
-        label: 'Staff Rating',
-        data: staffList.map(s => s.rating),
-        backgroundColor: staffList.map(s => 
-          s.rating >= 4.5 ? 'rgba(16, 185, 129, 0.8)' :
-          s.rating >= 4.0 ? 'rgba(59, 130, 246, 0.8)' :
-          s.rating >= 3.5 ? 'rgba(245, 158, 11, 0.8)' :
-          'rgba(239, 68, 68, 0.8)'
-        ),
-        borderColor: staffList.map(s => 
-          s.rating >= 4.5 ? 'rgba(16, 185, 129, 1)' :
-          s.rating >= 4.0 ? 'rgba(59, 130, 246, 1)' :
-          s.rating >= 3.5 ? 'rgba(245, 158, 11, 1)' :
-          'rgba(239, 68, 68, 1)'
-        ),
-        borderWidth: 1,
-      },
-    ],
-  };
+  // Generate chart data
+  const performanceChartData = staffList.map(s => ({
+    x: s.name.split(' ')[0], // First name only for chart
+    y: s.rating,
+    role: s.role
+  }));
 
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        max: 5,
-      },
-    },
-  };
+  const efficiencyData = [
+    { x: 'Mon', y: 85 },
+    { x: 'Tue', y: 88 },
+    { x: 'Wed', y: 82 },
+    { x: 'Thu', y: 90 },
+    { x: 'Fri', y: 87 },
+    { x: 'Sat', y: 92 },
+    { x: 'Sun', y: 89 }
+  ];
 
   const handleAddStaff = (e) => {
     e.preventDefault();
@@ -87,273 +48,204 @@ function StaffManagement({ data, onAddStaff }) {
     setShowAddForm(false);
   };
 
-  const getRatingColor = (rating) => {
-    if (rating >= 4.5) return 'text-green-600';
-    if (rating >= 4.0) return 'text-blue-600';
-    if (rating >= 3.5) return 'text-yellow-600';
-    return 'text-red-600';
-  };
-
-  const getRatingBadge = (rating) => {
-    if (rating >= 4.5) return 'bg-green-100 text-green-800';
-    if (rating >= 4.0) return 'bg-blue-100 text-blue-800';
-    if (rating >= 3.5) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
-  };
-
   return (
-    <div className="space-y-6">
-      {/* Staff Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Total Staff</p>
-              <p className="text-2xl font-semibold text-gray-900">{staffList.length}</p>
-            </div>
-          </div>
+    <div className="space-y-10 max-w-[1600px] mx-auto w-full">
+      {/* Page Header */}
+      <div className="flex justify-between items-end mb-10">
+        <div>
+          <span className="text-xs font-bold text-primary tracking-[0.3em] uppercase block mb-2 font-label">Operational Intelligence</span>
+          <h3 className="text-4xl font-extrabold text-on-surface font-headline tracking-tight">Staff Dynamics & Efficiency</h3>
         </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Overall Rating</p>
-              <p className="text-2xl font-semibold text-gray-900">
-                {typeof overallRating === 'number' ? overallRating.toFixed(1) : '4.1'}/5.0
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Top Performer</p>
-              <p className="text-2xl font-semibold text-gray-900">
-                {staffList.reduce((prev, current) => (prev.rating > current.rating) ? prev : current).name.split(' ')[0]}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Need Training</p>
-              <p className="text-2xl font-semibold text-gray-900">
-                {staffList.filter(s => s.rating < 4.0).length}
-              </p>
-            </div>
-          </div>
+        <div className="flex gap-3">
+          <button 
+            onClick={() => setShowAddForm(true)}
+            className="px-6 py-3 bg-primary text-white font-bold rounded-xl flex items-center gap-2 shadow-lg hover:scale-105 transition-all"
+          >
+            <span className="material-symbols-outlined text-sm">add</span>
+            Add Staff
+          </button>
         </div>
       </div>
 
-      {/* Add Staff Button and Chart */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Staff Ratings Chart */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Staff Performance Ratings</h3>
-            <button
-              onClick={() => setShowAddForm(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-            >
-              + Add Staff
-            </button>
+      {/* Bento Grid Layout */}
+      <div className="grid grid-cols-12 gap-6 mb-10">
+        {/* Highlight Card: Top Staff */}
+        <div className="col-span-12 lg:col-span-4 bg-white rounded-xl p-8 flex flex-col justify-between border-l-4 border-primary shadow-sm hover:shadow-md transition-all">
+          <div>
+            <div className="flex justify-between items-start mb-6">
+              <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest font-label">Performance Peak</span>
+              <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
+            </div>
+            <h4 className="text-xl font-bold font-headline mb-1">{topStaff?.name || 'Loading...'}</h4>
+            <p className="text-slate-500 text-sm mb-6">{topStaff?.role || 'Staff Member'}</p>
+            <div className="space-y-4">
+              <div className="flex justify-between items-end">
+                <span className="text-xs font-bold text-slate-400 uppercase font-label">Service Rating</span>
+                <span className="text-lg font-bold font-headline text-primary">{topStaff?.rating?.toFixed(1) || '0.0'}/5.0</span>
+              </div>
+              <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
+                <div className="bg-primary h-full transition-all duration-1000" style={{ width: `${(topStaff?.rating / 5) * 100}%` }}></div>
+              </div>
+            </div>
           </div>
-          <Bar data={staffRatingsData} options={chartOptions} />
-        </div>
-
-        {/* Staff Summary */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Staff by Role</h3>
-          <div className="space-y-3">
-            {['Waiter', 'Chef', 'Manager', 'Bartender', 'Host'].map(role => {
-              const count = staffList.filter(s => s.role === role).length;
-              const avgRating = staffList.filter(s => s.role === role).reduce((sum, s) => sum + s.rating, 0) / count || 0;
-              return (
-                <div key={role} className="flex items-center justify-between">
-                  <div>
-                    <span className="text-sm font-medium text-gray-900">{role}</span>
-                    <span className="text-xs text-gray-500 ml-2">({count})</span>
-                  </div>
-                  <span className={`text-sm font-medium ${getRatingColor(avgRating)}`}>
-                    {count > 0 && typeof avgRating === 'number' ? avgRating.toFixed(1) : 'N/A'}
-                  </span>
-                </div>
-              );
-            })}
+          <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
+            <div className="flex -space-x-2">
+              <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px] font-bold">ER</div>
+              <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-300 flex items-center justify-center text-[10px] font-bold">JS</div>
+            </div>
+            <button className="text-primary text-xs font-bold uppercase tracking-widest hover:underline">View Progress</button>
           </div>
         </div>
-      </div>
 
-      {/* Staff List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Staff Directory</h3>
+        {/* Staff Performance Chart */}
+        <div className="col-span-12 lg:col-span-8 bg-white rounded-xl p-8 shadow-sm border border-slate-100">
+           <div className="flex justify-between items-center mb-6">
+            <div>
+              <h4 className="text-lg font-bold font-headline">Staff Performance Ratings</h4>
+              <p className="text-slate-500 text-xs">Individual staff member ratings based on customer feedback</p>
+            </div>
+            <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-primary"></span> Rating</span>
+            </div>
+          </div>
+          
+          <div className="h-64 w-full">
+            <Chart
+              data={performanceChartData}
+              type="bar"
+              height={256}
+              yLabel="Rating (1-5)"
+              xLabel="Staff Members"
+              colors={['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']}
+              showGrid={true}
+            />
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reviews</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {staffList.map((member) => (
-                <tr key={member._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-gray-700">
+
+        {/* Highlight Card: Needs Improvement */}
+        <div className="col-span-12 lg:col-span-4 bg-white rounded-xl p-8 flex flex-col justify-between shadow-sm border border-slate-100">
+          <div>
+            <div className="flex justify-between items-start mb-6">
+              <span className="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-bold uppercase tracking-widest font-label">Training Gap</span>
+              <span className="material-symbols-outlined text-red-500">warning</span>
+            </div>
+            <h4 className="text-xl font-bold font-headline mb-1">Efficiency Review</h4>
+            <p className="text-slate-500 text-sm mb-6">{lowStaff.length > 0 ? `${lowStaff.length} staff members below 4.0` : 'All staff performing above threshold'}</p>
+            <div className="p-4 bg-slate-50 rounded-lg mb-6">
+              <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">Primary Observation</p>
+              <p className="text-sm font-medium">Potential bottleneck identified in appetizer prep during peak hours (7PM-9PM).</p>
+            </div>
+          </div>
+          <button className="w-full py-3 bg-slate-900 text-white rounded-xl text-sm font-bold font-headline hover:bg-black transition-colors">Generate Review Plan</button>
+        </div>
+
+        {/* Staff Table Section */}
+        <div className="col-span-12 lg:col-span-8 bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="p-8 border-b border-slate-100 flex justify-between items-center">
+            <h4 className="text-lg font-bold font-headline">Roster & Performance Ledger</h4>
+            <div className="flex gap-2 text-slate-400">
+              <span className="material-symbols-outlined cursor-pointer hover:text-on-surface transition-colors">filter_list</span>
+              <span className="material-symbols-outlined cursor-pointer hover:text-on-surface transition-colors">more_vert</span>
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-slate-50/50 border-b border-slate-50">
+                  <th className="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Name</th>
+                  <th className="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Role</th>
+                  <th className="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Efficiency</th>
+                  <th className="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Rating</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {staffList.map((member) => (
+                  <tr key={member._id} className="hover:bg-slate-50/50 transition-colors group">
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-500 uppercase">
                           {member.name.split(' ').map(n => n[0]).join('')}
-                        </span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold font-headline">{member.name}</p>
+                          <p className="text-[10px] text-slate-400 uppercase">Since 2023</p>
+                        </div>
                       </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{member.name}</div>
+                    </td>
+                    <td className="px-8 py-5 text-sm font-medium text-slate-500">{member.role}</td>
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-bold">{(member.rating * 20).toFixed(0)}%</span>
+                        <div className="w-16 bg-slate-100 h-1 rounded-full overflow-hidden">
+                          <div className="bg-primary h-full" style={{ width: `${(member.rating / 5) * 100}%` }}></div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.role}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <span className={`text-sm font-medium ${getRatingColor(member.rating)}`}>
-                        {typeof member.rating === 'number' ? member.rating.toFixed(1) : 'N/A'}
-                      </span>
-                      <div className="ml-2 flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <svg
-                            key={star}
-                            className={`w-4 h-4 ${star <= Math.round(member.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
+                    </td>
+                    <td className="px-8 py-5 text-right">
+                      <div className="inline-flex text-primary">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <span key={i} className={`material-symbols-outlined text-sm ${i < Math.round(member.rating) ? 'fill-1' : ''}`} style={{ fontVariationSettings: i < Math.round(member.rating) ? "'FILL' 1" : "" }}>star</span>
                         ))}
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {member.reviewCount || 0} reviews
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRatingBadge(member.rating)}`}>
-                      {member.rating >= 4.5 ? 'Excellent' :
-                       member.rating >= 4.0 ? 'Good' :
-                       member.rating >= 3.5 ? 'Average' : 'Needs Improvement'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      member.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
-                      {member.isActive ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
-                    <button className="text-red-600 hover:text-red-900">Remove</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       {/* Add Staff Modal */}
       {showAddForm && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div className="mt-3">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Add New Staff Member</h3>
-              <form onSubmit={handleAddStaff} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={newStaff.name}
-                    onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Role</label>
-                  <select
-                    value={newStaff.role}
-                    onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="Waiter">Waiter</option>
-                    <option value="Waitress">Waitress</option>
-                    <option value="Chef">Chef</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Bartender">Bartender</option>
-                    <option value="Host">Host</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Initial Rating</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="5"
-                    step="0.1"
-                    value={newStaff.rating}
-                    onChange={(e) => setNewStaff({ ...newStaff, rating: parseFloat(e.target.value) })}
-                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div className="flex justify-end space-x-3 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddForm(false)}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-                  >
-                    Add Staff
-                  </button>
-                </div>
-              </form>
-            </div>
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-8 animate-in fade-in zoom-in duration-200">
+            <h3 className="text-2xl font-bold font-headline mb-6">Onboard New Talent</h3>
+            <form onSubmit={handleAddStaff} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Name</label>
+                <input
+                  type="text"
+                  required
+                  value={newStaff.name}
+                  onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
+                  className="w-full bg-slate-50 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all font-body"
+                  placeholder="e.g. Julian Thorne"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Designated Role</label>
+                <select
+                  value={newStaff.role}
+                  onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
+                  className="w-full bg-slate-50 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all font-body"
+                >
+                  <option value="Waiter">Waiter</option>
+                  <option value="Chef">Chef</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Bartender">Bartender</option>
+                </select>
+              </div>
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowAddForm(false)}
+                  className="flex-1 py-3 text-sm font-bold text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:scale-[1.02] transition-transform uppercase tracking-widest text-xs"
+                >
+                  Add Staff
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
     </div>
   );
 }
-
 export default StaffManagement;

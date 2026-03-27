@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trends Analysis | SIKBO Restaurant Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "error-container": "#fe8983",
+                "secondary-fixed-dim": "#d1d4e5",
+                "inverse-surface": "#0c0f10",
+                "surface-variant": "#dbe4e7",
+                "on-tertiary-container": "#524c68",
+                "on-surface-variant": "#586064",
+                "on-tertiary": "#fcf7ff",
+                "on-secondary-container": "#4d515f",
+                "tertiary": "#615b77",
+                "on-secondary": "#f9f8ff",
+                "tertiary-dim": "#554f6b",
+                "primary-container": "#e2e2ec",
+                "outline": "#737c7f",
+                "on-primary-fixed-variant": "#5a5b63",
+                "inverse-primary": "#dfdfe9",
+                "outline-variant": "#abb3b7",
+                "secondary-fixed": "#dfe2f3",
+                "surface": "#f8f9fa",
+                "secondary-dim": "#4f5361",
+                "background": "#f8f9fa",
+                "tertiary-fixed-dim": "#d5cdee",
+                "surface-container-low": "#f1f4f6",
+                "surface-container-lowest": "#ffffff",
+                "primary-fixed-dim": "#d3d4dd",
+                "on-primary-container": "#505159",
+                "secondary-container": "#dfe2f3",
+                "primary": "#5c5e66",
+                "surface-dim": "#d1dce0",
+                "surface-tint": "#5c5e66",
+                "on-tertiary-fixed-variant": "#5c5672",
+                "surface-container": "#eaeff1",
+                "secondary": "#5b5f6d",
+                "on-primary-fixed": "#3d3f47",
+                "primary-fixed": "#e2e2ec",
+                "on-background": "#2b3437",
+                "on-secondary-fixed-variant": "#575b69",
+                "inverse-on-surface": "#9b9d9e",
+                "on-tertiary-fixed": "#3f3a54",
+                "on-error": "#fff7f6",
+                "error-dim": "#4e0309",
+                "surface-container-highest": "#dbe4e7",
+                "on-surface": "#2b3437",
+                "primary-dim": "#50525a",
+                "tertiary-fixed": "#e3dbfd",
+                "on-primary": "#f8f7ff"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed inset-y-0 left-0 flex flex-col z-50 h-screen w-64 border-none bg-[#1A1C23] dark:bg-[#0F1014] shadow-2xl shadow-[#2B3437]/10">
+<div class="px-8 py-10">
+<div class="text-2xl font-black text-white tracking-tighter">SIKBO</div>
+<div class="text-xs tracking-wider uppercase text-slate-400 mt-1 font-medium">Restaurant Intel</div>
+</div>
+<nav class="flex-1 px-0 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium">Food Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="text-sm font-medium">Service Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group_add">group_add</span>
+<span class="text-sm font-medium">Customer Flow</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="text-sm font-medium">Staff Management</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-sm font-medium">Menu Management</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-sm font-medium">Raw Materials</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-6 py-3 text-white bg-white/10 rounded-r-full font-bold scale-102 ease-out duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="text-sm">Trends</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+<span class="text-sm font-medium">Review Actions</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-[#ABB3B7] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<div class="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+<img alt="Executive User Avatar" class="w-10 h-10 rounded-lg object-cover" data-alt="Professional headshot of a restaurant executive in a dark suit with a modern architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4qUhXI74KSrGhwd8vbdhTmh6Jz1gJTlicQGffvzoWkKvPZC1Q8UfTHdm00sdC2Wi_CyIuqwtiHNe9EbP1wQfPJHJepivZ1yVjR3gtNo-xMrlywE5pCiT5rbSFH3zAujYF3oZh1kCt68tH4zlCwHZlpz-vlcnCGaqKqmvnHDuPJsnuEOVm64dTdXQBnMVo9hfsntcAR3ElCSn0hEbWIAx9qKUFIUQ71x-KGjHtUPYfHa_pVF1eGB_n-imMWLsxuBo9G30h7eT0Gw"/>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-white">Alex Chen</span>
+<span class="text-[10px] text-slate-400 uppercase tracking-widest">Executive Chef</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 flex justify-between items-center px-8 z-40 h-20 bg-white/80 backdrop-blur-xl transition-all duration-300">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-lg group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-12 pr-4 py-2.5 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search culinary trends..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-primary hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-primary hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+<h2 class="font-headline text-lg font-bold text-on-surface">Executive Command Center</h2>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 p-10 min-h-screen">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+<div>
+<span class="label-sm font-label text-[10px] font-bold uppercase tracking-[0.2em] text-outline">Market Intelligence</span>
+<h1 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface mt-1">Culinary Trends Analysis</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex bg-surface-container-low p-1 rounded-xl">
+<button class="px-4 py-2 text-xs font-bold rounded-lg bg-surface-container-lowest shadow-sm text-on-surface">Real-time</button>
+<button class="px-4 py-2 text-xs font-medium text-outline hover:text-on-surface transition-colors">7 Days</button>
+<button class="px-4 py-2 text-xs font-medium text-outline hover:text-on-surface transition-colors">30 Days</button>
+</div>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded-xl font-bold text-sm shadow-xl shadow-primary/10 hover:scale-102 transition-transform duration-200">
+<span class="material-symbols-outlined text-sm" data-icon="file_download">file_download</span>
+                    Export Insight
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Hero Chart Section -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-outline-variant/5">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Trend Velocity</h3>
+<p class="text-sm text-on-surface-variant">Global mention frequency across digital platforms</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-bold text-on-surface-variant">Mention Volume</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="text-xs font-bold text-on-surface-variant">Conversion Rate</span>
+</div>
+</div>
+</div>
+<!-- Placeholder for Chart -->
+<div class="h-[320px] w-full flex items-end justify-between gap-2 pt-4 group">
+<!-- Faux Line Chart Visualization -->
+<div class="relative w-full h-full flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<defs>
+<lineargradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#5C5E66" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#5C5E66" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 80 Q 15 70, 25 75 T 45 50 T 65 60 T 85 20 T 100 30 L 100 100 L 0 100 Z" fill="url(#areaGradient)"></path>
+<path d="M0 80 Q 15 70, 25 75 T 45 50 T 65 60 T 85 20 T 100 30" fill="none" stroke="#5C5E66" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<circle cx="85" cy="20" fill="#1A1C23" r="1.5" stroke="white" stroke-width="0.5"></circle>
+</svg>
+<!-- Chart Tooltip Interaction Simulation -->
+<div class="absolute left-[85%] top-[10%] -translate-x-1/2 flex flex-col items-center">
+<div class="bg-on-surface text-on-primary text-[10px] px-2 py-1 rounded shadow-lg mb-1 font-bold whitespace-nowrap">Peak: +240%</div>
+<div class="w-[1px] h-32 bg-primary/20"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-outline uppercase tracking-widest px-2">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Top Trending Rank Sidebar -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<h3 class="font-headline text-lg font-bold text-on-surface mb-6">Ranking Leaders</h3>
+<div class="space-y-4">
+<!-- Ranking Item 1 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors duration-200 cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black font-headline text-outline/20">01</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Truffle Infused Bao</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="px-2 py-0.5 bg-error-container/20 text-[#752121] text-[9px] font-black rounded-full uppercase">Hot</span>
+<span class="text-[10px] text-outline font-medium">8.4k mentions</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-error text-sm" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<!-- Ranking Item 2 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors duration-200 cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black font-headline text-outline/20">02</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Ube Mochi Waffles</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[9px] font-black rounded-full uppercase">Rising</span>
+<span class="text-[10px] text-outline font-medium">6.2k mentions</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<!-- Ranking Item 3 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors duration-200 cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black font-headline text-outline/20">03</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Koji-Aged Steak</p>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="px-2 py-0.5 bg-surface-container-high text-on-surface-variant text-[9px] font-black rounded-full uppercase">Stable</span>
+<span class="text-[10px] text-outline font-medium">5.9k mentions</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-sm" style="font-variation-settings: 'FILL' 1;">trending_flat</span>
+</div>
+</div>
+<button class="w-full mt-6 py-3 text-xs font-bold text-primary uppercase tracking-widest hover:bg-surface-container-low rounded-xl transition-colors">View Full Leaderboard</button>
+</div>
+</div>
+<!-- Modern Card Grid for Trends -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+<!-- Trend Card 1 -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img alt="Gourmet Fusion Dish" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close-up of a vibrant fusion dish with colorful microgreens and edible flowers on a ceramic plate, bright natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4PS3YGKDTyvmE_ft88eKjv6vtSTWJDiQAKvDEYUcXW2qC8EfDGTurd38X60Hkq8xhucbgNZapgKLuyIYRgOXu9udJrXU95KLIAtqzahz-oz2nq3Bjq6N-QwPl_2OSAVLtBcycTEZ_BExlsn1-VFK3PF39JASF-8SYxdZppr0HHjR_dGxNHlUn3CR9XpiRb8_jkygC4FJIvEphd1NIzzZjsQf4ytbSo50UFpfbowQvlRiVRMnK6PUB7F2pRQKOKlBNA7xV60Eovg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-4 left-6">
+<span class="bg-error-container text-on-error-container text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Hot Trend</span>
+<h4 class="text-white font-bold text-xl mt-2 font-headline">Botanical Cocktails</h4>
+</div>
+</div>
+<div class="p-6">
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6">Increased consumer demand for floral infusions like hibiscus, elderflower, and lavender in non-alcoholic spirits.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img alt="User 1" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Avatar of a trendy foodie woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvTPf9K-ZjPTGG3eD4tuIr3Wd084hJBqeEvAeuWDb6taKoy18OkBhZB6_YiOnnAukeJmTzv8u6JGsn8aNyNchoIoJfskQYZy3yVFtXOs6-_YChWbVb9H5PccFDlm7Fk2XQaeVHTXR5PdiZpp_xm4aOUztw1pg-awljiVlK4qP0Ir1MQ_rVDoFgtsPnRVqNsX5GDD_C0iASobi75yPEnyulJRLQT_ChnkLvStVOhzqxkfIu9IvbjPEzsHHxN6Rk7ZBjMF4TpyMImg"/>
+<img alt="User 2" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Avatar of a male professional chef" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_WVVKDw1e5D1pBypGmIk-Q960V3qmHBnu-2E0Rq6u2qnQvJsIt5o-wzO994IeFKrDsy-fwU8F3y9chDoNO5TgkAVrlTZeTLgfxLlI70L6FCR0OUA1uDGdQW3lM4XjvGKGWmuI14guxac82__kuktR5rilx1OcxFt-3AQNe9BqUHW55w6MnjpOw2iUu4f-os3iFlOsMTgW5Z2oiaICrJqUiN6mlt7ijoQLZ9pryR9puqx-iTidSoERK0m6Yf1WgOVEQJ1OAqdC8g"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border-2 border-surface-container-lowest flex items-center justify-center text-[10px] font-bold text-on-surface">+12</div>
+</div>
+<div class="text-right">
+<div class="text-lg font-black font-headline text-primary">42%</div>
+<div class="text-[9px] uppercase font-bold text-outline tracking-wider">MoM Growth</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Trend Card 2 -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img alt="Sustainable Salad Bowl" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Overhead shot of a vibrant grain bowl with avocado and radishes on a textured concrete surface with sharp shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAqcC0qArOq1Ww0yMQKqh-quGD9Aagi8MEnq4qWgegEniheHoeszBqBjQ6klWJcZaa1twpLhitCtfFTt9sLwom3bs41bIaB57C_uQ3tbD0owtQ4Q_axfjwY2mUhF8U_AGAjype3BFlYY6M8lq56F7zPL_-KMWkomGwaq2e-pPTv0MDCGTI7K4AQeYpSj-Z26U1tkTHTZB8D7g4vLQP8mDDVuDwAfbB0sIcwJBlmMI6VgrDv3ypBA1aRx91qLjUWbS693tCVPHpcg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-4 left-6">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Rising</span>
+<h4 class="text-white font-bold text-xl mt-2 font-headline">Regenerative Grains</h4>
+</div>
+</div>
+<div class="p-6">
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6">Movement towards climate-positive agriculture. Ancient grains like Kernza and Teff appearing in luxury dining menus.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img alt="User 3" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Avatar of a professional woman analyst" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqPAKC8kbopbr_hnI6pYBzVnpW4PAMuyeh3f0prMxnQvj50YwspNlZsRsroIMS7dZNA5WJpS4deV9dFpNRsrTqnWN6iWIF0iDUYuWBymesOFw6WaNRKkP2BPmCKod9nHCFzko1p9HuhQkS19PS5K3tgDwMVEKBB1O4NIdhMSnsGCXytYy-3gxGupusMsZg-lHd4WZVetT3k1qc9ZtRdmbPhAsHGxf7VSKr-UE_IcseoUfSnO86JEFoLmBvFTSQjGLLMsdI12I0Dw"/>
+<img alt="User 4" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Avatar of a stylish man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtvxT0HFAKeio0t92uFp_mhoyF1eN23xtuFKM0L3lglvGgwgiqC59BzQy5fMc2EKp-SqvC5jimXa9jjXFKGuHG3o0LUvChYKJPIicYdwA0Bq4cBMAisJbXqC4_6Z39bSxpSTT5HgZ30wWxUS2SdH8V-a9TMDW9t9CIzwyKqifciw7tygvZRuQSug7LBWY6swBZeGLoFNyxPQk9pA9-u7lzE4iPngPVPF5skr27EDyzRr81Vn5PZaKayLYjf0xTw0i_Ox6qgZO-8A"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border-2 border-surface-container-lowest flex items-center justify-center text-[10px] font-bold text-on-surface">+8</div>
+</div>
+<div class="text-right">
+<div class="text-lg font-black font-headline text-tertiary">28%</div>
+<div class="text-[9px] uppercase font-bold text-outline tracking-wider">MoM Growth</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Trend Card 3 (Editorial Content style) -->
+<div class="group relative bg-[#1A1C23] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-end p-8">
+<div class="absolute inset-0 opacity-40">
+<img alt="Luxury Restaurant Interior" class="w-full h-full object-cover" data-alt="Mood shot of a dark, elegant fine dining restaurant interior with ambient warm lighting and brass accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQskt1g1Nd4mHX15AsRSnp-_Y1Y71_D2k6wBVolZHWlYyoSRu4Vd1hRvF1CzEQkgqxn3J6efokFixy2RRTkKZOEevlZEvabwD87f4KbRhgnELBxihXHoXmW8XVRMzM87fKTVm6v3Vuvrf1A9jq7bauEwNlnJt3j0jZa4gGeUDhSV1zgsZgnGI__zR0s4f1B19Zt15PucaLUNmzH0ez5_DkmYOd3v5I7OWaZUxC2Uu2v4ZzqRINetwIUhOtCmlR3BXlf2P8CUQyGg"/>
+</div>
+<div class="relative z-10">
+<div class="mb-4 inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/20">
+<span class="text-white text-[10px] font-bold uppercase tracking-widest">Executive Insight</span>
+</div>
+<h4 class="text-white font-headline text-2xl font-extrabold leading-tight mb-4 italic">"The return of tableside service is redefining luxury in 2024."</h4>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-white/20 p-0.5">
+<img class="w-full h-full rounded-full object-cover" data-alt="Portrait of a senior culinary critic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp0wFTVnqr7B9LFFVzHtbJYmIp26dSyMYxHGApU2N2JdsUkAiY7gDfnCA8bl8sn5TuZ-F4FgyGZMFmg70SPUsFMcMGn2ajzQAHf43bMg4TEram08krzXibE6995tsSTqWII3KyL0BMlVmD5LcDma_wZBVJtXEP6A8Sym_dcTapO9a8VDQHvbDDZ_y6I1sKMTxE5Brvjux7M6oMvg8kPd7dX5rwyPwhz1FuWKfKTtAjhKjVCWnBqC2WCt3QC_bpxqmPvxCMmqt0EA"/>
+</div>
+<div>
+<p class="text-xs text-white font-bold">Marcus Thorne</p>
+<p class="text-[10px] text-slate-400">Chief Culinary Analyst</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Heat Map Visualization Placeholder -->
+<div class="col-span-12 bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline text-xl font-bold text-on-surface">Regional Trend Saturation</h3>
+<div class="flex items-center gap-2 text-xs font-bold text-outline">
+<span>Low Intensity</span>
+<div class="flex h-2 w-32 rounded-full overflow-hidden">
+<div class="flex-1 bg-surface-container-high"></div>
+<div class="flex-1 bg-tertiary-fixed-dim"></div>
+<div class="flex-1 bg-tertiary-dim"></div>
+<div class="flex-1 bg-tertiary"></div>
+</div>
+<span>High Velocity</span>
+</div>
+</div>
+<div class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-1 h-24">
+<!-- Faux Heatmap Bricks -->
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm"></div>
+<div class="bg-tertiary-dim rounded-sm"></div>
+<div class="bg-tertiary rounded-sm"></div>
+<div class="bg-tertiary-dim rounded-sm"></div>
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm"></div>
+<div class="bg-tertiary-dim rounded-sm"></div>
+<!-- Row 2 -->
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm"></div>
+<div class="bg-tertiary-dim rounded-sm"></div>
+<div class="bg-tertiary rounded-sm"></div>
+<div class="bg-tertiary rounded-sm"></div>
+<div class="bg-tertiary-dim rounded-sm"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm"></div>
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-surface-container-low rounded-sm"></div>
+<div class="bg-tertiary-fixed-dim rounded-sm"></div>
+<div class="bg-tertiary-dim rounded-sm"></div>
+<div class="bg-tertiary rounded-sm"></div>
+</div>
+<div class="flex justify-between mt-6">
+<div class="flex flex-col">
+<span class="text-2xl font-black font-headline text-on-surface">San Francisco</span>
+<span class="text-[10px] uppercase font-bold text-outline tracking-wider">Highest Growth Hub</span>
+</div>
+<div class="flex gap-10">
+<div class="text-center">
+<p class="text-[10px] uppercase font-bold text-outline mb-1 tracking-widest">Confidence</p>
+<p class="text-lg font-black font-headline text-on-surface">94%</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] uppercase font-bold text-outline mb-1 tracking-widest">Active Sources</p>
+<p class="text-lg font-black font-headline text-on-surface">1,402</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action for Quick Add Trend -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-on-surface text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 z-50 group">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+<div class="absolute right-full mr-4 bg-on-surface text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            New Analysis
+        </div>
+</button>
+</body></html>

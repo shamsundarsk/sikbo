@@ -1,101 +1,69 @@
 #!/bin/bash
+# ─────────────────────────────────────────────────────────────────────────────
+# SCOOBY — Restaurant Intelligence Platform
+# Starts: ML Service (8001) → Backend API (5001) → Web Dashboard (3000)
+# ─────────────────────────────────────────────────────────────────────────────
 
-echo "🚀 Starting SIKBO - Enhanced Restaurant Intelligence System"
-echo "=========================================================="
+set -e
 
-# Function to check if a command exists
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
 
-# Check for required dependencies
-echo "📋 Checking dependencies..."
+info()    { echo -e "${CYAN}[SCOOBY]${NC} $1"; }
+success() { echo -e "${GREEN}[SCOOBY]${NC} $1"; }
+warn()    { echo -e "${YELLOW}[SCOOBY]${NC} $1"; }
+error()   { echo -e "${RED}[SCOOBY]${NC} $1"; exit 1; }
 
-if ! command_exists node; then
-    echo "❌ Node.js is not installed. Please install Node.js first."
-    exit 1
-fi
+# ── Dependency checks ─────────────────────────────────────────────────────────
+command -v node   >/dev/null 2>&1 || error "Node.js not found. Install from https://nodejs.org"
+command -v python3 >/dev/null 2>&1 || error "Python 3 not found. Install from https://python.org"
+pgrep -x mongod >/dev/null 2>&1   || error "MongoDB is not running.\n  Start it with: brew services start mongodb-community"
 
-if ! command_exists python3; then
-    echo "❌ Python 3 is not installed. Please install Python 3 first."
-    exit 1
-fi
+success "Node $(node --version) · Python $(python3 --version | cut -d' ' -f2) · MongoDB running"
 
-# Check if MongoDB is running
-if ! pgrep -x "mongod" > /dev/null; then
-    echo "⚠️  MongoDB not running. Please start MongoDB first:"
-    echo "   brew services start mongodb/brew/mongodb-community"
-    echo "   or: mongod --dbpath /usr/local/var/mongodb"
-    exit 1
-fi
-
-echo "✅ Dependencies check completed"
-
-# Start ML Service
-echo "🤖 Starting Enhanced ML Service..."
+# ── ML Service ────────────────────────────────────────────────────────────────
+info "Starting ML Service on :8001 ..."
 cd ml-service
 if [ ! -d "venv" ]; then
-    echo "Creating Python virtual environment..."
-    python3 -m venv venv
+  info "Creating Python virtual environment..."
+  python3 -m venv venv
 fi
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt -q
 python app.py &
 ML_PID=$!
 cd ..
+sleep 4
 
-# Wait for ML service to start
-sleep 5
-
-# Start Backend
-echo "⚙️  Starting Enhanced Backend API..."
+# ── Backend API ───────────────────────────────────────────────────────────────
+info "Starting Backend API on :5001 ..."
 cd backend
-npm install
+npm install --silent
 npm start &
 BACKEND_PID=$!
 cd ..
-
-# Wait for backend to start
 sleep 3
 
-# Start Frontend
-echo "🎨 Starting Enhanced Frontend Dashboard..."
+# ── Web Dashboard ─────────────────────────────────────────────────────────────
+info "Starting Web Dashboard on :3000 ..."
 cd frontend
-npm install
+npm install --silent
 npm start &
 FRONTEND_PID=$!
 cd ..
 
+# ── Done ──────────────────────────────────────────────────────────────────────
 echo ""
-echo "🎉 SIKBO Enhanced Restaurant Intelligence System is now running!"
+success "All services are running!"
 echo ""
-echo "📊 Services:"
-echo "   • Frontend Dashboard:   http://localhost:3000"
-echo "   • Backend API:          http://localhost:5001"
-echo "   • ML Service:           http://localhost:8001"
-echo "   • MongoDB:              mongodb://localhost:27017"
+echo -e "  ${CYAN}Web Dashboard${NC}   →  http://localhost:3000"
+echo -e "  ${CYAN}Backend API${NC}     →  http://localhost:5001/api/v1"
+echo -e "  ${CYAN}ML Service${NC}      →  http://localhost:8001"
 echo ""
-echo "🆕 New Features:"
-echo "   • Comprehensive Dashboard with Sidebar Navigation"
-echo "   • Food Analytics with Sentiment Analysis"
-echo "   • Service Quality Analytics"
-echo "   • Customer Flow Analysis"
-echo "   • Staff Management & Performance Tracking"
-echo "   • Raw Materials Cost Analysis"
-echo "   • Enhanced Trending Dishes Detection"
-echo "   • Review Action Management System"
-echo "   • Multi-category Sentiment Analysis (Food/Service/Staff)"
+echo -e "  ${YELLOW}Mobile App${NC}      →  cd Restaurant-Insight-Mobile/artifacts/sikbo-mobile"
+echo -e "                     npx expo start"
+echo -e "                     Scan the QR code with Expo Go"
 echo ""
-echo "🔧 Enhanced ML Capabilities:"
-echo "   • Multi-category sentiment classification"
-echo "   • Service quality analysis"
-echo "   • Staff performance extraction"
-echo "   • Raw material cost optimization"
-echo "   • Seasonal trend detection"
-echo "   • Review action generation"
-echo ""
-echo "Press Ctrl+C to stop all services"
+echo "Press Ctrl+C to stop all services."
 
-# Wait for user interrupt
-trap "echo ''; echo '🛑 Stopping SIKBO Enhanced System...'; kill $ML_PID $BACKEND_PID $FRONTEND_PID 2>/dev/null; exit" INT
+trap "echo ''; warn 'Stopping all services...'; kill \$ML_PID \$BACKEND_PID \$FRONTEND_PID 2>/dev/null; exit 0" INT TERM
 wait

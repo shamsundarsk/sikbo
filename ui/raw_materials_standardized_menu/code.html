@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SIKBO | Raw Materials Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#615b77",
+                        "on-secondary-container": "#4d515f",
+                        "surface-dim": "#d1dce0",
+                        "secondary-dim": "#4f5361",
+                        "tertiary-dim": "#554f6b",
+                        "on-tertiary-fixed-variant": "#5c5672",
+                        "on-tertiary-fixed": "#3f3a54",
+                        "on-surface-variant": "#586064",
+                        "primary-fixed": "#e2e2ec",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary": "#fcf7ff",
+                        "error-container": "#fe8983",
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-background": "#2b3437",
+                        "surface-container-high": "#e3e9ec",
+                        "primary": "#5c5e66",
+                        "outline-variant": "#abb3b7",
+                        "secondary": "#5b5f6d",
+                        "on-primary-container": "#505159",
+                        "on-surface": "#2b3437",
+                        "on-secondary-fixed-variant": "#575b69",
+                        "on-secondary-fixed": "#3b3f4c",
+                        "secondary-fixed": "#dfe2f3",
+                        "on-primary": "#f8f7ff",
+                        "surface-variant": "#dbe4e7",
+                        "on-primary-fixed-variant": "#5a5b63",
+                        "on-secondary-fixed": "#3d3f47",
+                        "secondary-fixed": "#dfe2f3",
+                        "on-primary": "#f8f7ff",
+                        "error-dim": "#4e0309",
+                        "outline": "#737c7f",
+                        "background": "#f8f9fa",
+                        "surface": "#f8f9fa",
+                        "surface-container": "#eaeff1",
+                        "tertiary-fixed-dim": "#d5cdee",
+                        "on-tertiary-container": "#524c68",
+                        "error": "#9f403d",
+                        "surface-container-low": "#f1f4f6",
+                        "tertiary-container": "#e3dbfd",
+                        "surface-container-highest": "#dbe4e7",
+                        "secondary-fixed-dim": "#d1d4e5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#d3d4dd",
+                        "primary-container": "#e2e2ec",
+                        "inverse-primary": "#dfdfe9",
+                        "on-primary-fixed": "#3d3f47",
+                        "tertiary-fixed": "#e3dbfd",
+                        "on-error-container": "#752121",
+                        "on-error": "#fff7f6",
+                        "primary-dim": "#50525a",
+                        "secondary-container": "#dfe2f3",
+                        "inverse-surface": "#0c0f10"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body overflow-hidden">
+<!-- SideNavBar -->
+<aside class="bg-[#1A1C23] dark:bg-[#0A0B0E] h-screen w-64 fixed left-0 top-0 z-50 flex flex-col py-8 shadow-2xl">
+<div class="px-6 mb-12"><h1 class="font-headline font-extrabold text-2xl tracking-tighter text-white">SIKBO</h1>
+<p class="font-headline font-bold tracking-tight text-xs text-slate-400 uppercase mt-1">Intelligence</p></div>
+<nav class="flex-1 space-y-1"><!-- Dashboard -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-headline font-bold tracking-tight text-sm">Dashboard</span>
+</a>
+<!-- Food Analytics -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-headline font-bold tracking-tight text-sm">Food Analytics</span>
+</a>
+<!-- Service Analytics -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="room_service">room_service</span>
+<span class="font-headline font-bold tracking-tight text-sm">Service Analytics</span>
+</a>
+<!-- Customer Flow -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-headline font-bold tracking-tight text-sm">Customer Flow</span>
+</a>
+<!-- Staff Management -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-headline font-bold tracking-tight text-sm">Staff Management</span>
+</a>
+<!-- Menu Management -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-headline font-bold tracking-tight text-sm">Menu Management</span>
+</a>
+<!-- Raw Materials (Active) -->
+<a class="bg-[#5C5E66] text-white rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all scale-95 active:scale-90 duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-headline font-bold tracking-tight text-sm">Raw Materials</span>
+</a>
+<!-- Trends -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-headline font-bold tracking-tight text-sm">Trends</span>
+</a>
+<!-- Review Actions -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+<span class="font-headline font-bold tracking-tight text-sm">Review Actions</span>
+</a>
+<!-- Settings -->
+<a class="text-slate-400 hover:text-slate-100 hover:bg-[#2A2D35] rounded-xl mx-2 px-4 py-3 flex items-center gap-3 transition-all duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-headline font-bold tracking-tight text-sm">Settings</span>
+</a></nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary-dim hover:bg-primary text-white font-headline font-bold py-3 rounded-xl transition-all scale-95 active:scale-90">
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 h-20 z-40 bg-[#F8F9FA]/80 backdrop-blur-md flex justify-between items-center px-10 w-full border-none">
+<div class="flex items-center gap-8">
+<h2 class="font-headline font-extrabold text-xl text-[#1A1C23]">Executive Command Center</h2>
+<div class="flex gap-6">
+<a class="text-gray-500 hover:text-[#1A1C23] transition-colors font-headline text-sm" href="#">Global View</a>
+<a class="text-[#1A1C23] border-b-2 border-[#1A1C23] pb-1 font-headline text-sm" href="#">Local Nodes</a>
+<a class="text-gray-500 hover:text-[#1A1C23] transition-colors font-headline text-sm" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-gray-400 text-sm" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 focus:ring-primary/20 w-64" placeholder="Search Materials..." type="text"/>
+</div>
+<button class="hover:bg-gray-100 rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="hover:bg-gray-100 rounded-full p-2 transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-xl font-headline text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
+                Export Data
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pl-64 h-screen flex gap-0">
+<!-- Column 1: Dish List -->
+<section class="w-96 flex flex-col h-full bg-surface-container-low">
+<div class="p-8 pb-4">
+<div class="flex justify-between items-end mb-6">
+<div>
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest font-label">Inventory List</span>
+<h3 class="font-headline font-bold text-2xl">Signature Dishes</h3>
+</div>
+<span class="text-primary font-headline font-bold text-lg">14 Total</span>
+</div>
+<div class="flex gap-2 mb-4 overflow-x-auto no-scrollbar pb-2">
+<button class="bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap">All Menu</button>
+<button class="bg-white text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap border border-outline-variant/20">Main Course</button>
+<button class="bg-white text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap border border-outline-variant/20">Appetizers</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-8 pb-8 space-y-4 no-scrollbar">
+<!-- Dish Item Active -->
+<div class="bg-surface-container-lowest p-5 rounded-xl border-none ring-2 ring-primary transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="bg-success-container/10 text-primary text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-tighter">High Margin</span>
+<span class="text-on-surface font-headline font-extrabold">$34.00</span>
+</div>
+<h4 class="font-headline font-bold text-lg mb-1">Truffle Ribeye Steak</h4>
+<p class="text-on-surface-variant text-xs mb-4 line-clamp-1">8oz Angus, Black Truffle Butter, Asparagus</p>
+<div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-outline">
+<span>Cost: $12.45</span>
+<span class="text-primary">Yield: 88%</span>
+</div>
+</div>
+<!-- Dish Item -->
+<div class="bg-surface-container-lowest p-5 rounded-xl hover:bg-white transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="bg-surface-container text-on-surface-variant text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-tighter">Mid Range</span>
+<span class="text-on-surface-variant font-headline font-extrabold group-hover:text-on-surface">$22.00</span>
+</div>
+<h4 class="font-headline font-bold text-lg mb-1 group-hover:text-primary transition-colors">Wild Salmon Risotto</h4>
+<p class="text-on-surface-variant text-xs mb-4 line-clamp-1">Atlantic Salmon, Arborio Rice, Saffron</p>
+<div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-outline">
+<span>Cost: $8.90</span>
+<span>Yield: 92%</span>
+</div>
+</div>
+<!-- Dish Item -->
+<div class="bg-surface-container-lowest p-5 rounded-xl hover:bg-white transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="bg-error-container/10 text-error text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-tighter">Alert: Low Margin</span>
+<span class="text-on-surface-variant font-headline font-extrabold group-hover:text-on-surface">$45.00</span>
+</div>
+<h4 class="font-headline font-bold text-lg mb-1 group-hover:text-primary transition-colors">Seafood Platter Deluxe</h4>
+<p class="text-on-surface-variant text-xs mb-4 line-clamp-1">Lobster Tail, Oysters, King Crab</p>
+<div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-outline">
+<span class="text-error">Cost: $28.10</span>
+<span>Yield: 74%</span>
+</div>
+</div>
+<!-- Dish Item -->
+<div class="bg-surface-container-lowest p-5 rounded-xl hover:bg-white transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="bg-surface-container text-on-surface-variant text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-tighter">Vegan</span>
+<span class="text-on-surface-variant font-headline font-extrabold group-hover:text-on-surface">$18.00</span>
+</div>
+<h4 class="font-headline font-bold text-lg mb-1 group-hover:text-primary transition-colors">Roasted Cauliflower</h4>
+<p class="text-on-surface-variant text-xs mb-4 line-clamp-1">Harissa, Tahini, Pomegranate</p>
+<div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-outline">
+<span>Cost: $4.20</span>
+<span>Yield: 95%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Column 2: Detailed Breakdown -->
+<section class="flex-1 bg-surface overflow-y-auto no-scrollbar">
+<div class="p-10 max-w-5xl mx-auto">
+<!-- Hero Selection Detail -->
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="bg-primary-container text-primary font-bold text-xs px-3 py-1 rounded-full uppercase tracking-tighter">Product ID: SKU-8821</span>
+<span class="text-on-surface-variant text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="update">update</span> Updated 2 hours ago
+                            </span>
+</div>
+<h2 class="font-headline font-extrabold text-5xl tracking-tight text-[#1A1C23]">Truffle Ribeye Steak</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed max-w-xl">Premium 8oz grain-fed Angus beef finished with hand-churned black truffle butter and charred local asparagus.</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm flex flex-col items-center justify-center text-center">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Profitability</span>
+<div class="text-4xl font-headline font-black text-primary">63.4%</div>
+<div class="mt-2 flex items-center gap-1 text-primary-dim text-xs font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +2.1% WoW
+                        </div>
+</div>
+</div>
+<!-- Financial Metric Grid -->
+<div class="grid grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-8 rounded-2xl border-none">
+<span class="text-xs font-bold text-outline-variant uppercase tracking-widest font-label block mb-2">Material Cost</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline font-extrabold">$12.45</span>
+<span class="text-on-surface-variant text-xs">/ portion</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-2xl border-none">
+<span class="text-xs font-bold text-outline-variant uppercase tracking-widest font-label block mb-2">Sales Price</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline font-extrabold">$34.00</span>
+<span class="text-on-surface-variant text-xs">/ unit</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-2xl border-none">
+<span class="text-xs font-bold text-outline-variant uppercase tracking-widest font-label block mb-2">Gross Profit</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline font-extrabold text-primary">$21.55</span>
+<span class="text-on-surface-variant text-xs">/ portion</span>
+</div>
+</div>
+</div>
+<!-- Cost Comparison Visualizer -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl mb-12">
+<h3 class="font-headline font-bold text-xl mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="bar_chart">bar_chart</span>
+                        Ingredient Cost Distribution
+                    </h3>
+<div class="space-y-6">
+<!-- Ingredient Bar -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-bold">
+<span class="text-on-surface">Angus Ribeye (8oz)</span>
+<span class="text-outline-variant">$8.50 (68.3%)</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 68.3%"></div>
+</div>
+</div>
+<!-- Ingredient Bar -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-bold">
+<span class="text-on-surface">Black Truffle Butter (15g)</span>
+<span class="text-outline-variant">$2.15 (17.2%)</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-dim" style="width: 17.2%"></div>
+</div>
+</div>
+<!-- Ingredient Bar -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-bold">
+<span class="text-on-surface">Fresh Asparagus (120g)</span>
+<span class="text-outline-variant">$0.95 (7.6%)</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 7.6%"></div>
+</div>
+</div>
+<!-- Ingredient Bar -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-bold">
+<span class="text-on-surface">Spices &amp; Seasoning</span>
+<span class="text-outline-variant">$0.85 (6.9%)</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-outline-variant" style="width: 6.9%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Breakdown Table -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden mb-12">
+<div class="p-8 pb-4 border-b border-surface-container">
+<h3 class="font-headline font-bold text-xl">Detailed Ingredient Breakdown</h3>
+</div>
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-[10px] font-black uppercase tracking-widest text-outline">
+<tr>
+<th class="px-8 py-4">Component</th>
+<th class="px-8 py-4">Quantity</th>
+<th class="px-8 py-4">Waste %</th>
+<th class="px-8 py-4">Unit Price</th>
+<th class="px-8 py-4 text-right">Net Cost</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="px-8 py-5 font-bold">Prime Angus Ribeye</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm">227g</td>
+<td class="px-8 py-5 text-sm">12%</td>
+<td class="px-8 py-5 text-sm">$32.00/kg</td>
+<td class="px-8 py-5 font-headline font-bold text-right">$8.50</td>
+</tr>
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="px-8 py-5 font-bold">Truffle Infusion Oil</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm">10ml</td>
+<td class="px-8 py-5 text-sm">0%</td>
+<td class="px-8 py-5 text-sm">$0.12/ml</td>
+<td class="px-8 py-5 font-headline font-bold text-right">$1.20</td>
+</tr>
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="px-8 py-5 font-bold">Premium Unsalted Butter</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm">15g</td>
+<td class="px-8 py-5 text-sm">2%</td>
+<td class="px-8 py-5 text-sm">$22.00/kg</td>
+<td class="px-8 py-5 font-headline font-bold text-right">$0.35</td>
+</tr>
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="px-8 py-5 font-bold">Fresh Local Asparagus</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm">120g</td>
+<td class="px-8 py-5 text-sm">15%</td>
+<td class="px-8 py-5 text-sm">$6.50/kg</td>
+<td class="px-8 py-5 font-headline font-bold text-right">$0.95</td>
+</tr>
+</tbody>
+<tfoot class="bg-surface-container-low font-headline font-black text-lg">
+<tr>
+<td class="px-8 py-6 text-right uppercase tracking-widest text-[10px]" colspan="4">Total Preparation Cost</td>
+<td class="px-8 py-6 text-right text-primary">$12.45</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<!-- Footer CTA / Analysis -->
+<div class="flex gap-6 items-center bg-primary text-on-primary p-8 rounded-2xl">
+<div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-3xl" data-icon="lightbulb">lightbulb</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline font-bold text-lg">Intelligence Insight</h4>
+<p class="text-sm opacity-90">Switching the Ribeye supplier to "Valley Prime" could reduce material cost by $1.20 per portion without quality loss, increasing your margin to 67%.</p>
+</div>
+<button class="bg-white text-primary px-6 py-3 rounded-xl font-headline font-bold text-sm hover:scale-105 transition-transform">
+                        Run Simulator
+                    </button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | SIKBO Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#e2e2ec",
+              "on-tertiary-fixed": "#3f3a54",
+              "tertiary": "#615b77",
+              "on-tertiary": "#fcf7ff",
+              "on-surface": "#2b3437",
+              "on-primary": "#f8f7ff",
+              "error": "#9f403d",
+              "primary-dim": "#50525a",
+              "secondary-dim": "#4f5361",
+              "on-secondary-fixed-variant": "#575b69",
+              "background": "#f8f9fa",
+              "secondary-fixed": "#dfe2f3",
+              "on-primary-fixed-variant": "#5a5b63",
+              "on-secondary-fixed": "#3b3f4c",
+              "surface-container-high": "#e3e9ec",
+              "inverse-surface": "#0c0f10",
+              "tertiary-container": "#e3dbfd",
+              "on-tertiary-fixed-variant": "#5c5672",
+              "inverse-primary": "#dfdfe9",
+              "secondary": "#5b5f6d",
+              "surface-bright": "#f8f9fa",
+              "on-primary-fixed": "#3d3f47",
+              "on-error-container": "#752121",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#9b9d9e",
+              "surface-container-highest": "#dbe4e7",
+              "tertiary-fixed": "#e3dbfd",
+              "surface-container": "#eaeff1",
+              "surface-container-low": "#f1f4f6",
+              "tertiary-fixed-dim": "#d5cdee",
+              "on-error": "#fff7f6",
+              "tertiary-dim": "#554f6b",
+              "surface-variant": "#dbe4e7",
+              "surface-tint": "#5c5e66",
+              "on-primary-container": "#505159",
+              "on-tertiary-container": "#524c68",
+              "outline": "#737c7f",
+              "outline-variant": "#abb3b7",
+              "surface": "#f8f9fa",
+              "secondary-container": "#dfe2f3",
+              "on-secondary": "#f9f8ff",
+              "error-container": "#fe8983",
+              "primary-fixed-dim": "#d3d4dd",
+              "on-surface-variant": "#586064",
+              "on-background": "#2b3437",
+              "secondary-fixed-dim": "#d1d4e5",
+              "on-secondary-container": "#4d515f",
+              "primary": "#5c5e66",
+              "error-dim": "#4e0309",
+              "surface-dim": "#d1dce0",
+              "primary-fixed": "#e2e2ec"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .custom-gradient-btn {
+            background: linear-gradient(135deg, #5c5e66 0%, #50525a 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar Anchor -->
+<aside class="bg-slate-900 dark:bg-black text-slate-100 h-screen w-64 fixed left-0 top-0 overflow-y-auto z-50 flex flex-col py-8 hide-scrollbar">
+<div class="px-8 mb-12">
+<h1 class="text-2xl font-black text-white tracking-tighter font-headline">SIKBO</h1>
+<p class="text-xs tracking-wider uppercase font-medium text-slate-400 mt-1">Restaurant Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-xs tracking-wider uppercase font-medium">Dashboard</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="text-xs tracking-wider uppercase font-medium">Food Analytics</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-xs tracking-wider uppercase font-medium">Service Analytics</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-xs tracking-wider uppercase font-medium">Customer Flow</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="text-xs tracking-wider uppercase font-medium">Staff Management</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-xs tracking-wider uppercase font-medium">Menu Management</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-xs tracking-wider uppercase font-medium">Raw Materials</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="text-xs tracking-wider uppercase font-medium">Trends</span>
+</a>
+<a class="text-slate-400 hover:text-slate-100 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer hover:bg-slate-800/50 hover:scale-[1.02] mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+<span class="text-xs tracking-wider uppercase font-medium">Review Actions</span>
+</a>
+<!-- Active Navigation State for Settings -->
+<a class="bg-slate-800 text-white rounded-lg mx-2 px-4 py-3 flex items-center gap-3 transition-all ease-out duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-xs tracking-wider uppercase font-medium">Settings</span>
+</a>
+</nav>
+<div class="px-8 mt-auto">
+<div class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/30 border border-slate-700/50">
+<div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden">
+<img alt="User Profile" data-alt="close-up portrait of a professional chef in white uniform looking confident and experienced" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD_zgmNDby3YEkYznDJohOmRqMyMrtYZgZz2MVZGOyCdCyWuJAvlWSitEq9vj-jlC-dBtMXanBTiXrNS1Y8cf4MnNPNA-2Jq4BEQdErPZ8XqKS-mrhEp9YyWg6ok7Rgmyj6WYaIdMlww4CavU4Py5S_g2YPJZ_wZLve1jgEHtSLchRjfo_gtLxiPCj50h8KHKSOU3ZZZcIB8OS5_eAnhBndfufCGbJ6zhoSOw84HwMZKplhHDYnwZhyKCJfCIhXysK3To94VJ8Yw"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold truncate">Chef Julian</p>
+<p class="text-[10px] text-slate-500 truncate">Admin Access</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 left-64 h-16 z-40 bg-slate-50/80 backdrop-blur-xl flex justify-between items-center px-8">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<span class="material-symbols-outlined text-slate-400" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-body w-full" placeholder="Search settings or team members..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-500 hover:text-slate-900 transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-slate-900 transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="text-slate-500 hover:text-slate-900 transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-10 min-h-screen">
+<div class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-10 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-headline font-extrabold text-on-surface tracking-tight">System Settings</h2>
+<p class="text-on-surface-variant font-body mt-1">Configure your global restaurant ecosystem and intelligence parameters.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-xl text-primary font-semibold hover:bg-surface-container-high transition-all active:scale-95">Discard</button>
+<button class="px-8 py-2.5 rounded-xl custom-gradient-btn text-on-primary font-bold shadow-lg shadow-primary/10 transition-all hover:scale-[1.02] active:scale-95">Save Changes</button>
+</div>
+</div>
+<!-- Bento Grid Layout for Settings -->
+<div class="grid grid-cols-12 gap-6">
+<!-- General Config - Large Card -->
+<section class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 transition-all hover:shadow-[0_20px_40px_rgba(43,52,55,0.06)]">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="storefront">storefront</span>
+<h3 class="text-xl font-headline font-bold">General Restaurant Configuration</h3>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="block text-xs font-label font-bold uppercase tracking-wider text-on-surface-variant">Restaurant Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/20 transition-all font-body text-on-surface" type="text" value="SIKBO Grand Bistro"/>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-label font-bold uppercase tracking-wider text-on-surface-variant">Operating Region</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/20 transition-all font-body text-on-surface">
+<option>South East Asia (Singapore Hub)</option>
+<option>North America (East)</option>
+<option>Europe (West)</option>
+</select>
+</div>
+<div class="space-y-2 col-span-2">
+<label class="block text-xs font-label font-bold uppercase tracking-wider text-on-surface-variant">Intelligent Thresholds (Waste %)</label>
+<div class="flex items-center gap-4">
+<input class="flex-1 accent-primary" max="100" min="0" type="range" value="15"/>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-sm font-bold">15.0%</span>
+</div>
+<p class="text-[11px] text-on-surface-variant italic">Trigger "Critical Alert" when raw material waste exceeds this value across all SKUs.</p>
+</div>
+</div>
+</section>
+<!-- API Integration - Vertical Sidebar Style -->
+<section class="col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-8 flex flex-col">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="api">api</span>
+<h3 class="text-xl font-headline font-bold">Integrations</h3>
+</div>
+<div class="space-y-4 flex-1">
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-emerald-600" data-icon="point_of_sale">point_of_sale</span>
+</div>
+<div>
+<p class="text-sm font-bold">Square POS</p>
+<p class="text-[10px] text-success-container font-semibold uppercase tracking-tighter">Connected</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-600" data-icon="delivery_dining">delivery_dining</span>
+</div>
+<div>
+<p class="text-sm font-bold">UberEats API</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Syncing...</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 border-2 border-dashed border-outline-variant/30 rounded-xl hover:bg-white/40 cursor-pointer transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="add">add</span>
+</div>
+<p class="text-sm font-semibold text-on-surface-variant">Add Integration</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Access Controls - Wide Content -->
+<section class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl p-8 transition-all hover:shadow-[0_20px_40px_rgba(43,52,55,0.06)]">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="admin_panel_settings">admin_panel_settings</span>
+<h3 class="text-xl font-headline font-bold">Team Access Controls</h3>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="person_add">person_add</span>
+                            Invite Member
+                        </button>
+</div>
+<div class="space-y-2">
+<!-- Table header -->
+<div class="grid grid-cols-12 px-4 pb-4 border-b border-surface-container text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant">
+<div class="col-span-5">Member</div>
+<div class="col-span-4">Role</div>
+<div class="col-span-3 text-right">Status</div>
+</div>
+<!-- Member Row -->
+<div class="grid grid-cols-12 px-4 py-4 items-center hover:bg-surface-container-low rounded-xl transition-all group">
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="Sarah Chen" data-alt="professional portrait of an asian woman in business casual attire with a blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4XNbB0c2UteSOeoPbIg95EnUL4cM1ZkHeQitvOV5udceENDz1R_Warp1Zrkx1I4twQ4nTvfJztbgpqV1JtdY5Rbug1T4GR4--s6VXHAAj--KA46b9cHnJ97bv8v8ZafqVDjN9eHGSZ5WFhM1ou5wgETY1qWvzOZhK67nX_-ylu2CUc_Bjvg58UQM1AkftwzgMr9yg-iwzrMa-8acyK2xcLKNWBtZXctRBJnuDg8ROIku7o6T1oOamUCySItPkmpEh3WVNaHpbOA"/>
+</div>
+<div>
+<p class="text-sm font-bold">Sarah Chen</p>
+<p class="text-xs text-on-surface-variant">sarah.c@sikbo.io</p>
+</div>
+</div>
+<div class="col-span-4">
+<span class="px-3 py-1 bg-primary-container text-on-primary-container text-[10px] font-bold rounded-full uppercase">Operations Lead</span>
+</div>
+<div class="col-span-3 text-right">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
+<span class="text-xs font-medium">Active</span>
+</div>
+</div>
+<div class="grid grid-cols-12 px-4 py-4 items-center hover:bg-surface-container-low rounded-xl transition-all group">
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="Marcus Rivera" data-alt="headshot of a hispanic male chef with a friendly smile wearing a black apron" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPfJAt5gPYjD5GPTQNBANK43BiDk7Ku-Ju-RnM8g57M64TYqceSQBbqM5EA48DlPo5xnj-nQgkPW4yQ1XhpDLGWTifnCGxgcsfYLpX-oXlRuXjtd7whRFP7KyFOixU74OQ60tWKRTRSvoNy9-s59Qa49X2HbH9rkKO3cWQ7TWt2rVHGL4TPOrdVcyL9eh3kbvEXi7mIuN_-D-tD2fFHtYGBUv30LaQislxQQsYyAYUmRxzcOPEGJWiDi-tHw_P7Ngtw--Am9KjDA"/>
+</div>
+<div>
+<p class="text-sm font-bold">Marcus Rivera</p>
+<p class="text-xs text-on-surface-variant">m.rivera@sikbo.io</p>
+</div>
+</div>
+<div class="col-span-4">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant text-[10px] font-bold rounded-full uppercase">Kitchen Manager</span>
+</div>
+<div class="col-span-3 text-right">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
+<span class="text-xs font-medium">Active</span>
+</div>
+</div>
+<div class="grid grid-cols-12 px-4 py-4 items-center hover:bg-surface-container-low rounded-xl transition-all group">
+<div class="col-span-5 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="Elena Low" data-alt="portrait of a young female accountant wearing glasses and a blazer in a modern architectural office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd310lCIwXIpqM1NnDeVfZ-9VvVAHyObcjsY8jBO25dYB-zHQ662KzdIIMWpMQSy-q6h3JFjviUhpmvOn-C7zcoclBOXq36RMNnncKEKfap7FyWJhrIzprTMlmGGv36SazkjLwv7XgCypLWKEk3DutxkXuzVxtZIdJ2jjUPq09yt4OaPqStbINTND8ISPvDBwxgod6gdZdZRMsehbtHV50uZfdmekSluB-RG7uxJAWJ0RD0FbQiw48y10ngOLuNSEtkhAPRx7UfQ"/>
+</div>
+<div>
+<p class="text-sm font-bold">Elena Low</p>
+<p class="text-xs text-on-surface-variant">elena@sikbo.io</p>
+</div>
+</div>
+<div class="col-span-4">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant text-[10px] font-bold rounded-full uppercase">Analyst</span>
+</div>
+<div class="col-span-3 text-right">
+<span class="inline-block w-2 h-2 rounded-full bg-orange-400 mr-2"></span>
+<span class="text-xs font-medium">Pending</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Notification Preferences - Visual/Abstract Card -->
+<section class="col-span-12 lg:col-span-5 bg-primary text-on-primary rounded-xl p-8 relative overflow-hidden">
+<!-- Subtle background texture -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<svg class="h-full w-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 100 Q 50 0 100 100" fill="none" stroke="white" stroke-width="0.5"></path>
+<path d="M0 80 Q 50 -20 100 80" fill="none" stroke="white" stroke-width="0.5"></path>
+</svg>
+</div>
+<div class="relative z-10 h-full flex flex-col">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<h3 class="text-xl font-headline font-bold">Notification Prefs</h3>
+</div>
+<div class="space-y-6 flex-1">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-bold">Real-time Surge Alerts</p>
+<p class="text-xs text-on-primary/70">Notify when traffic increases by 30%+</p>
+</div>
+<div class="w-12 h-6 bg-primary-dim rounded-full p-1 cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-bold">Weekly Performance PDF</p>
+<p class="text-xs text-on-primary/70">Comprehensive intelligence digest</p>
+</div>
+<div class="w-12 h-6 bg-primary-dim rounded-full p-1 cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-bold">Supply Chain Warnings</p>
+<p class="text-xs text-on-primary/70">Inventory shortage predictions</p>
+</div>
+<div class="w-12 h-6 bg-on-primary/20 rounded-full p-1 cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-on-primary/10">
+<p class="text-xs font-label uppercase tracking-widest text-on-primary/60 mb-2">Delivery Channels</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-xl opacity-60" data-icon="mail">mail</span>
+<span class="material-symbols-outlined text-xl" data-icon="sms">sms</span>
+<span class="material-symbols-outlined text-xl" data-icon="slack_island">spool</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Data Privacy Card - Full Width Thin -->
+<section class="col-span-12 bg-surface-container rounded-xl p-6 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<div>
+<h4 class="font-headline font-bold">Data Privacy &amp; Encryption</h4>
+<p class="text-sm text-on-surface-variant font-body">SIKBO uses AES-256 military-grade encryption for all restaurant telemetry data. <a class="text-primary underline font-semibold" href="#">View Privacy Policy</a></p>
+</div>
+</div>
+<button class="px-6 py-2 bg-surface-container-lowest text-on-surface text-sm font-bold rounded-lg border border-outline-variant/20 hover:bg-white transition-all">Audit Logs</button>
+</section>
+</div>
+</div>
+</main>
+<!-- Floating Action for Mobile (Hidden by default based on rules) -->
+<div class="md:hidden fixed bottom-6 right-6">
+<button class="w-14 h-14 rounded-full custom-gradient-btn text-white shadow-xl flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="save">save</span>
+</button>
+</div>
+</body></html>

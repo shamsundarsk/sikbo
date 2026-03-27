@@ -38,6 +38,23 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# Add CORS headers to allow frontend access
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
+# Handle preflight requests
+@app.route('/<path:path>', methods=['OPTIONS'])
+def handle_options(path):
+    response = app.make_default_options_response()
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 # Initialize advanced sentiment analysis models
 print("Loading advanced ML models...")
 try:
@@ -66,12 +83,32 @@ try:
     sentiment_pipeline = None
     print("Transformer models skipped for faster startup")
     
+    # Initialize ML models for sentiment and category prediction
+    sentiment_model = Pipeline([
+        ('tfidf', TfidfVectorizer(max_features=5000, stop_words='english')),
+        ('classifier', LogisticRegression())
+    ])
+    
+    category_model = Pipeline([
+        ('tfidf', TfidfVectorizer(max_features=5000, stop_words='english')),
+        ('classifier', LogisticRegression())
+    ])
+    
     print("✅ Advanced ML models loaded successfully")
 except Exception as e:
     print(f"⚠️ Error loading ML models: {e}")
     vader_analyzer = None
     sentiment_pipeline = None
     nlp = None
+    # Fallback models
+    sentiment_model = Pipeline([
+        ('tfidf', TfidfVectorizer(max_features=1000, stop_words='english')),
+        ('classifier', LogisticRegression())
+    ])
+    category_model = Pipeline([
+        ('tfidf', TfidfVectorizer(max_features=1000, stop_words='english')),
+        ('classifier', LogisticRegression())
+    ])
 
 # Enhanced keyword mappings for comprehensive analysis
 DISH_KEYWORDS = {
@@ -139,49 +176,71 @@ RAW_MATERIALS_DB = {
 }
 
 def load_training_data():
-    """Load and prepare training data for ML models"""
+    """Load and prepare training data from Neon database"""
     try:
-        df = pd.read_csv('data/restaurant_reviews.csv')
+        conn = get_db_connection()
+        if not conn:
+            raise Exception("Could not connect to database")
         
-        # Prepare sentiment training data
-        reviews = df['review'].tolist()
-        sentiments = df['sentiment'].tolist()
+        # Load reviews from database
+        query = """
+        SELECT r.review_text, sa.overall_sentiment, 
+               COALESCE(array_to_string(sa.mentioned_dishes, ','), 'general') as dish
+        FROM reviews r
+        LEFT JOIN sentiment_analysis sa ON r.id = sa.review_id
+        WHERE r.review_text IS NOT NULL AND r.review_text != ''
+        ORDER BY r.scraped_at DESC
+        """
         
-        # Create category training data based on keywords
-        categories = []
-        for review in reviews:
-            if any(keyword in review.lower() for keyword in SERVICE_KEYWORDS):
-                categories.append('service')
-            elif any(keyword in review.lower() for keyword in STAFF_KEYWORDS):
-                categories.append('staff')
-            else:
-                categories.append('food')
+        cursor = conn.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
         
-        return reviews, sentiments, categories
-    except FileNotFoundError:
-        # Enhanced fallback data
+        if not results:
+            print("⚠️ No reviews found in database, checking reviews table...")
+            # Try simpler query if sentiment_analysis is empty
+            cursor.execute("SELECT review_text, 'neutral' as sentiment, 'general' as dish FROM reviews WHERE review_text IS NOT NULL LIMIT 100")
+            results = cursor.fetchall()
+        
+        conn.close()
+        
+        if results:
+            reviews = [row[0] for row in results]
+            sentiments = [row[1] if row[1] else 'neutral' for row in results]
+            
+            # Create category training data based on keywords
+            categories = []
+            for review in reviews:
+                if any(keyword in review.lower() for keyword in SERVICE_KEYWORDS):
+                    categories.append('service')
+                elif any(keyword in review.lower() for keyword in STAFF_KEYWORDS):
+                    categories.append('staff')
+                else:
+                    categories.append('food')
+            
+            print(f"✅ Loaded {len(reviews)} reviews from Neon database")
+            return reviews, sentiments, categories
+        else:
+            raise Exception("No reviews found in database")
+            
+    except Exception as e:
+        print(f"❌ Error loading from database: {e}")
+        print("🔄 Using minimal fallback data...")
+        
+        # Minimal fallback - will be replaced with real data
         sample_data = [
-            ("Amazing food, loved it!", "positive", "food"),
-            ("Terrible service, bad staff", "negative", "service"),
-            ("Average food, nothing special", "neutral", "food"),
-            ("Excellent coffee, great ambiance", "positive", "food"),
-            ("Waiter was very rude", "negative", "staff"),
-            ("Good value for money", "positive", "food"),
-            ("Service was too slow", "negative", "service"),
-            ("Staff was very helpful", "positive", "staff"),
-            ("Food arrived cold", "negative", "food"),
-            ("Quick service, friendly staff", "positive", "service")
+            ("Great coffee and excellent service", "positive", "food"),
+            ("Food was cold and service was slow", "negative", "service"),
+            ("Average meal, nothing special", "neutral", "food")
         ]
+        
         reviews = [item[0] for item in sample_data]
         sentiments = [item[1] for item in sample_data]
         categories = [item[2] for item in sample_data]
         return reviews, sentiments, categories
 
-# Train the models
-X_train, y_sentiment, y_category = load_training_data()
-sentiment_model.fit(X_train, y_sentiment)
-category_model.fit(X_train, y_category)
-print(f"Models trained on {len(X_train)} reviews")
+# Train the models after all functions are defined
+# This will be moved to after get_db_connection is defined
 
 def analyze_review_comprehensive(text):
     """Comprehensive review analysis for food, service, and staff"""
@@ -846,28 +905,8 @@ def generate_review_actions():
         'actions': actions
     })
 
-@app.route('/health', methods=['GET'])
-def health_check():
-    """Health check endpoint"""
-    return jsonify({
-        'status': 'healthy', 
-        'service': 'SIKBO Enhanced ML Service',
-        'version': '2.0',
-        'features': [
-            'Multi-category sentiment analysis',
-            'Service quality analysis', 
-            'Staff performance tracking',
-            'Raw material cost calculation',
-            'Menu optimization recommendations',
-            'Customer flow analysis',
-            'Review action generation'
-        ]
-    })
+# First health route removed to avoid duplicate
 
-if __name__ == '__main__':
-    print("SIKBO Enhanced ML Service starting...")
-    print("Features: Multi-category analysis, Service tracking, Staff analysis, Cost optimization")
-    app.run(host='0.0.0.0', port=8001, debug=True)
 # Database connection
 def get_db_connection():
     """Get connection to Neon PostgreSQL database"""
@@ -880,6 +919,13 @@ def get_db_connection():
     except Exception as e:
         print(f"Database connection error: {e}")
         return None
+
+# Train the models now that get_db_connection is defined
+print("🎯 Training ML models with database data...")
+X_train, y_sentiment, y_category = load_training_data()
+sentiment_model.fit(X_train, y_sentiment)
+category_model.fit(X_train, y_category)
+print(f"✅ Models trained on {len(X_train)} reviews from Neon database")
 
 # Advanced keyword mappings for comprehensive analysis
 FOOD_KEYWORDS = {
@@ -2066,243 +2112,26 @@ if __name__ == '__main__':
     print("   • POST /test-french-door - Test French Door scraping")
     print("   • GET /health - Health check")
     print("")
+
+if __name__ == '__main__':
+    print("🚀 SIKBO Advanced ML Service Starting...")
+    print("🔧 Features:")
+    print("   • Multi-category sentiment analysis")
+    print("   • Service quality analysis")
+    print("   • Staff performance tracking")
+    print("   • Raw material cost calculation")
+    print("   • Menu optimization recommendations")
+    print("   • Customer flow analysis")
+    print("   • Review action generation")
+    print("")
+    print("📡 Available Endpoints:")
+    print("   • POST /scrape-reviews - Scrape and analyze reviews")
+    print("   • POST /analyze-sentiment - Analyze text sentiment")
+    print("   • GET /restaurant-analytics/<name> - Get restaurant analytics")
+    print("   • GET /trending-analysis - Get trending insights")
+    print("   • GET /generate-recommendations/<name> - Get AI recommendations")
+    print("   • POST /test-french-door - Test French Door scraping")
+    print("   • GET /health - Health check")
+    print("")
     
     app.run(host='0.0.0.0', port=8001, debug=True)
-@app.route('/intelligent-menu-analysis', methods=['POST'])
-def intelligent_menu_analysis():
-    """
-    Intelligent menu analysis prioritizing customer satisfaction over pure profit
-    
-    Logic:
-    1. High Reviews + Low Profit = KEEP (Customer satisfaction priority)
-    2. High Revenue + Poor Reviews = REMOVE (Poor customer experience)
-    3. Customer satisfaction is the main priority
-    """
-    data = request.json
-    restaurant_name = data.get('restaurant_name', 'Unknown Restaurant')
-    
-    print(f"\n🧠 Starting intelligent menu analysis for: {restaurant_name}")
-    print("📊 Analysis Logic:")
-    print("   ├── Priority 1: Customer Satisfaction (Reviews & Sentiment)")
-    print("   ├── Priority 2: Revenue Performance")
-    print("   └── Priority 3: Profit Margins")
-    
-    try:
-        # Get reviews from database
-        reviews = get_reviews_from_db(restaurant_name)
-        
-        if not reviews:
-            print("   └── ❌ No reviews found for analysis")
-            return jsonify({'error': 'No reviews found for this restaurant'}), 404
-        
-        print(f"   ├── Found {len(reviews)} reviews for analysis")
-        
-        # Analyze dishes mentioned in reviews
-        dish_analysis = {}
-        
-        for review in reviews:
-            mentioned_dishes = review.get('mentioned_dishes', [])
-            overall_sentiment = review.get('overall_sentiment', 'neutral')
-            food_sentiment = review.get('food_sentiment', 'neutral')
-            rating = review.get('rating', 3)
-            
-            for dish in mentioned_dishes:
-                if dish not in dish_analysis:
-                    dish_analysis[dish] = {
-                        'total_mentions': 0,
-                        'positive_reviews': 0,
-                        'negative_reviews': 0,
-                        'neutral_reviews': 0,
-                        'total_rating': 0,
-                        'rating_count': 0,
-                        'sentiment_scores': [],
-                        'customer_satisfaction_score': 0,
-                        'review_texts': []
-                    }
-                
-                dish_data = dish_analysis[dish]
-                dish_data['total_mentions'] += 1
-                
-                # Count sentiment
-                if food_sentiment == 'positive' or overall_sentiment == 'positive':
-                    dish_data['positive_reviews'] += 1
-                elif food_sentiment == 'negative' or overall_sentiment == 'negative':
-                    dish_data['negative_reviews'] += 1
-                else:
-                    dish_data['neutral_reviews'] += 1
-                
-                # Add rating
-                if rating:
-                    dish_data['total_rating'] += rating
-                    dish_data['rating_count'] += 1
-                
-                # Store review text for analysis
-                dish_data['review_texts'].append(review.get('review_text', ''))
-        
-        print(f"   ├── Analyzed {len(dish_analysis)} dishes from reviews")
-        
-        # Calculate customer satisfaction scores
-        menu_recommendations = []
-        
-        for dish, data in dish_analysis.items():
-            if data['total_mentions'] < 2:  # Skip dishes with too few mentions
-                continue
-            
-            # Calculate metrics
-            avg_rating = data['total_rating'] / data['rating_count'] if data['rating_count'] > 0 else 3.0
-            positive_ratio = data['positive_reviews'] / data['total_mentions']
-            negative_ratio = data['negative_reviews'] / data['total_mentions']
-            
-            # Customer Satisfaction Score (0-100)
-            # Weighted: 60% sentiment, 40% rating
-            sentiment_score = (positive_ratio - negative_ratio) * 50 + 50  # Convert to 0-100
-            rating_score = (avg_rating / 5.0) * 100  # Convert to 0-100
-            customer_satisfaction_score = (sentiment_score * 0.6) + (rating_score * 0.4)
-            
-            # Mock revenue and profit data (in real app, this would come from sales data)
-            mock_revenue = data['total_mentions'] * 150  # Simulate revenue based on popularity
-            mock_cost = 50  # Mock cost
-            mock_profit_margin = ((mock_revenue - mock_cost) / mock_revenue) * 100
-            
-            # Decision Logic - Customer Satisfaction Priority
-            decision = 'maintain'
-            reason = 'Standard performance'
-            priority = 'medium'
-            action_required = 'Monitor performance'
-            
-            if customer_satisfaction_score >= 80:
-                if mock_profit_margin < 20:
-                    decision = 'keep_optimize_cost'
-                    reason = 'Excellent customer satisfaction - optimize costs instead of removing'
-                    priority = 'medium'
-                    action_required = 'Find ways to reduce costs while maintaining quality'
-                else:
-                    decision = 'promote'
-                    reason = 'High customer satisfaction and good profitability'
-                    priority = 'high'
-                    action_required = 'Feature prominently, increase marketing'
-            
-            elif customer_satisfaction_score >= 60:
-                if mock_profit_margin >= 30:
-                    decision = 'maintain'
-                    reason = 'Good balance of satisfaction and profit'
-                    priority = 'low'
-                    action_required = 'Continue current approach'
-                else:
-                    decision = 'improve_quality'
-                    reason = 'Moderate satisfaction - focus on quality improvement'
-                    priority = 'medium'
-                    action_required = 'Improve recipe, presentation, or preparation'
-            
-            elif customer_satisfaction_score >= 40:
-                if mock_revenue > 500:  # High revenue but poor satisfaction
-                    decision = 'urgent_improvement'
-                    reason = 'High revenue but poor customer satisfaction - urgent action needed'
-                    priority = 'critical'
-                    action_required = 'Immediate quality review and improvement'
-                else:
-                    decision = 'consider_removal'
-                    reason = 'Poor customer satisfaction and low revenue'
-                    priority = 'high'
-                    action_required = 'Consider removing or major recipe overhaul'
-            
-            else:  # Very poor satisfaction
-                decision = 'remove'
-                reason = 'Very poor customer satisfaction - damages restaurant reputation'
-                priority = 'critical'
-                action_required = 'Remove from menu immediately'
-            
-            # Extract key feedback themes
-            positive_themes = []
-            negative_themes = []
-            
-            for review_text in data['review_texts']:
-                if not review_text:
-                    continue
-                text_lower = review_text.lower()
-                
-                # Positive themes
-                if any(word in text_lower for word in ['delicious', 'amazing', 'excellent', 'perfect', 'love']):
-                    positive_themes.append('Great taste')
-                if any(word in text_lower for word in ['fresh', 'quality', 'good quality']):
-                    positive_themes.append('Fresh ingredients')
-                if any(word in text_lower for word in ['portion', 'big', 'large', 'generous']):
-                    positive_themes.append('Good portion size')
-                
-                # Negative themes
-                if any(word in text_lower for word in ['cold', 'lukewarm', 'not hot']):
-                    negative_themes.append('Temperature issues')
-                if any(word in text_lower for word in ['bland', 'tasteless', 'no flavor']):
-                    negative_themes.append('Lack of flavor')
-                if any(word in text_lower for word in ['overpriced', 'expensive', 'costly']):
-                    negative_themes.append('Price concerns')
-                if any(word in text_lower for word in ['small', 'tiny', 'insufficient']):
-                    negative_themes.append('Small portions')
-            
-            menu_recommendations.append({
-                'dish_name': dish,
-                'customer_satisfaction_score': round(customer_satisfaction_score, 1),
-                'average_rating': round(avg_rating, 1),
-                'total_mentions': data['total_mentions'],
-                'positive_reviews': data['positive_reviews'],
-                'negative_reviews': data['negative_reviews'],
-                'positive_ratio': round(positive_ratio * 100, 1),
-                'negative_ratio': round(negative_ratio * 100, 1),
-                'estimated_revenue': mock_revenue,
-                'estimated_profit_margin': round(mock_profit_margin, 1),
-                'decision': decision,
-                'reason': reason,
-                'priority': priority,
-                'action_required': action_required,
-                'positive_themes': list(set(positive_themes)),
-                'negative_themes': list(set(negative_themes)),
-                'customer_feedback_summary': {
-                    'most_praised': positive_themes[:3] if positive_themes else [],
-                    'main_complaints': negative_themes[:3] if negative_themes else []
-                }
-            })
-            
-            print(f"   │   ├── {dish}: Satisfaction {customer_satisfaction_score:.1f}% → {decision}")
-        
-        # Sort by customer satisfaction score (descending)
-        menu_recommendations.sort(key=lambda x: x['customer_satisfaction_score'], reverse=True)
-        
-        # Generate summary insights
-        total_dishes = len(menu_recommendations)
-        high_satisfaction = len([d for d in menu_recommendations if d['customer_satisfaction_score'] >= 80])
-        low_satisfaction = len([d for d in menu_recommendations if d['customer_satisfaction_score'] < 40])
-        to_remove = len([d for d in menu_recommendations if d['decision'] == 'remove'])
-        to_promote = len([d for d in menu_recommendations if d['decision'] == 'promote'])
-        
-        summary = {
-            'total_dishes_analyzed': total_dishes,
-            'high_satisfaction_dishes': high_satisfaction,
-            'low_satisfaction_dishes': low_satisfaction,
-            'dishes_to_promote': to_promote,
-            'dishes_to_remove': to_remove,
-            'overall_menu_health': 'excellent' if high_satisfaction/total_dishes > 0.7 else 'good' if high_satisfaction/total_dishes > 0.4 else 'needs_improvement',
-            'customer_satisfaction_average': round(sum(d['customer_satisfaction_score'] for d in menu_recommendations) / total_dishes, 1) if total_dishes > 0 else 0
-        }
-        
-        print(f"   └── ✅ Analysis complete:")
-        print(f"       ├── {high_satisfaction}/{total_dishes} dishes have high satisfaction")
-        print(f"       ├── {to_promote} dishes recommended for promotion")
-        print(f"       ├── {to_remove} dishes recommended for removal")
-        print(f"       └── Overall menu health: {summary['overall_menu_health']}")
-        
-        return jsonify({
-            'status': 'success',
-            'restaurant_name': restaurant_name,
-            'analysis_summary': summary,
-            'menu_recommendations': menu_recommendations,
-            'analysis_methodology': {
-                'customer_satisfaction_weight': '60% sentiment + 40% rating',
-                'decision_priority': 'Customer satisfaction > Revenue > Profit',
-                'minimum_mentions': 2
-            },
-            'timestamp': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        print(f"   └── ❌ Analysis error: {e}")
-        return jsonify({'error': str(e)}), 500

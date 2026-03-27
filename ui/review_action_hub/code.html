@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Review Actions | SIKBO Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#9b9d9e",
+                        "on-tertiary": "#fcf7ff",
+                        "primary-dim": "#50525a",
+                        "surface-tint": "#5c5e66",
+                        "tertiary-fixed": "#e3dbfd",
+                        "tertiary-container": "#e3dbfd",
+                        "on-surface": "#2b3437",
+                        "on-secondary-container": "#4d515f",
+                        "primary-fixed": "#e2e2ec",
+                        "on-primary-container": "#505159",
+                        "on-secondary-fixed": "#3b3f4c",
+                        "secondary": "#5b5f6d",
+                        "inverse-primary": "#dfdfe9",
+                        "surface-container-high": "#e3e9ec",
+                        "surface-container-low": "#f1f4f6",
+                        "secondary-fixed-dim": "#d1d4e5",
+                        "outline-variant": "#abb3b7",
+                        "on-error-container": "#752121",
+                        "on-primary": "#f8f7ff",
+                        "on-primary-fixed": "#3d3f47",
+                        "surface-dim": "#d1dce0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "background": "#f8f9fa",
+                        "tertiary-fixed-dim": "#d5cdee",
+                        "on-error": "#fff7f6",
+                        "secondary-container": "#dfe2f3",
+                        "secondary-fixed": "#dfe2f3",
+                        "error": "#9f403d",
+                        "surface-container-highest": "#dbe4e7",
+                        "on-surface-variant": "#586064",
+                        "on-secondary": "#f9f8ff",
+                        "on-secondary-fixed-variant": "#575b69",
+                        "secondary-dim": "#4f5361",
+                        "tertiary-dim": "#554f6b",
+                        "surface-variant": "#dbe4e7",
+                        "error-container": "#fe8983",
+                        "primary-container": "#e2e2ec",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-fixed-variant": "#5c5672",
+                        "primary": "#5c5e66",
+                        "on-primary-fixed-variant": "#5a5b63",
+                        "tertiary": "#615b77",
+                        "surface-container": "#eaeff1",
+                        "outline": "#737c7f",
+                        "on-background": "#2b3437",
+                        "inverse-surface": "#0c0f10",
+                        "primary-fixed-dim": "#d3d4dd",
+                        "on-tertiary-fixed": "#3f3a54",
+                        "error-dim": "#4e0309",
+                        "on-tertiary-container": "#524c68"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "2xl": "1.5rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#1A1C23] dark:bg-[#0D0E12] flex flex-col py-8 px-6 z-50 shadow-2xl dark:shadow-none">
+<div class="mb-12 px-4">
+<h1 class="text-2xl font-bold tracking-tighter text-white uppercase font-headline">SIKBO</h1>
+<p class="text-xs text-gray-400 font-medium tracking-widest uppercase mt-1">Intelligence</p>
+</div>
+<nav class="flex flex-col gap-1 overflow-y-auto">
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+                Food Analytics
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Service Analytics
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">group_work</span>
+                Customer Flow
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">badge</span>
+                Staff Management
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+                Menu Management
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Raw Materials
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+                Trends
+            </a>
+<a class="flex items-center gap-4 bg-[#5C5E66]/20 text-white rounded-lg px-4 py-3 scale-[1.02] transition-transform font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+                Review Actions
+            </a>
+<a class="flex items-center gap-4 text-gray-400 hover:text-white px-4 py-3 transition-colors hover:bg-[#5C5E66]/10 font-manrope text-sm font-semibold tracking-tight" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto px-4 pt-8 border-t border-white/5">
+<div class="flex items-center gap-3">
+<img alt="Chef Manager Avatar" class="w-10 h-10 rounded-full bg-surface-container-highest" data-alt="professional portrait of a restaurant manager in a clean white chef coat looking confident" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCedrufG87UwK1qZqUvqhGHJUSymFuByG_drz0mDVUh6QJ9E0GzlEhGzd7sw50fIQwqg2ZDh_7_qGYGiF6XlumkCHbUtapA1jsVvqlSzC8HS4bQkLcdgIV5xq2fzo4-hfKU8bz4wNwdoISIiH95zdFUBAqw9eo5vcuetDi-V1kdq9NmHDCI7AJebr-nW5AzHjhxneH_xqVQIhxaZyhbeyvlseZ8fUZn9S6imhVT6n-RSvwaQyjXjEkFZwKy8a8zL04K8cdC0Z3E6w"/>
+<div class="overflow-hidden">
+<p class="text-white text-sm font-bold truncate">Chef Manager</p>
+<p class="text-gray-500 text-xs truncate">Head of Ops</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-40 bg-[#F8F9FA]/80 backdrop-blur-xl flex justify-between items-center h-20 px-10 w-full font-inter text-sm font-medium">
+<div class="flex items-center gap-6 w-1/3">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-12 pr-4 py-2.5 focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-on-surface-variant/60 transition-all" placeholder="Search critical feedback..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-6">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full ring-2 ring-background"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<div class="flex items-center gap-3">
+<span class="text-[#2B3437] font-bold">SIKBO Intelligence</span>
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-tighter">Pro</span>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="p-10 max-w-7xl mx-auto">
+<!-- Page Header Section -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2 font-headline">Review Resolution Center</h2>
+<p class="text-on-surface-variant max-w-lg leading-relaxed">System-detected negative sentiments that require immediate attention to protect brand reputation.</p>
+</div>
+<div class="flex gap-3">
+<div class="flex flex-col items-end px-6 py-3 bg-surface-container-lowest rounded-2xl shadow-sm">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Urgent Actions</span>
+<span class="text-3xl font-extrabold text-error font-headline">14</span>
+</div>
+</div>
+</div>
+<!-- Bento Filter/Stats Grid -->
+<div class="grid grid-cols-12 gap-6 mb-10">
+<div class="col-span-8 bg-surface-container-lowest rounded-2xl p-6 flex items-center justify-between shadow-sm border border-outline-variant/5">
+<div class="flex gap-4">
+<button class="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-bold text-sm transition-all hover:shadow-lg">All Negative</button>
+<button class="px-5 py-2.5 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-sm hover:bg-surface-container-high transition-all">Food Only</button>
+<button class="px-5 py-2.5 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-sm hover:bg-surface-container-high transition-all">Service Quality</button>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span class="text-xs font-bold uppercase tracking-widest">Sort by Severity</span>
+</div>
+</div>
+<div class="col-span-4 bg-error-container/10 rounded-2xl p-6 flex flex-col justify-center border border-error-container/20">
+<div class="flex items-center gap-3 mb-1">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-xs font-bold text-on-error-container uppercase tracking-widest">Critical Alert</span>
+</div>
+<p class="text-on-error-container text-sm font-semibold">Reputation risk elevated in "Staff Courtesy"</p>
+</div>
+</div>
+<!-- Review Cards List -->
+<div class="flex flex-col gap-6">
+<!-- Review Card 1: Food Problem -->
+<div class="group relative bg-surface-container-lowest rounded-2xl p-8 flex flex-col md:flex-row gap-8 transition-all hover:shadow-[0_20px_40px_rgba(43,52,55,0.06)] border border-outline-variant/5">
+<div class="flex-shrink-0">
+<div class="w-14 h-14 rounded-2xl bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">mood_bad</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tighter">Highly Negative</span>
+<span class="text-on-surface-variant text-xs font-medium">Table #14 • 45 mins ago</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface font-headline leading-snug">"The steak was completely cold when it arrived. We sent it back once but the replacement was overcooked."</h3>
+</div>
+<div class="px-4 py-2 bg-surface-container-low rounded-xl text-center min-w-[100px]">
+<span class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Category</span>
+<span class="text-sm font-bold text-primary">Food</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-3 mt-6">
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-sm hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-sm">mail</span>
+                                Apologize
+                            </button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">build</span>
+                                Fix issue
+                            </button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-error-container/20 text-on-error-container font-bold text-sm hover:bg-error-container/40 transition-all">
+<span class="material-symbols-outlined text-sm">refresh</span>
+                                Replace item
+                            </button>
+</div>
+</div>
+</div>
+<!-- Review Card 2: Staff Problem -->
+<div class="group relative bg-surface-container-lowest rounded-2xl p-8 flex flex-col md:flex-row gap-8 transition-all hover:shadow-[0_20px_40px_rgba(43,52,55,0.06)] border border-outline-variant/5">
+<div class="flex-shrink-0">
+<div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-3xl">person_remove</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tighter">Neutral-Negative</span>
+<span class="text-on-surface-variant text-xs font-medium">Walk-in • 2 hours ago</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface font-headline leading-snug">"Server seemed annoyed when we asked for water refills. Unnecessary attitude throughout the meal."</h3>
+</div>
+<div class="px-4 py-2 bg-surface-container-low rounded-xl text-center min-w-[100px]">
+<span class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Category</span>
+<span class="text-sm font-bold text-primary">Staff</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-3 mt-6">
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-sm hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-sm">mail</span>
+                                Apologize
+                            </button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">assignment_ind</span>
+                                Flag for Training
+                            </button>
+</div>
+</div>
+</div>
+<!-- Review Card 3: Service/Wait Time -->
+<div class="group relative bg-surface-container-lowest rounded-2xl p-8 flex flex-col md:flex-row gap-8 transition-all hover:shadow-[0_20px_40px_rgba(43,52,55,0.06)] border border-outline-variant/5">
+<div class="flex-shrink-0">
+<div class="w-14 h-14 rounded-2xl bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined text-3xl">schedule</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tighter">Urgent Priority</span>
+<span class="text-on-surface-variant text-xs font-medium">Reservation • 4 hours ago</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface font-headline leading-snug">"Waited 45 minutes for our appetizers. We were never even told there was a kitchen delay."</h3>
+</div>
+<div class="px-4 py-2 bg-surface-container-low rounded-xl text-center min-w-[100px]">
+<span class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Category</span>
+<span class="text-sm font-bold text-primary">Service</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-3 mt-6">
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-on-primary font-bold text-sm shadow-sm hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-sm">mail</span>
+                                Apologize
+                            </button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">confirmation_number</span>
+                                Send Coupon
+                            </button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">history</span>
+                                Review Flow
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Analysis Panel (Editorial Asymmetry) -->
+<div class="mt-16 grid grid-cols-12 gap-8">
+<div class="col-span-12 lg:col-span-5">
+<div class="bg-primary text-on-primary rounded-3xl p-10 h-full relative overflow-hidden shadow-2xl">
+<div class="relative z-10">
+<h4 class="text-3xl font-extrabold font-headline mb-4 tracking-tight">Intelligence Insights</h4>
+<p class="text-on-primary/70 mb-8 leading-relaxed">Negative sentiment in <span class="text-on-primary font-bold">Food Quality</span> has increased by 12% this week, primarily linked to "Cold Temperature" complaints during peak hours.</p>
+<div class="space-y-4">
+<div class="bg-white/10 rounded-2xl p-4 backdrop-blur-md">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold uppercase tracking-widest opacity-60">Recommendation</span>
+<span class="material-symbols-outlined text-sm">bolt</span>
+</div>
+<p class="font-bold text-lg leading-tight">Implement plate warmers at Pass Station 2 immediately.</p>
+</div>
+</div>
+</div>
+<!-- Abstract Graphic Element -->
+<div class="absolute -bottom-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-7">
+<div class="bg-surface-container-lowest rounded-3xl p-10 h-full border border-outline-variant/5">
+<div class="flex justify-between items-start mb-8">
+<h4 class="text-2xl font-extrabold font-headline text-on-surface tracking-tight">Sentiment Breakdown</h4>
+<button class="text-primary font-bold text-sm flex items-center gap-2">
+                                Full Report
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold text-on-surface">Kitchen Timing</span>
+<span class="text-sm font-bold text-error">Critical</span>
+</div>
+<div class="w-full bg-surface-container-low h-3 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[85%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold text-on-surface">Greeting Protocol</span>
+<span class="text-sm font-bold text-on-surface-variant">Optimal</span>
+</div>
+<div class="w-full bg-surface-container-low h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[20%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold text-on-surface">Menu Accuracy</span>
+<span class="text-sm font-bold text-on-surface-variant">Acceptable</span>
+</div>
+<div class="w-full bg-surface-container-low h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Only for high-level management screens) -->
+<div class="fixed bottom-10 right-10">
+<button class="w-16 h-16 rounded-full bg-primary text-on-primary shadow-2xl flex items-center justify-center hover:scale-110 transition-transform group">
+<span class="material-symbols-outlined text-3xl">add</span>
+<div class="absolute right-full mr-4 bg-[#1A1C23] text-white text-xs font-bold py-2 px-4 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                Log Offline Feedback
+            </div>
+</button>
+</div>
+</body></html>

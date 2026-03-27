@@ -1,229 +1,132 @@
-# SIKBO - Enhanced Restaurant Intelligence System
+# SCOOBY — Restaurant Intelligence Platform
 
-**Comprehensive AI-powered restaurant management platform for data-driven decision making across all aspects of restaurant operations.**
+SCOOBY is an AI-powered restaurant management system built for **The French Door** café. It aggregates real customer reviews from Google Maps and Zomato, runs sentiment analysis using VADER, and surfaces actionable insights across food performance, service quality, staff management, customer flow, menu profitability, and raw material costs — available on both a web dashboard and a mobile app.
 
-## 🚀 Quick Start
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Web frontend | React 18, Tailwind CSS |
+| Mobile | React Native, Expo SDK 54, Expo Router, React Query |
+| Backend | Node.js, Express, MongoDB (MVC) |
+| ML service | Python, Flask, VADER |
+| Databases | MongoDB (primary), Neon PostgreSQL (review source) |
+
+---
+
+## Running the project
+
+### Prerequisites
+
+- Node.js 18+
+- Python 3.9+
+- MongoDB running locally
+- **Mobile only:** Expo Go installed on your phone ([iOS](https://apps.apple.com/app/expo-go/id982107779) / [Android](https://play.google.com/store/apps/details?id=host.exp.exponent))
+
+---
+
+### Quick start (all services)
 
 ```bash
-# Clone and start the system
-git clone <repository>
-cd sikbo-enhanced
 chmod +x start.sh
 ./start.sh
 ```
 
-## 🎯 Enhanced Features
+This starts the ML service (8001), backend API (5001), and web dashboard (3000) in sequence.
 
-### 📊 **Comprehensive Dashboard**
-- **Sidebar Navigation** - Easy access to all modules
-- **Real-time Metrics** - Revenue, profit, reviews, service ratings
-- **System Health Overview** - Food quality, service quality, staff performance
-- **Quick Insights** - Top dishes, AI recommendations, trending items
+---
 
-### 🍽️ **Food Analytics**
-- **Performance Analysis** - Most/least ordered dishes with profit margins
-- **Sentiment Analysis** - Food-specific customer feedback analysis
-- **Detailed Metrics** - Orders, revenue, profit, and performance ratings
-- **Visual Charts** - Bar charts for performance, pie charts for sentiment
+### Manual start (one terminal per service)
 
-### 🛎️ **Service Analytics**
-- **Service Rating** - Overall service quality scoring (1-5 stars)
-- **Issue Identification** - Common service problems and strengths
-- **Performance Metrics** - Response times, customer satisfaction
-- **Improvement Recommendations** - Actionable insights for service enhancement
-
-### 👥 **Staff Management**
-- **Staff Directory** - Complete staff information with roles and ratings
-- **Performance Tracking** - Individual staff ratings based on review mentions
-- **Role-based Analysis** - Performance breakdown by position (waiter, chef, manager, etc.)
-- **Training Recommendations** - Identify staff needing additional training
-
-### 📈 **Customer Flow Analysis**
-- **Peak Hours Detection** - Identify busiest times and days
-- **Daily Trends** - Customer count patterns and seasonal variations
-- **Capacity Planning** - Optimize staffing based on flow patterns
-- **Revenue Correlation** - Link customer flow to revenue performance
-
-### 🥘 **Raw Materials Management**
-- **Cost Breakdown** - Detailed ingredient costs per dish
-- **Profit Analysis** - Raw material cost vs selling price analysis
-- **Optimization Suggestions** - Cost reduction recommendations
-- **Alternative Ingredients** - Cheaper ingredient alternatives
-
-### 🔥 **Enhanced Trending System**
-- **Seasonal Trends** - Time-based trending patterns (spring, summer, etc.)
-- **Social Media Analysis** - Instagram hashtag monitoring
-- **Growth Tracking** - Trend velocity and popularity duration
-- **Market Timing** - Optimal launch timing for new items
-
-### 📝 **Review Action Management**
-- **Automated Processing** - Google Maps and email review analysis
-- **Action Generation** - Specific response recommendations for negative reviews
-- **Priority System** - High/medium/low priority classification
-- **Status Tracking** - Pending, in-progress, completed action items
-
-### 🤖 **Advanced ML Capabilities**
-- **Multi-category Sentiment** - Separate analysis for food, service, and staff
-- **Service Quality Scoring** - Automated service rating calculation
-- **Staff Performance Extraction** - Individual staff mentions and ratings
-- **Cost Optimization** - Raw material cost analysis and suggestions
-- **Decision Engine** - Enhanced scoring system for menu recommendations
-
-## 🏗️ **System Architecture**
-
-```
-Enhanced React Dashboard → Node.js API → MongoDB
-                              ↓
-                    Enhanced Python ML Service
-                              ↓
-                    Multi-category Analysis Engine
-```
-
-### **Technology Stack**
-- **Frontend**: React 18 + Tailwind CSS + Chart.js + Lucide Icons
-- **Backend**: Node.js + Express + MongoDB + Mongoose
-- **ML Service**: Python + Flask + scikit-learn + Selenium + Playwright
-- **Database**: MongoDB with enhanced schemas
-- **Scraping**: Google Maps (Playwright), Instagram (snscrape)
-
-## 📋 **API Endpoints**
-
-### **Enhanced Analytics**
-- `GET /api/analytics` - Comprehensive analytics with sentiment breakdown
-- `GET /api/service-analytics` - Service quality analysis
-- `GET /api/staff-analytics` - Staff performance analysis
-- `GET /api/customer-flow` - Customer flow patterns
-
-### **Staff Management**
-- `GET /api/staff` - Staff directory
-- `POST /api/staff` - Add new staff member
-- `PUT /api/staff/:id` - Update staff information
-
-### **Raw Materials**
-- `GET /api/raw-materials/:dish` - Get ingredient breakdown
-- `POST /api/raw-materials` - Add raw material data
-
-### **Review Actions**
-- `GET /api/review-actions` - Get action items
-- `POST /api/review-actions/generate` - Generate new actions
-- `PUT /api/review-actions/:id` - Update action status
-
-### **Menu Analysis**
-- `GET /api/menu-analysis` - Comprehensive menu performance analysis
-
-## 🎨 **User Interface**
-
-### **Sidebar Navigation**
-- Dashboard - System overview
-- Food Analytics - Food performance and sentiment
-- Service Analytics - Service quality metrics
-- Customer Flow - Traffic patterns and peak hours
-- Staff Management - Staff directory and performance
-- Menu Management - Menu items and categories
-- Raw Materials - Ingredient costs and optimization
-- Trends - Trending dishes and market analysis
-- Review Actions - Review response management
-- Settings - System configuration
-
-### **Enhanced Charts & Visualizations**
-- **Bar Charts** - Sales performance, service issues, staff ratings
-- **Pie Charts** - Sentiment distribution, category breakdown
-- **Line Charts** - Customer flow trends, monthly patterns
-- **Performance Tables** - Detailed metrics with sorting and filtering
-
-## 🔧 **ML Service Features**
-
-### **Multi-category Sentiment Analysis**
-```python
-# Enhanced sentiment classification
-categories = ['food', 'service', 'staff']
-sentiments = ['positive', 'negative', 'neutral']
-```
-
-### **Service Quality Analysis**
-- Service rating calculation (1-5 scale)
-- Issue identification and categorization
-- Performance trend analysis
-
-### **Staff Performance Extraction**
-- Individual staff mention detection
-- Performance scoring based on reviews
-- Training need identification
-
-### **Raw Material Cost Analysis**
-- Ingredient cost calculation
-- Profit margin analysis
-- Cost optimization suggestions
-
-## 📊 **Enhanced Decision Engine**
-
-```javascript
-// Comprehensive scoring algorithm
-score = (sales_performance * 0.3) + 
-        (sentiment_score * 0.25) + 
-        (cost_efficiency * 0.25) + 
-        (trend_weight * 0.2)
-
-// Actions: remove, fix, maintain, promote, add
-```
-
-## 🚀 **Getting Started**
-
-### **Prerequisites**
-- Node.js 16+
-- Python 3.8+
-- MongoDB 5.0+
-- Chrome/Chromium (for scraping)
-
-### **Installation**
 ```bash
-# Install dependencies
-cd backend && npm install
-cd ../frontend && npm install
-cd ../ml-service && pip install -r requirements.txt
+# Terminal 1 — Backend API
+cd backend && npm install && npm run dev
 
-# Start all services
-./start.sh
+# Terminal 2 — ML Service
+cd ml-service
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+python app.py
+
+# Terminal 3 — Web Dashboard
+cd frontend && npm install && npm start
+
+# Terminal 4 — Mobile App
+cd Restaurant-Insight-Mobile/artifacts/sikbo-mobile
+npm install
+npx expo start
 ```
 
-### **Access Points**
-- **Dashboard**: http://localhost:3000
-- **Backend API**: http://localhost:5001
-- **ML Service**: http://localhost:8001
+---
 
-## 🎯 **Use Cases**
+### Running the mobile app with Expo Go
 
-### **Restaurant Owners**
-- Monitor overall restaurant performance
-- Identify areas for improvement
-- Make data-driven menu decisions
-- Optimize staff allocation and training
+1. **Install Expo Go** on your phone:
+   - iOS: [App Store](https://apps.apple.com/app/expo-go/id982107779)
+   - Android: [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent)
 
-### **Managers**
-- Track daily operations
-- Manage staff performance
-- Handle customer feedback
-- Control costs and profitability
+2. **Find your machine's LAN IP** (the phone and computer must be on the same Wi-Fi):
+   ```bash
+   # macOS
+   ipconfig getifaddr en0
 
-### **Chefs**
-- Analyze dish performance
-- Optimize ingredient costs
-- Plan seasonal menus
-- Monitor food quality feedback
+   # Windows
+   ipconfig   # look for IPv4 Address
 
-## 🔮 **Future Enhancements**
+   # Linux
+   hostname -I
+   ```
 
-- **Inventory Management** - Real-time stock tracking
-- **Supplier Integration** - Automated ordering and cost comparison
-- **Predictive Analytics** - Demand forecasting and trend prediction
-- **Mobile App** - Staff mobile interface for real-time updates
-- **Advanced Reporting** - Custom report generation and scheduling
+3. **Set the API URL** in `Restaurant-Insight-Mobile/artifacts/sikbo-mobile/.env`:
+   ```
+   EXPO_PUBLIC_API_URL=http://<YOUR_LAN_IP>:5001/api/v1
+   ```
+   Example: `EXPO_PUBLIC_API_URL=http://192.168.1.42:5001/api/v1`
 
-## 📈 **Performance Metrics**
+4. **Start the mobile app:**
+   ```bash
+   cd Restaurant-Insight-Mobile/artifacts/sikbo-mobile
+   npx expo start
+   ```
 
-- **Response Time**: < 200ms for dashboard loads
-- **Data Processing**: Real-time analytics updates
-- **Scalability**: Supports 1000+ reviews and 100+ menu items
-- **Accuracy**: 85%+ sentiment analysis accuracy
+5. **Scan the QR code** shown in the terminal:
+   - iOS: use the default Camera app
+   - Android: use the QR scanner inside the Expo Go app
 
-Built for restaurant owners who want to replace guesswork with intelligent, data-driven decisions across all aspects of their business.
+6. The app opens on your phone and connects to the same backend as the web dashboard. Pull down on any screen to refresh data.
+
+> **Note:** Do not use `localhost` in the mobile `.env` — the phone cannot reach your computer's localhost. Always use the LAN IP.
+
+---
+
+### Environment files
+
+`backend/.env`
+```
+MONGODB_URI=mongodb://localhost:27017/scooby
+PORT=5001
+ML_SERVICE_URL=http://localhost:8001
+```
+
+`ml-service/.env`
+```
+NEON_DB_URL=your_neon_postgres_connection_string
+```
+
+`Restaurant-Insight-Mobile/artifacts/sikbo-mobile/.env`
+```
+EXPO_PUBLIC_API_URL=http://<LAN_IP>:5001/api/v1
+```
+
+---
+
+### Service URLs
+
+| Service | URL |
+|---|---|
+| Web Dashboard | http://localhost:3000 |
+| Backend API | http://localhost:5001/api/v1 |
+| ML Service | http://localhost:8001 |
+| Mobile | Scan QR code with Expo Go |
+
+The mobile app and web dashboard share the same backend — any data change reflects on both platforms immediately.

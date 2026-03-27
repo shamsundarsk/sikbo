@@ -1,32 +1,15 @@
-import React from 'react';
-import { Line, Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import React, { useState } from 'react';
+import Chart from './Chart';
 
 function CustomerFlow({ data }) {
   const { customerFlow } = data;
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [customerEntry, setCustomerEntry] = useState({
+    date: new Date().toISOString().split('T')[0],
+    customers: '',
+    peakHour: ''
+  });
 
-  // Mock data if not available
   const mockDailyData = [
     { date: '2024-03-19', total_customers: 85, peak_hour: 13, day: 'Tuesday' },
     { date: '2024-03-20', total_customers: 92, peak_hour: 19, day: 'Wednesday' },
@@ -44,265 +27,311 @@ function CustomerFlow({ data }) {
     total_week_customers: 663
   };
 
-  // Prepare chart data
-  const dailyFlowData = {
-    labels: dailyData.map(d => new Date(d.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })),
-    datasets: [
-      {
-        label: 'Daily Customers',
-        data: dailyData.map(d => d.total_customers),
-        borderColor: 'rgba(59, 130, 246, 1)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        borderWidth: 2,
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  };
+  const todayCount = dailyData[dailyData.length - 1]?.total_customers || 88;
+  const peakHour = dailyData[dailyData.length - 1]?.peak_hour || 12;
 
-  // Peak hours data
-  const peakHoursData = {
-    labels: ['8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM'],
-    datasets: [
-      {
-        label: 'Average Customers',
-        data: [5, 8, 12, 18, 25, 30, 28, 15, 12, 18, 22, 28, 32, 25, 15],
-        backgroundColor: 'rgba(16, 185, 129, 0.8)',
-        borderColor: 'rgba(16, 185, 129, 1)',
-        borderWidth: 1,
-      },
-    ],
-  };
+  // Convert daily data to chart format
+  const chartData = dailyData.map(d => ({
+    x: new Date(d.date).toLocaleDateString('en-US', { weekday: 'short' }),
+    y: d.total_customers,
+    day: d.day
+  }));
 
-  // Day of week analysis
-  const dayOfWeekData = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    datasets: [
-      {
-        label: 'Average Customers',
-        data: [88, 85, 92, 78, 105, 120, 95],
-        backgroundColor: [
-          'rgba(239, 68, 68, 0.8)',
-          'rgba(245, 158, 11, 0.8)',
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(16, 185, 129, 0.8)',
-          'rgba(139, 92, 246, 0.8)',
-          'rgba(236, 72, 153, 0.8)',
-          'rgba(34, 197, 94, 0.8)',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
+  const handleAddCustomer = (e) => {
+    e.preventDefault();
+    // Here you would typically send the data to your backend
+    console.log('Adding customer data:', customerEntry);
+    setCustomerEntry({
+      date: new Date().toISOString().split('T')[0],
+      customers: '',
+      peakHour: ''
+    });
+    setShowAddForm(false);
   };
 
   return (
-    <div className="space-y-6">
-      {/* Summary Cards */}
+    <div className="space-y-10 max-w-[1600px] mx-auto w-full">
+      {/* Page Header */}
+      <div className="flex justify-between items-end mb-10">
+        <div>
+          <h2 className="text-4xl font-extrabold font-headline tracking-tight text-on-surface mb-2">Customer Flow Analytics</h2>
+          <p className="text-on-surface-variant font-body text-slate-500">Real-time customer traffic analysis for <span className="text-primary font-bold">The French Door</span></p>
+        </div>
+        <div className="flex gap-3">
+          <button 
+            onClick={() => setShowAddForm(true)}
+            className="px-6 py-3 bg-primary text-white font-bold rounded-xl flex items-center gap-2 shadow-lg hover:scale-105 transition-all"
+          >
+            <span className="material-symbols-outlined text-sm">add</span>
+            Add Customer Data
+          </button>
+        </div>
+      </div>
+
+      {/* Summary Stats Bento Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between group hover:scale-[1.02] transition-transform">
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-2 bg-slate-100 rounded-lg text-primary">
+              <span className="material-symbols-outlined font-bold">groups</span>
             </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Today's Customers</p>
-              <p className="text-2xl font-semibold text-gray-900">{dailyData[dailyData.length - 1]?.total_customers || 88}</p>
+            <span className="text-emerald-600 text-xs font-bold font-label bg-emerald-50 px-2 py-1 rounded-full">+12.4%</span>
+          </div>
+          <div>
+            <p className="text-slate-400 text-xs uppercase tracking-widest font-bold mb-1">Weekly Visitors</p>
+            <h3 className="text-3xl font-black font-headline text-on-surface">{analytics.total_week_customers}</h3>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between group hover:scale-[1.02] transition-transform">
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-2 bg-slate-100 rounded-lg text-primary">
+              <span className="material-symbols-outlined">timer</span>
             </div>
+            <span className="text-emerald-600 text-xs font-bold font-label bg-emerald-50 px-2 py-1 rounded-full">-4.2m</span>
+          </div>
+          <div>
+            <p className="text-slate-400 text-xs uppercase tracking-widest font-bold mb-1">Avg. Wait Time</p>
+            <h3 className="text-3xl font-black font-headline text-on-surface">18.5m</h3>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between group hover:scale-[1.02] transition-transform">
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-2 bg-slate-100 rounded-lg text-primary">
+              <span className="material-symbols-outlined">repeat</span>
+            </div>
+            <span className="text-primary text-xs font-bold font-label bg-slate-50 px-2 py-1 rounded-full">Steady</span>
+          </div>
+          <div>
+            <p className="text-slate-400 text-xs uppercase tracking-widest font-bold mb-1">Daily Average</p>
+            <h3 className="text-3xl font-black font-headline text-on-surface">{Math.round(analytics.avg_daily_customers)}</h3>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between group hover:scale-[1.02] transition-transform">
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-2 bg-slate-100 rounded-lg text-primary text-error">
+              <span className="material-symbols-outlined">table_restaurant</span>
+            </div>
+            <span className="text-red-500 text-xs font-bold bg-red-50 px-2 py-1 rounded-full">Peak {peakHour}:00</span>
+          </div>
+          <div>
+            <p className="text-slate-400 text-xs uppercase tracking-widest font-bold mb-1">Today's Flow</p>
+            <h3 className="text-3xl font-black font-headline text-on-surface">{todayCount}</h3>
+          </div>
+        </div>
+      </div>
+
+        {/* Primary Visualization: Proper Line Chart */}
+        <div className="bg-white p-10 rounded-xl shadow-sm border border-slate-100">
+          <div className="flex justify-between items-center mb-8">
+            <h4 className="text-xl font-bold font-headline">Customer Volume Distribution</h4>
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-primary"></div>
+                <span className="text-xs font-medium text-slate-500 font-label">This Week</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                <span className="text-xs font-medium text-slate-500 font-label">Previous Week</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="h-80 w-full">
+            <Chart
+              data={chartData}
+              type="area"
+              height={320}
+              yLabel="Customers"
+              xLabel="Day of Week"
+              colors={['#3b82f6']}
+              showGrid={true}
+              showPoints={true}
+            />
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
+      {/* Heatmap Section */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
+        <div className="xl:col-span-2 bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h4 className="text-xl font-bold font-headline">Service Intensity Heatmap</h4>
+              <p className="text-sm text-slate-500 font-body text-slate-500">Hourly customer density per day</p>
             </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Weekly Average</p>
-              <p className="text-2xl font-semibold text-gray-900">{Math.round(analytics.avg_daily_customers)}</p>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] uppercase font-bold text-slate-400">Low</span>
+              <div className="flex h-3 w-32 rounded-full overflow-hidden">
+                <div className="flex-1 bg-slate-50"></div>
+                <div className="flex-1 bg-primary/20"></div>
+                <div className="flex-1 bg-primary/40"></div>
+                <div className="flex-1 bg-primary/70"></div>
+                <div className="flex-1 bg-primary"></div>
+              </div>
+              <span className="text-[10px] uppercase font-bold text-slate-900">Peak</span>
             </div>
+          </div>
+          <div className="space-y-3">
+             {/* Heatmap header */}
+            <div className="grid grid-cols-[60px_1fr] gap-2 items-center">
+              <div></div>
+              <div className="grid grid-cols-12 gap-1 text-[9px] uppercase font-bold text-slate-400 text-center">
+                {['11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p'].map(h => <span key={h}>{h}</span>)}
+              </div>
+            </div>
+            {/* Rows */}
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+              <div key={day} className="grid grid-cols-[60px_1fr] gap-2 items-center">
+                <div className="text-[10px] font-bold text-slate-400 uppercase">{day}</div>
+                <div className="grid grid-cols-12 gap-1 h-8">
+                  {Array(12).fill(0).map((_, i) => {
+                    const opacity = [0.1, 0.4, 0.3, 0.05, 0.05, 0.2, 0.5, 0.8, 0.9, 0.6, 0.3, 0.1][i];
+                    return <div key={i} className="rounded-sm bg-primary" style={{ opacity }}></div>
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Busiest Day</p>
-              <p className="text-2xl font-semibold text-gray-900">{analytics.busiest_day}</p>
-            </div>
+        {/* Insights Sidebar */}
+        <div className="flex flex-col gap-6">
+          <div className="bg-slate-900 text-white p-8 rounded-xl shadow-lg h-fit">
+            <h4 className="text-lg font-bold font-headline mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-green-400" style={{ fontVariationSettings: "'FILL' 1" }}>psychology</span>
+              Flow Insights
+            </h4>
+            <ul className="space-y-4">
+              <li className="flex gap-4">
+                <div className="w-2 h-2 rounded-full bg-green-400 mt-1.5 shrink-0"></div>
+                <p className="text-sm font-body text-slate-300">Peak lunch traffic on <span className="text-white font-bold">{analytics.busiest_day}</span> has increased by 14% month-over-month.</p>
+              </li>
+              <li className="flex gap-4">
+                <div className="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></div>
+                <p className="text-sm font-body text-slate-300">Early dinner bottleneck identified at <span className="text-white font-bold">6:15 PM</span>. Recommend pre-service briefing.</p>
+              </li>
+              <li className="flex gap-4">
+                <div className="w-2 h-2 rounded-full bg-indigo-400 mt-1.5 shrink-0"></div>
+                <p className="text-sm font-body text-slate-300">Late night turnover is high. Staffing levels could be optimized by <span className="text-white font-bold">-1 FTE</span> after 10 PM.</p>
+              </li>
+            </ul>
           </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <div className="bg-slate-50 p-8 rounded-xl border border-slate-100 flex-1 flex flex-col items-center justify-center text-center shadow-sm">
+            <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-6 shadow-md">
+              <span className="material-symbols-outlined text-3xl text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
             </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Peak Hour</p>
-              <p className="text-2xl font-semibold text-gray-900">
-                {dailyData[dailyData.length - 1]?.peak_hour || 12}:00
-              </p>
+            <h5 className="text-lg font-black font-headline text-on-surface mb-2">Flow Analytics</h5>
+            <p className="text-xs text-slate-500 font-body mb-6">Real-time customer flow patterns and peak hour analysis based on historical data.</p>
+            <div className="w-full space-y-3">
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-500">Peak Hour</span>
+                <span className="font-bold">{peakHour}:00</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-500">Avg Wait</span>
+                <span className="font-bold">18.5m</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-500">Efficiency</span>
+                <span className="font-bold text-green-600">92%</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Daily Flow Trend */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Customer Flow (Last 7 Days)</h3>
-          <Line data={dailyFlowData} options={chartOptions} />
-        </div>
-
-        {/* Peak Hours */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Peak Hours Analysis</h3>
-          <Bar data={peakHoursData} options={chartOptions} />
-        </div>
-      </div>
-
-      {/* Day of Week Analysis */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Day of Week Performance</h3>
-          <Bar data={dayOfWeekData} options={chartOptions} />
-        </div>
-
-        {/* Customer Flow Insights */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Flow Insights & Recommendations</h3>
-          <div className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <div className="flex items-center">
-                <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="font-medium text-blue-900">Peak Hours</span>
-              </div>
-              <p className="text-sm text-blue-800 mt-2">
-                Lunch (12-2 PM) and Dinner (7-9 PM) are your busiest times. Consider increasing staff during these hours.
-              </p>
-            </div>
-
-            <div className="p-4 bg-green-50 rounded-lg">
-              <div className="flex items-center">
-                <svg className="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="font-medium text-green-900">Weekend Performance</span>
-              </div>
-              <p className="text-sm text-green-800 mt-2">
-                Weekends show 25% higher customer flow. Great opportunity for special promotions.
-              </p>
-            </div>
-
-            <div className="p-4 bg-yellow-50 rounded-lg">
-              <div className="flex items-center">
-                <svg className="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                </svg>
-                <span className="font-medium text-yellow-900">Slow Periods</span>
-              </div>
-              <p className="text-sm text-yellow-800 mt-2">
-                Mid-afternoon (3-5 PM) shows lower traffic. Consider happy hour promotions or staff breaks.
-              </p>
-            </div>
-
-            <div className="p-4 bg-purple-50 rounded-lg">
-              <div className="flex items-center">
-                <svg className="w-5 h-5 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-                <span className="font-medium text-purple-900">Growth Opportunity</span>
-              </div>
-              <p className="text-sm text-purple-800 mt-2">
-                Tuesday and Thursday show potential for growth. Try targeted marketing for these days.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Detailed Flow Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Daily Flow Details</h3>
+      {/* Live Floor Status Table */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+        <div className="p-8 border-b border-slate-100">
+          <h4 className="text-xl font-bold font-headline">Historical Flow Details</h4>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Day</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Customers</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peak Hour</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">vs Average</th>
+          <table className="w-full text-left">
+            <thead>
+              <tr className="text-[10px] uppercase tracking-widest text-slate-400 font-bold border-b border-slate-100 bg-slate-50/50">
+                <th className="px-8 py-5">Date</th>
+                <th className="px-8 py-5">Day</th>
+                <th className="px-8 py-5 text-center">Total Customers</th>
+                <th className="px-8 py-5 text-center">Peak Hour</th>
+                <th className="px-8 py-5 text-center">Trend</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {dailyData.map((day, index) => {
-                const vsAverage = analytics?.avg_daily_customers && typeof analytics.avg_daily_customers === 'number' && day?.total_customers && typeof day.total_customers === 'number'
-                  ? ((day.total_customers - analytics.avg_daily_customers) / analytics.avg_daily_customers * 100).toFixed(1)
-                  : '0.0';
-                return (
-                  <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {new Date(day.date).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{day.day}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{day.total_customers}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{day.peak_hour}:00</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        day.total_customers > analytics.avg_daily_customers * 1.1 ? 'bg-green-100 text-green-800' :
-                        day.total_customers < analytics.avg_daily_customers * 0.9 ? 'bg-red-100 text-red-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {day.total_customers > analytics.avg_daily_customers * 1.1 ? 'High' :
-                         day.total_customers < analytics.avg_daily_customers * 0.9 ? 'Low' : 'Average'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span className={vsAverage > 0 ? 'text-green-600' : 'text-red-600'}>
-                        {vsAverage > 0 ? '+' : ''}{vsAverage}%
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
+            <tbody className="text-sm font-body">
+              {dailyData.map((day, i) => (
+                <tr key={i} className="hover:bg-slate-50/50 transition-colors group border-b border-slate-100 last:border-0">
+                  <td className="px-8 py-5 font-bold">{new Date(day.date).toLocaleDateString()}</td>
+                  <td className="px-8 py-5 text-slate-500">{day.day}</td>
+                  <td className="px-8 py-5 font-black text-center">{day.total_customers}</td>
+                  <td className="px-8 py-5 text-slate-500 text-center">{day.peak_hour}:00</td>
+                  <td className="px-8 py-5 text-center">
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      day.total_customers > analytics.avg_daily_customers 
+                        ? 'bg-green-50 text-green-600' 
+                        : 'bg-slate-50 text-slate-500'
+                    }`}>
+                      {day.total_customers > analytics.avg_daily_customers ? 'High' : 'Normal'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Add Customer Data Modal */}
+      {showAddForm && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+              <h3 className="text-2xl font-black font-headline text-[#2b3437]">Add Customer Data</h3>
+              <button onClick={() => setShowAddForm(false)} className="text-slate-400 hover:text-slate-900 transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <form onSubmit={handleAddCustomer} className="p-8 space-y-6">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Date</label>
+                <input 
+                  type="date" 
+                  required 
+                  value={customerEntry.date} 
+                  onChange={(e) => setCustomerEntry({...customerEntry, date: e.target.value})}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total Customers</label>
+                <input 
+                  type="number" 
+                  required 
+                  value={customerEntry.customers} 
+                  onChange={(e) => setCustomerEntry({...customerEntry, customers: e.target.value})}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all"
+                  placeholder="e.g. 95"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Peak Hour (24h format)</label>
+                <input 
+                  type="number" 
+                  min="0" 
+                  max="23" 
+                  required 
+                  value={customerEntry.peakHour} 
+                  onChange={(e) => setCustomerEntry({...customerEntry, peakHour: e.target.value})}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all"
+                  placeholder="e.g. 19 (for 7 PM)"
+                />
+              </div>
+              <div className="flex gap-4 pt-4">
+                <button type="button" onClick={() => setShowAddForm(false)} className="flex-1 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors">Cancel</button>
+                <button type="submit" className="flex-1 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:scale-[1.02] transition-transform uppercase tracking-widest text-xs">Add Data</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
 export default CustomerFlow;
